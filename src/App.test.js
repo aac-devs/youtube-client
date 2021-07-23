@@ -1,10 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
+beforeEach(() => {
+  render(<App />);
+});
+
 describe('App Component', () => {
-  test('renders app text', () => {
-    render(<App />);
-    const textElement = screen.getByText(/app/i);
-    expect(textElement).toBeInTheDocument();
+  test('renders a header tag', () => {
+    const headerElement = screen.queryByRole('heading', {
+      level: 2,
+    });
+    expect(headerElement).toBeInTheDocument();
+  });
+  test('renders a main tag', () => {
+    const mainElement = screen.queryByRole('main');
+    expect(mainElement).toBeInTheDocument();
   });
 });
