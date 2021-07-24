@@ -17,6 +17,8 @@ html {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 body {
@@ -32,6 +34,7 @@ html {
   display: flex;
   height: 100vh;
   width: 100%;
+  background-color: #37474f;
 }
 
 .separator::before {
