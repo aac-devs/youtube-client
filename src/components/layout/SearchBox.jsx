@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-
 import SearchIcon from '@material-ui/icons/Search';
 
-const Container = styled.div`
+const Container = styled.form`
   width: 100%;
   max-width: 400px;
   height: 35px;
@@ -25,16 +24,15 @@ const Container = styled.div`
     color: #fff;
     outline: none;
     font-size: 16px;
-
     ::placeholder {
       color: #ddd;
     }
   }
 `;
 
-const SearchBox = () => {
+const SearchBox = (props) => {
   return (
-    <Container role="search">
+    <Container onSubmit={props.onSearch} role="search">
       <SearchIcon />
       <input type="text" placeholder="search" />
     </Container>

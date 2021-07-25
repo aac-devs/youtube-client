@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
 import PersonIcon from '@material-ui/icons/Person';
 import SearchBox from './SearchBox';
+import { Button } from '../../global-styles';
 
 const Container = styled.header`
   width: 100%;
@@ -37,12 +38,9 @@ const Container = styled.header`
   }
 `;
 
-const Button = styled.button`
+const RoundButton = styled(Button)`
   height: 48px;
   width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   border: none;
   padding: 0;
@@ -52,19 +50,22 @@ const Button = styled.button`
   transition: background-color 0.3s ease-in-out;
   &:hover {
     background-color: rgba(16, 32, 39, 1);
-    cursor: pointer;
   }
 `;
 
 const Header = () => {
   const matches = useMediaQuery('(max-width:960px)');
+  const searchHandler = (event) => {
+    event.preventDefault();
+    console.log('Item search');
+  };
   return (
     <Container>
       <div className="search-section">
-        <Button type="button" data-testid="menu-btn">
+        <RoundButton type="button" data-testid="menu-btn">
           <MenuIcon />
-        </Button>
-        <SearchBox />
+        </RoundButton>
+        <SearchBox onSearch={searchHandler} />
       </div>
       {!matches && (
         <div className="login-section">
@@ -74,9 +75,9 @@ const Header = () => {
             inputProps={{ 'aria-label': 'checkbox with default color' }}
           />
           <p>Dark mode</p>
-          <Button type="button" data-testid="login-btn">
+          <RoundButton type="button" data-testid="login-btn">
             <PersonIcon />
-          </Button>
+          </RoundButton>
         </div>
       )}
     </Container>
