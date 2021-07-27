@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -31,10 +32,23 @@ const Container = styled.form`
 `;
 
 const SearchBox = (props) => {
+  const [searchValue, setSearchValue] = useState('');
+  const changeHandler = (event) => {
+    setSearchValue(event.target.value);
+  };
+  const onSubmit = (event) => {
+    event.preventDefault();
+    props.onSearch(searchValue);
+  };
   return (
-    <Container onSubmit={props.onSearch} role="search">
+    <Container onSubmit={onSubmit} role="search">
       <SearchIcon />
-      <input type="text" placeholder="search" />
+      <input
+        type="text"
+        placeholder="search"
+        value={searchValue}
+        onChange={changeHandler}
+      />
     </Container>
   );
 };

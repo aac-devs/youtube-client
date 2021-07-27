@@ -53,19 +53,19 @@ const RoundButton = styled(Button)`
   }
 `;
 
-const Header = () => {
+const Header = (props) => {
   const matches = useMediaQuery('(max-width:960px)');
-  const searchHandler = (event) => {
-    event.preventDefault();
-    console.log('Item search');
-  };
+  // const searchHandler = (event) => {
+  //   event.preventDefault();
+  //   console.log('Item search');
+  // };
   return (
     <Container>
       <div className="search-section">
         <RoundButton type="button" data-testid="menu-btn">
           <MenuIcon />
         </RoundButton>
-        <SearchBox onSearch={searchHandler} />
+        <SearchBox onSearch={props.onSearch} />
       </div>
       {!matches && (
         <div className="login-section">

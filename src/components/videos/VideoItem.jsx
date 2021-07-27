@@ -20,7 +20,7 @@ const Container = styled.li`
   &:hover {
     background-color: #4c585f;
   }
-  div {
+  .body {
     padding: 6px;
     padding-top: 12px;
     width: 100%;
@@ -33,13 +33,18 @@ const Container = styled.li`
     min-height: 140px;
     width: 100%;
   }
-  h2 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
   p {
-    font-size: 12px;
+    font-size: 14px;
+  }
+  .title {
+    max-height: 48px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .description {
+    height: 60px;
+    max-height: 60px;
+    overflow: hidden;
   }
 `;
 
@@ -47,9 +52,13 @@ const VideoItem = (props) => {
   return (
     <Container>
       <img src={props.image} alt={props.title} />
-      <div>
-        <h2>{props.title}</h2>
-        <p>{props.description}</p>
+      <div className="body">
+        <div className="title">
+          <h4>{props.title}</h4>
+        </div>
+        <div className="description">
+          <p>{props.description}</p>
+        </div>
       </div>
     </Container>
   );

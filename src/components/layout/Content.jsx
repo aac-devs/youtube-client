@@ -1,9 +1,9 @@
 import HomeView from '../../pages/HomeView';
 
-const Content = () => {
+const Content = (props) => {
   return (
     <main>
-      <HomeView />
+      <HomeView searchValue={props.searchValue} />
     </main>
   );
 };
