@@ -1,19 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-beforeEach(() => {
-  render(<App />);
-});
-
 describe('App Component', () => {
-  test('renders a header tag', () => {
-    const headerElement = screen.queryByRole('heading', {
-      level: 2,
-    });
-    expect(headerElement).toBeInTheDocument();
+  beforeEach(() => {
+    render(<App />);
   });
-  test('renders a main tag', () => {
-    const mainElement = screen.queryByRole('main');
-    expect(mainElement).toBeInTheDocument();
+
+  test('should render a header section', () => {
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+  });
+
+  test('header section should render two buttons, one input & one label', () => {
+    expect(screen.getByTestId('menu-btn')).toBeTruthy();
+    expect(screen.getByTestId('login-btn')).toBeTruthy();
+    expect(screen.getByPlaceholderText('search')).toBeTruthy();
+    expect(screen.getByText('mode', { exact: false })).toBeTruthy();
+  });
+
+  test('renders main section', () => {
+    expect(screen.getByRole('main')).toBeTruthy();
+  });
+
+  test('main section should render a list of elements', () => {
+    expect(screen.getByRole('list')).toBeTruthy();
   });
 });

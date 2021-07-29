@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
-export const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
 html {
   font-size: 1.125rem;
   line-height: 1.6;
@@ -17,6 +17,8 @@ html {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 body {
@@ -32,6 +34,7 @@ html {
   display: flex;
   height: 100vh;
   width: 100%;
+  background-color: #37474f;
 }
 
 .separator::before {
@@ -56,3 +59,12 @@ a:active {
   flex-direction: column;
 }
 `;
+
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+export default GlobalStyles;
