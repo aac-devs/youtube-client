@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
+import { useState } from 'react';
 
 const Container = styled.form`
   width: 100%;
@@ -31,10 +32,31 @@ const Container = styled.form`
 `;
 
 const SearchBox = (props) => {
+  const [searchValue, setSearchValue] = useState('');
+  console.log('renders <SearchBox />');
+
+  const valueChangeHandler = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const enteredValue = searchValue.trim();
+    if (enteredValue !== '') {
+      props.onSearch(enteredValue);
+    }
+    setSearchValue('');
+  };
+
   return (
-    <Container onSubmit={props.onSearch} role="search">
+    <Container onSubmit={submitHandler} role="form">
       <SearchIcon />
-      <input type="text" placeholder="search" />
+      <input
+        type="text"
+        placeholder="search"
+        onChange={valueChangeHandler}
+        value={searchValue}
+      />
     </Container>
   );
 };

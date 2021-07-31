@@ -1,9 +1,9 @@
-import Header from './Header';
+import Header from '../header/Header';
 
 const Layout = (props) => {
   return (
     <>
-      <Header />
+      <Header onSearch={props.onSearch} />
       {props.children}
     </>
   );

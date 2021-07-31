@@ -7,7 +7,7 @@ describe('App Component', () => {
   });
 
   test('should render a header section', () => {
-    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
   test('header section should render two buttons, one input & one label', () => {

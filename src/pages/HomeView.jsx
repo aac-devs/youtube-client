@@ -1,17 +1,26 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import VideosList from '../components/videos/VideosList';
-import mockData from '../helper/mock-data.json';
+import { findVideos } from '../lib/api';
 
 const Container = styled.div`
   padding: 15px 10px;
 `;
 
-const HomeView = () => {
-  const videos = mockData.items;
-  videos.shift();
+const HomeView = (props) => {
+  const [videos, setVideos] = useState([]);
+  console.log('renders <HomeView />');
+
+  const { searchValue } = props;
+
+  useEffect(() => {
+    setVideos([]);
+    findVideos(searchValue).then((res) => setVideos(res));
+  }, [searchValue]);
+
   return (
     <Container>
-      <VideosList list={videos} />
+      <VideosList list={videos} onSelected={props.onSelected} />
     </Container>
   );
 };
