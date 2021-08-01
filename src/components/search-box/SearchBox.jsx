@@ -33,7 +33,6 @@ const Container = styled.form`
 
 const SearchBox = (props) => {
   const [searchValue, setSearchValue] = useState('');
-  console.log('renders <SearchBox />');
 
   const valueChangeHandler = (event) => {
     setSearchValue(event.target.value);

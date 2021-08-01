@@ -7,6 +7,8 @@ import SearchBox from '../search-box/SearchBox';
 import { Button } from '../../global-styles';
 
 const Container = styled.nav`
+  position: fixed;
+  z-index: 10;
   width: 100%;
   height: 64px;
   min-height: 64px;
@@ -55,7 +57,6 @@ const RoundButton = styled(Button)`
 
 const Header = (props) => {
   const matches = useMediaQuery('(max-width:960px)');
-  console.log('renders <Header />');
 
   return (
     <Container>

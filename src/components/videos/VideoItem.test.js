@@ -9,7 +9,12 @@ describe('VideoItem Component', () => {
       description: 'some description',
     };
     render(
-      <VideoItem image={data.image} title={data.title} description={data.description} />
+      <VideoItem
+        display="grid"
+        image={data.image}
+        title={data.title}
+        description={data.description}
+      />
     );
     expect(screen.getByAltText(data.title)).toBeTruthy();
     expect(screen.getByText(data.title)).toBeTruthy();

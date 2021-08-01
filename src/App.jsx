@@ -4,7 +4,6 @@ import Layout from './components/layout/Layout';
 
 const App = () => {
   const [searchValue, setSearchValue] = useState('react');
-  console.log('renders <App />');
 
   const searchHandler = (value) => {
     setSearchValue(value);
