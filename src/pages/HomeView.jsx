@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
+import useHttp from '../hooks/useHttp';
 import { fetchVideos } from '../lib/api';
 
-const Container = styled.div`
+const Container = styled.main`
   padding: 10px;
+  margin: 0 auto;
+  max-width: 1700px;
+  width: 100%;
+  padding-top: 74px;
 `;
 
 const HomeView = (props) => {
-  const [videos, setVideos] = useState([]);
-  const { searchValue } = props;
-
-  useEffect(() => {
-    setVideos([]);
-    fetchVideos(searchValue).then((res) => setVideos(res));
-  }, [searchValue]);
+  const { list: videos, loading } = useHttp(fetchVideos, props.searchValue);
 
   return (
     <Container>
-      <VideosList list={videos} onSelected={props.onSelected} display="grid" />
+      {!loading && (
+        <VideosList list={videos} onSelected={props.onSelected} display="grid" />
+      )}
+      {loading && <LoadingSpinner />}
     </Container>
   );
 };

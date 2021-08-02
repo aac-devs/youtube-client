@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import VideosList from '../components/videos/VideosList';
 import { Button } from '../global-styles';
-import { fetchRelatedVideos } from '../lib/api';
+import { fetchVideos } from '../lib/api';
+import useHttp from '../hooks/useHttp';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 
-const Container = styled.div`
+const Container = styled.main`
+  margin: 0 auto;
+  max-width: 1700px;
   padding: 10px;
+  padding-top: 74px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -86,18 +91,9 @@ const BackButton = styled(Button)`
 `;
 
 const DetailsView = (props) => {
-  const [relatedVideos, setRelatedVideos] = useState([]);
-  const [videoDetails, setVideoDetails] = useState({
-    id: props.dataVideoSelected.id,
-    title: props.dataVideoSelected.title,
-    description: props.dataVideoSelected.description,
-  });
-
+  const [videoDetails, setVideoDetails] = useState(props.selectedVideo);
   const { id, title, description } = videoDetails;
-
-  useEffect(() => {
-    fetchRelatedVideos(id).then((res) => setRelatedVideos(res));
-  }, [id]);
+  const { list: relatedVideos, loading } = useHttp(fetchVideos, id, 'related');
 
   const videoSelectedHandler = (value) => {
     setVideoDetails(value);
@@ -124,13 +120,14 @@ const DetailsView = (props) => {
         </BackButton>
       </div>
       <div className="relates-area">
-        {relatedVideos && (
+        {!loading && (
           <VideosList
             list={relatedVideos}
             onSelected={videoSelectedHandler}
             display="flex"
           />
         )}
+        {loading && <LoadingSpinner />}
       </div>
     </Container>
   );

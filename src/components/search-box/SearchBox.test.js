@@ -3,7 +3,7 @@ import userEvent, { specialChars } from '@testing-library/user-event';
 
 import SearchBox from './SearchBox';
 
-describe('SearchBox Component', () => {
+describe('<SearchBox />', () => {
   const searchHandler = jest.fn();
   let input;
 
