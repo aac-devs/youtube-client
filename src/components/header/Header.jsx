@@ -3,10 +3,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
 import PersonIcon from '@material-ui/icons/Person';
-import SearchBox from './SearchBox';
+import SearchBox from '../search-box/SearchBox';
 import { Button } from '../../global-styles';
 
-const Container = styled.header`
+const Container = styled.nav`
+  position: fixed;
+  z-index: 10;
   width: 100%;
   height: 64px;
   min-height: 64px;
@@ -53,19 +55,16 @@ const RoundButton = styled(Button)`
   }
 `;
 
-const Header = () => {
+const Header = (props) => {
   const matches = useMediaQuery('(max-width:960px)');
-  const searchHandler = (event) => {
-    event.preventDefault();
-    console.log('Item search');
-  };
+
   return (
     <Container>
       <div className="search-section">
         <RoundButton type="button" data-testid="menu-btn">
           <MenuIcon />
         </RoundButton>
-        <SearchBox onSearch={searchHandler} />
+        <SearchBox onSearch={props.onSearch} />
       </div>
       {!matches && (
         <div className="login-section">

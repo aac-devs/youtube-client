@@ -1,17 +1,26 @@
 import styled from 'styled-components';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
-import mockData from '../helper/mock-data.json';
+import useHttp from '../hooks/useHttp';
+import { fetchVideos } from '../lib/api';
 
-const Container = styled.div`
-  padding: 15px 10px;
+const Container = styled.main`
+  padding: 10px;
+  margin: 0 auto;
+  max-width: 1700px;
+  width: 100%;
+  padding-top: 74px;
 `;
 
-const HomeView = () => {
-  const videos = mockData.items;
-  videos.shift();
+const HomeView = (props) => {
+  const { list: videos, loading } = useHttp(fetchVideos, props.searchValue);
+
   return (
     <Container>
-      <VideosList list={videos} />
+      {!loading && (
+        <VideosList list={videos} onSelected={props.onSelected} display="grid" />
+      )}
+      {loading && <LoadingSpinner />}
     </Container>
   );
 };
