@@ -27,17 +27,17 @@ const Container = styled.li`
   display: flex;
   justify-content: flex-start;
 
-  width: ${(props) => (props.display === 'grid' ? '300px' : '100%')};
-  height: ${(props) => (props.display === 'grid' ? '280px' : '100px')};
-  max-height: ${(props) => (props.display === 'grid' ? '280px' : '100px')};
+  width: ${({ display }) => (display === 'grid' ? '300px' : '100%')};
+  height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
+  max-height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
 
-  flex-direction: ${(props) => (props.display === 'grid' ? 'column' : 'row')};
-  align-items: ${(props) => (props.display === 'grid' ? 'center' : 'stretch')};
-  margin-bottom: ${(props) => (props.display === 'grid' ? '0' : '10px')};
+  flex-direction: ${({ display }) => (display === 'grid' ? 'column' : 'row')};
+  align-items: ${({ display }) => (display === 'grid' ? 'center' : 'stretch')};
+  margin-bottom: ${({ display }) => (display === 'grid' ? '0' : '10px')};
 
   .body {
     padding: 6px;
-    padding-top: ${(props) => (props.display === 'grid' ? '12px' : '0')};
+    padding-top: ${({ display }) => (display === 'grid' ? '12px' : '0')};
     width: 100%;
     color: #fff;
     text-align: left;
@@ -45,9 +45,9 @@ const Container = styled.li`
 
   img {
     object-fit: cover;
-    height: ${(props) => (props.display === 'grid' ? '140px' : '100px')};
-    min-height: ${(props) => (props.display === 'grid' ? '140px' : '100px')};
-    width: ${(props) => (props.display === 'grid' ? '100%' : '160px')};
+    height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
+    min-height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
+    width: ${({ display }) => (display === 'grid' ? '100%' : '160px')};
   }
 
   .title {
@@ -58,26 +58,28 @@ const Container = styled.li`
 `;
 
 const VideoItem = (props) => {
+  const { id, index, title, description, image, display, onSelected } = props;
+
   const clickHandler = () => {
-    props.onSelected({
-      id: props.id,
-      title: props.title,
-      description: props.description,
-    });
+    onSelected({ id, title, description });
   };
 
   return (
-    <Container onClick={clickHandler} display={props.display}>
+    <Container
+      onClick={clickHandler}
+      display={display}
+      data-testid={`video-item-${index}`}
+    >
       <div className="image">
-        <img src={props.image} alt={props.title} />
+        <img src={image} alt={title} />
       </div>
       <div className="body">
         <div className="title">
-          <h4>{props.title}</h4>
+          <h4>{title}</h4>
         </div>
-        {props.display === 'grid' && (
+        {display === 'grid' && (
           <div className="description">
-            <p>{props.description}</p>
+            <p>{description}</p>
           </div>
         )}
       </div>

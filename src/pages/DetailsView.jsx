@@ -5,6 +5,7 @@ import { Button } from '../global-styles';
 import { fetchVideos } from '../lib/api';
 import useHttp from '../hooks/useHttp';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
+import Frame from '../components/UI/Frame';
 
 const Container = styled.main`
   margin: 0 auto;
@@ -90,44 +91,38 @@ const BackButton = styled(Button)`
   }
 `;
 
-const DetailsView = (props) => {
-  const [videoDetails, setVideoDetails] = useState(props.selectedVideo);
+const DetailsView = ({ onBackToHome, selectedVideo }) => {
+  const [videoDetails, setVideoDetails] = useState(selectedVideo);
   const { id, title, description } = videoDetails;
-  const { list: relatedVideos, loading } = useHttp(fetchVideos, id, 'related');
+  const { list: relatedVideos, loading, error } = useHttp(fetchVideos, id, 'related');
 
-  const videoSelectedHandler = (value) => {
-    setVideoDetails(value);
-  };
+  const videoSelectedHandler = (value) => setVideoDetails(value);
 
+  // TODO: Contruir el mensaje de error
   return (
     <Container>
+      {loading && <LoadingSpinner />}
       <div className="video-area">
         <div className="video-container">
-          <iframe
-            src={`https://www.youtube.com/embed/${id}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <Frame id={id} />
         </div>
         <div className="title">
-          <h2>{title}</h2>
+          <h2 data-testid="title">{title}</h2>
           <p>{description}</p>
         </div>
-        <BackButton type="button" onClick={props.onBackToHome}>
+        <BackButton type="button" onClick={onBackToHome}>
           back to home
         </BackButton>
       </div>
       <div className="relates-area">
-        {!loading && (
+        {!loading && !error && (
           <VideosList
             list={relatedVideos}
             onSelected={videoSelectedHandler}
             display="flex"
           />
         )}
-        {loading && <LoadingSpinner />}
+        {error && <h1 data-testid="error-message">{error}</h1>}
       </div>
     </Container>
   );

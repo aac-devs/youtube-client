@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Header from './components/header/Header';
+import AppBar from './components/app-bar/AppBar';
 import DetailsView from './pages/DetailsView';
 import HomeView from './pages/HomeView';
 
@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <Header onSearch={searchHandler} />
+      <AppBar onSearch={searchHandler} />
       {page === 'home' && (
         <HomeView searchValue={searchValue} onSelected={selectedVideoHandler} />
       )}

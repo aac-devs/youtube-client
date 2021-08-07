@@ -3,37 +3,44 @@ import VideoItem from './VideoItem';
 
 const Container = styled.ul`
   min-width: 300px;
-  display: ${(props) => props.display};
-  grid-template-columns: ${(props) =>
-    props.display === 'grid' ? 'repeat(auto-fit, 300px)' : null};
-  grid-column-gap: ${(props) => (props.display === 'grid' ? '15px' : null)};
-  grid-row-gap: ${(props) => (props.display === 'grid' ? '30px' : null)};
-  flex-direction: ${(props) => (props.display === 'grid' ? null : 'column')};
-  justify-content: ${(props) => (props.display === 'grid' ? 'center' : 'flex-start')};
+  display: ${({ display }) => display};
+  grid-template-columns: ${({ display }) =>
+    display === 'grid' ? 'repeat(auto-fit, 300px)' : null};
+  grid-column-gap: ${({ display }) => (display === 'grid' ? '15px' : null)};
+  grid-row-gap: ${({ display }) => (display === 'grid' ? '30px' : null)};
+  flex-direction: ${({ display }) => (display === 'grid' ? null : 'column')};
+  justify-content: ${({ display }) => (display === 'grid' ? 'center' : 'flex-start')};
 `;
 
 const VideosList = (props) => {
+  const { list, display, onSelected } = props;
   return (
-    <Container display={props.display}>
-      {props.list &&
-        props.list.map(
-          (item) =>
-            item.snippet && (
+    <Container display={display} data-testid="list-videos">
+      {list &&
+        list.map((item, index) => {
+          const {
+            id: { videoId },
+            snippet,
+          } = item;
+          return (
+            snippet && (
               <VideoItem
-                key={item.id.videoId}
-                id={item.id.videoId}
+                key={videoId}
+                id={videoId}
                 image={
-                  props.display === 'grid'
-                    ? item.snippet?.thumbnails.medium.url
-                    : item.snippet?.thumbnails.default.url
+                  display === 'grid'
+                    ? snippet?.thumbnails.medium.url
+                    : snippet?.thumbnails.default.url
                 }
-                title={item.snippet?.title}
-                description={item.snippet?.description}
-                onSelected={props.onSelected}
-                display={props.display}
+                title={snippet?.title}
+                description={snippet?.description}
+                onSelected={onSelected}
+                display={display}
+                index={index}
               />
             )
-        )}
+          );
+        })}
     </Container>
   );
 };

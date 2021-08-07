@@ -31,7 +31,7 @@ const Container = styled.form`
   }
 `;
 
-const SearchBox = (props) => {
+const SearchBox = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
 
   const valueChangeHandler = (event) => {
@@ -42,7 +42,7 @@ const SearchBox = (props) => {
     event.preventDefault();
     const enteredValue = searchValue.trim();
     if (enteredValue !== '') {
-      props.onSearch(enteredValue);
+      onSearch(enteredValue);
     }
     setSearchValue('');
   };

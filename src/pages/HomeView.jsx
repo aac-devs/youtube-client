@@ -12,15 +12,17 @@ const Container = styled.main`
   padding-top: 74px;
 `;
 
-const HomeView = (props) => {
-  const { list: videos, loading } = useHttp(fetchVideos, props.searchValue);
+const HomeView = ({ searchValue, onSelected }) => {
+  const { list: videos, loading, error } = useHttp(fetchVideos, searchValue);
 
+  // TODO: Contruir el mensaje de error
   return (
     <Container>
-      {!loading && (
-        <VideosList list={videos} onSelected={props.onSelected} display="grid" />
+      {!loading && !error && (
+        <VideosList list={videos} onSelected={onSelected} display="grid" />
       )}
       {loading && <LoadingSpinner />}
+      {error && <h1 data-testid="error-message">{error}</h1>}
     </Container>
   );
 };
