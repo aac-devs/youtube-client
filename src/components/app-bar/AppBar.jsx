@@ -55,7 +55,7 @@ const RoundButton = styled(Button)`
   }
 `;
 
-const Header = (props) => {
+const AppBar = ({ onSearch }) => {
   const matches = useMediaQuery('(max-width:960px)');
 
   return (
@@ -64,7 +64,7 @@ const Header = (props) => {
         <RoundButton type="button" data-testid="menu-btn">
           <MenuIcon />
         </RoundButton>
-        <SearchBox onSearch={props.onSearch} />
+        <SearchBox onSearch={onSearch} />
       </div>
       {!matches && (
         <div className="login-section">
@@ -83,4 +83,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default AppBar;

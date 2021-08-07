@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
@@ -39,14 +40,23 @@ const Spinner = styled.div`
   }
 `;
 
+const spinnerRoot = document.createElement('div');
+spinnerRoot.setAttribute('id', 'spinner-root');
+document.body.appendChild(spinnerRoot);
+
 const LoadingSpinner = () => {
+  const el = document.createElement('div');
+  useEffect(() => {
+    spinnerRoot.appendChild(el);
+    return () => spinnerRoot.removeChild(el);
+  });
   return (
     <>
       {ReactDOM.createPortal(
         <Container data-testid="spinner-backdrop">
           <Spinner data-testid="spinner" />
         </Container>,
-        document.getElementById('spinner')
+        el
       )}
     </>
   );

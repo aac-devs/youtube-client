@@ -17,7 +17,7 @@ const useHttp = (fetchFunction, dependency, type) => {
         setError(err.message);
         setLoading(false);
       });
-  }, [dependency]);
+  }, [dependency, type, fetchFunction]);
 
   return {
     list,
