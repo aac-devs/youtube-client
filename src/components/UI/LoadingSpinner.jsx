@@ -46,10 +46,12 @@ document.body.appendChild(spinnerRoot);
 
 const LoadingSpinner = () => {
   const el = document.createElement('div');
+
   useEffect(() => {
     spinnerRoot.appendChild(el);
     return () => spinnerRoot.removeChild(el);
   });
+
   return (
     <>
       {ReactDOM.createPortal(

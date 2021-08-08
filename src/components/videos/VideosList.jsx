@@ -14,33 +14,36 @@ const Container = styled.ul`
 
 const VideosList = (props) => {
   const { list, display, onSelected } = props;
+
+  const listItems = list?.map((item, index) => {
+    const {
+      id: { videoId },
+      snippet,
+    } = item;
+    return (
+      snippet && (
+        <VideoItem
+          key={videoId}
+          id={videoId}
+          image={
+            display === 'grid'
+              ? snippet?.thumbnails.medium.url
+              : snippet?.thumbnails.default.url
+          }
+          title={snippet?.title}
+          description={snippet?.description}
+          onSelected={onSelected}
+          display={display}
+          channel={snippet?.channelTitle}
+          index={index}
+        />
+      )
+    );
+  });
+
   return (
     <Container display={display} data-testid="list-videos">
-      {list &&
-        list.map((item, index) => {
-          const {
-            id: { videoId },
-            snippet,
-          } = item;
-          return (
-            snippet && (
-              <VideoItem
-                key={videoId}
-                id={videoId}
-                image={
-                  display === 'grid'
-                    ? snippet?.thumbnails.medium.url
-                    : snippet?.thumbnails.default.url
-                }
-                title={snippet?.title}
-                description={snippet?.description}
-                onSelected={onSelected}
-                display={display}
-                index={index}
-              />
-            )
-          );
-        })}
+      {listItems}
     </Container>
   );
 };

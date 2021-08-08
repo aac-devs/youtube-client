@@ -12,9 +12,13 @@ describe('<DetailsView />', () => {
     title: 'My Video',
     description: 'Description',
   };
-  const backToHome = jest.fn();
 
-  beforeEach(() => {});
+  const waitSpinner = async () => {
+    await screen.findByTestId('spinner');
+    await waitFor(() => {
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
+    });
+  };
 
   describe('asynchronous elements tests', () => {
     describe('error', () => {
@@ -24,7 +28,8 @@ describe('<DetailsView />', () => {
             return res(ctx.status(404));
           })
         );
-        render(<DetailsView selectedVideo={video} onBackToHome={backToHome} />);
+        render(<DetailsView selectedVideo={video} />);
+        await waitSpinner();
         const errorMsg = await screen.findByTestId('error-message');
         expect(errorMsg).toBeInTheDocument();
       });
@@ -32,19 +37,20 @@ describe('<DetailsView />', () => {
 
     describe('success', () => {
       beforeEach(() => {
-        render(<DetailsView selectedVideo={video} onBackToHome={backToHome} />);
+        render(<DetailsView selectedVideo={video} />);
       });
       test('should render Loading Spinner for a while', async () => {
         expect(screen.getByTestId('spinner')).toBeInTheDocument();
-        await waitFor(() => {
-          expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
-        });
+        await waitSpinner();
+        expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
       });
       test('should render a list of videos', async () => {
+        await waitSpinner();
         const videosListItems = await screen.findAllByTestId(/video-item/i);
         expect(videosListItems.length).toBe(24);
       });
       test('should render a new video after selected from related list videos', async () => {
+        await waitSpinner();
         const videosListItems = await screen.findAllByTestId(/video-item/i);
         userEvent.click(videosListItems[0]);
         const { title } = mockData.items[0].snippet;
@@ -56,16 +62,19 @@ describe('<DetailsView />', () => {
 
   describe('synchronous element tests', () => {
     beforeEach(() => {
-      render(<DetailsView selectedVideo={video} onBackToHome={backToHome} />);
+      render(<DetailsView selectedVideo={video} />);
     });
 
-    test('should render an iframe', () => {
+    test('should render an iframe', async () => {
+      await waitSpinner();
       expect(screen.getByTitle(/youtube video player/i)).toBeInTheDocument();
     });
-    test('should render the title', () => {
+    test('should render the title', async () => {
+      await waitSpinner();
       expect(screen.getByText(video.title)).toBeInTheDocument();
     });
-    test('should render the description', () => {
+    test('should render the description', async () => {
+      await waitSpinner();
       expect(screen.getByText(video.description)).toBeInTheDocument();
     });
   });

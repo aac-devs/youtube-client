@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import VideosList from '../components/videos/VideosList';
 import { Button } from '../global-styles';
-import { fetchVideos } from '../lib/api';
+import { fetchRelatedVideos } from '../lib/api';
 import useHttp from '../hooks/useHttp';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import Frame from '../components/UI/Frame';
+import SearchContext from '../context/search-context';
 
 const Container = styled.main`
   margin: 0 auto;
@@ -91,38 +92,54 @@ const BackButton = styled(Button)`
   }
 `;
 
-const DetailsView = ({ onBackToHome, selectedVideo }) => {
+const DetailsView = ({ selectedVideo }) => {
   const [videoDetails, setVideoDetails] = useState(selectedVideo);
-  const { id, title, description } = videoDetails;
-  const { list: relatedVideos, loading, error } = useHttp(fetchVideos, id, 'related');
+  const { id, title, description, channel } = videoDetails;
+  const {
+    sendRequest,
+    loading,
+    data: relatedVideos,
+    error,
+  } = useHttp(fetchRelatedVideos);
+
+  const ctx = useContext(SearchContext);
+
+  useEffect(() => {
+    sendRequest(id);
+  }, [sendRequest, id]);
 
   const videoSelectedHandler = (value) => setVideoDetails(value);
 
-  // TODO: Contruir el mensaje de error
+  if (error) {
+    // TODO: Contruir el mensaje de error
+    return <h1 data-testid="error-message">{error}</h1>;
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <Container>
-      {loading && <LoadingSpinner />}
       <div className="video-area">
         <div className="video-container">
           <Frame id={id} />
         </div>
         <div className="title">
           <h2 data-testid="title">{title}</h2>
+          <h4>{channel}</h4>
           <p>{description}</p>
         </div>
-        <BackButton type="button" onClick={onBackToHome}>
+        <BackButton type="button" onClick={() => ctx.changePage('home')}>
           back to home
         </BackButton>
       </div>
       <div className="relates-area">
-        {!loading && !error && (
-          <VideosList
-            list={relatedVideos}
-            onSelected={videoSelectedHandler}
-            display="flex"
-          />
-        )}
-        {error && <h1 data-testid="error-message">{error}</h1>}
+        <VideosList
+          list={relatedVideos}
+          onSelected={videoSelectedHandler}
+          display="flex"
+        />
       </div>
     </Container>
   );

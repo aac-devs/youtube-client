@@ -55,7 +55,7 @@ const RoundButton = styled(Button)`
   }
 `;
 
-const AppBar = ({ onSearch }) => {
+const AppBar = () => {
   const matches = useMediaQuery('(max-width:960px)');
 
   return (
@@ -64,7 +64,7 @@ const AppBar = ({ onSearch }) => {
         <RoundButton type="button" data-testid="menu-btn">
           <MenuIcon />
         </RoundButton>
-        <SearchBox onSearch={onSearch} />
+        <SearchBox />
       </div>
       {!matches && (
         <div className="login-section">

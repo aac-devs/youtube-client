@@ -1,28 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useCallback } from 'react';
+import httpReducer from '../reducers/httpReducer';
+import { types } from '../types/types';
 
-const useHttp = (fetchFunction, dependency, type) => {
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const initialState = {
+  data: null,
+  error: null,
+  loading: false,
+};
 
-  useEffect(() => {
-    setError(null);
-    setLoading(true);
-    fetchFunction(dependency, type)
-      .then((res) => {
-        setList(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [dependency, type, fetchFunction]);
+const useHttp = (requestFunction) => {
+  const [httpState, dispatch] = useReducer(httpReducer, initialState);
+
+  const sendRequest = useCallback(
+    async (requestData) => {
+      dispatch({ type: types.http.send });
+      try {
+        const responseData = await requestFunction(requestData);
+        dispatch({ type: types.http.success, responseData });
+      } catch (error) {
+        dispatch({
+          type: types.http.error,
+          errorMessage: error.message || 'Something went wrong',
+        });
+      }
+    },
+    [requestFunction]
+  );
 
   return {
-    list,
-    loading,
-    error,
+    sendRequest,
+    ...httpState,
   };
 };
 

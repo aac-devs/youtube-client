@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import SearchContext from '../../context/search-context';
 
 const Container = styled.form`
   width: 100%;
@@ -31,8 +32,9 @@ const Container = styled.form`
   }
 `;
 
-const SearchBox = ({ onSearch }) => {
+const SearchBox = () => {
   const [searchValue, setSearchValue] = useState('');
+  const { searchFor } = useContext(SearchContext);
 
   const valueChangeHandler = (event) => {
     setSearchValue(event.target.value);
@@ -42,7 +44,7 @@ const SearchBox = ({ onSearch }) => {
     event.preventDefault();
     const enteredValue = searchValue.trim();
     if (enteredValue !== '') {
-      onSearch(enteredValue);
+      searchFor(enteredValue);
     }
     setSearchValue('');
   };

@@ -58,10 +58,10 @@ const Container = styled.li`
 `;
 
 const VideoItem = (props) => {
-  const { id, index, title, description, image, display, onSelected } = props;
+  const { id, index, title, description, image, display, channel, onSelected } = props;
 
   const clickHandler = () => {
-    onSelected({ id, title, description });
+    onSelected({ id, title, description, channel });
   };
 
   return (
@@ -76,6 +76,9 @@ const VideoItem = (props) => {
       <div className="body">
         <div className="title">
           <h4>{title}</h4>
+        </div>
+        <div>
+          <h6>{channel}</h6>
         </div>
         {display === 'grid' && (
           <div className="description">
