@@ -20,7 +20,7 @@ const useHttp = (requestFunction) => {
       } catch (error) {
         dispatch({
           type: types.http.error,
-          errorMessage: error.message || 'Something went wrong',
+          errorMessage: error.message,
         });
       }
     },

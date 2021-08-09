@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const SearchContext = React.createContext({
+const AppContext = React.createContext({
   searchValue: '',
   page: '',
   searchFor: () => {},
   changePage: () => {},
 });
 
-export const SearchContextProvider = (props) => {
+export const AppContextProvider = (props) => {
   const [searchValue, setSearchValue] = useState('Control Automático Autoclave');
   const [page, setPage] = useState('home');
 
@@ -26,7 +26,7 @@ export const SearchContextProvider = (props) => {
     changePage: changePageHandler,
   };
 
-  return <SearchContext.Provider value={value}>{props.children}</SearchContext.Provider>;
+  return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
 };
 
-export default SearchContext;
+export default AppContext;

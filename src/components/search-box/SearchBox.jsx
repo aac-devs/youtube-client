@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import { useContext, useState } from 'react';
-import SearchContext from '../../context/search-context';
+import AppContext from '../../context/app-context';
 
 const Container = styled.form`
   width: 100%;
@@ -34,7 +34,7 @@ const Container = styled.form`
 
 const SearchBox = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { searchFor } = useContext(SearchContext);
+  const { searchFor } = useContext(AppContext);
 
   const valueChangeHandler = (event) => {
     setSearchValue(event.target.value);

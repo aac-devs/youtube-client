@@ -2,11 +2,12 @@ import { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import VideosList from '../components/videos/VideosList';
 import { Button } from '../global-styles';
-import { fetchRelatedVideos } from '../lib/api';
+// import { fetchRelatedVideos } from '../lib/api';
 import useHttp from '../hooks/useHttp';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import Frame from '../components/UI/Frame';
-import SearchContext from '../context/search-context';
+import AppContext from '../context/app-context';
+import { findRelatedVideos } from '../lib/enhanced-api';
 
 const Container = styled.main`
   margin: 0 auto;
@@ -95,14 +96,9 @@ const BackButton = styled(Button)`
 const DetailsView = ({ selectedVideo }) => {
   const [videoDetails, setVideoDetails] = useState(selectedVideo);
   const { id, title, description, channel } = videoDetails;
-  const {
-    sendRequest,
-    loading,
-    data: relatedVideos,
-    error,
-  } = useHttp(fetchRelatedVideos);
+  const { sendRequest, loading, data: relatedVideos, error } = useHttp(findRelatedVideos);
 
-  const ctx = useContext(SearchContext);
+  const ctx = useContext(AppContext);
 
   useEffect(() => {
     sendRequest(id);

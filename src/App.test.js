@@ -2,24 +2,31 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server, rest } from './testServer';
 import App from './App';
+import { SearchContextProvider } from './context/search-context';
 import mockReactData from './helper/mock-react.json';
 import mockData from './helper/mock-data.json';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 describe('<App />', () => {
-  const waitSpinner = async () => {
-    await screen.findByTestId('spinner');
+  const waitForSpinnerRenders = async () => {
+    const spinner = await screen.findByTestId('spinner');
+    expect(spinner).toBeInTheDocument();
     await waitFor(() => {
-      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument();
+      expect(spinner).not.toBeInTheDocument();
     });
   };
 
   beforeEach(() => {
-    render(<App />);
+    render(
+      <SearchContextProvider>
+        <App />
+      </SearchContextProvider>
+    );
   });
 
   test('should render mock-data', async () => {
+    await waitForSpinnerRenders();
     const videosListItems = await screen.findAllByTestId(/video-item/i);
     expect(videosListItems.length).toBe(24);
   });
@@ -36,7 +43,7 @@ describe('<App />', () => {
     const input = screen.getByPlaceholderText('search');
     userEvent.type(input, 'javascript{enter}');
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     const newVideos = await screen.findAllByTestId(/video-item/i);
     const { title } = mockReactData.items[0].snippet;
@@ -51,7 +58,7 @@ describe('<App />', () => {
     const selectedVideo = currentVideos[0];
     userEvent.click(selectedVideo);
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     const { title } = mockData.items[0].snippet;
     const titleElement = screen.getByTestId('title');
@@ -64,12 +71,12 @@ describe('<App />', () => {
     const selectedVideo = currentVideos[0];
     userEvent.click(selectedVideo);
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     const backButton = await screen.findByRole('button', { name: 'back to home' });
     userEvent.click(backButton);
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     expect(
       screen.queryByRole('button', { name: 'back to home' })
@@ -82,14 +89,14 @@ describe('<App />', () => {
     const selectedVideo = currentVideos[0];
     userEvent.click(selectedVideo);
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     expect(screen.getByTitle(/youtube video player/i)).toBeInTheDocument();
 
     const input = screen.getByPlaceholderText('search');
     userEvent.type(input, 'javascript{enter}');
 
-    await waitSpinner();
+    await waitForSpinnerRenders();
 
     expect(screen.queryByTitle(/youtube video player/i)).not.toBeInTheDocument();
   });

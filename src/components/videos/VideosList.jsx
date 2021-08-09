@@ -16,28 +16,18 @@ const VideosList = (props) => {
   const { list, display, onSelected } = props;
 
   const listItems = list?.map((item, index) => {
-    const {
-      id: { videoId },
-      snippet,
-    } = item;
     return (
-      snippet && (
-        <VideoItem
-          key={videoId}
-          id={videoId}
-          image={
-            display === 'grid'
-              ? snippet?.thumbnails.medium.url
-              : snippet?.thumbnails.default.url
-          }
-          title={snippet?.title}
-          description={snippet?.description}
-          onSelected={onSelected}
-          display={display}
-          channel={snippet?.channelTitle}
-          index={index}
-        />
-      )
+      <VideoItem
+        key={item.videoId}
+        id={item.videoId}
+        image={display === 'grid' ? item.videoImage.medium : item.videoImage.default}
+        title={item.videoTitle}
+        description={item.videoDescription}
+        onSelected={onSelected}
+        display={display}
+        channel={item.channelTitle}
+        index={index}
+      />
     );
   });
 

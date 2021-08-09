@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { SearchContextProvider } from './context/search-context';
+import { AppContextProvider } from './context/app-context';
 import GlobalStyles from './global-styles';
 
 ReactDOM.render(
   <>
     <GlobalStyles />
-    <SearchContextProvider>
+    <AppContextProvider>
       <App />
-    </SearchContextProvider>
+    </AppContextProvider>
   </>,
   document.getElementById('root')
 );

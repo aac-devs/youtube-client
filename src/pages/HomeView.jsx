@@ -2,9 +2,10 @@ import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
-import SearchContext from '../context/search-context';
+import AppContext from '../context/app-context';
 import useHttp from '../hooks/useHttp';
-import { fetchVideos } from '../lib/api';
+// import { fetchVideos } from '../lib/api';
+import { findVideos } from '../lib/enhanced-api';
 
 const Container = styled.main`
   padding: 10px;
@@ -15,8 +16,8 @@ const Container = styled.main`
 `;
 
 const HomeView = ({ onSelected }) => {
-  const { searchValue } = useContext(SearchContext);
-  const { sendRequest, loading, data: videos, error } = useHttp(fetchVideos);
+  const { searchValue } = useContext(AppContext);
+  const { sendRequest, loading, data: videos, error } = useHttp(findVideos);
 
   useEffect(() => {
     sendRequest(searchValue);
