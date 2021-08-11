@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent, { specialChars } from '@testing-library/user-event';
 
 import App from '../../App';
-import SearchContext from '../../context/search-context';
+import AppContext from '../../context/app-context';
 
 describe('<SearchBox />', () => {
   let input;
@@ -16,9 +16,9 @@ describe('<SearchBox />', () => {
 
   beforeEach(() => {
     render(
-      <SearchContext.Provider value={contextValues}>
+      <AppContext.Provider value={contextValues}>
         <App />
-      </SearchContext.Provider>
+      </AppContext.Provider>
     );
 
     input = screen.getByPlaceholderText('search');

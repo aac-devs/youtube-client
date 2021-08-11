@@ -15,18 +15,20 @@ const Container = styled.ul`
 const VideosList = (props) => {
   const { list, display, onSelected } = props;
 
-  const listItems = list?.map((item, index) => {
+  const listItems = list?.map((item) => {
+    // console.log(item);
     return (
       <VideoItem
         key={item.videoId}
-        id={item.videoId}
-        image={display === 'grid' ? item.videoImage.medium : item.videoImage.default}
-        title={item.videoTitle}
-        description={item.videoDescription}
+        {...item}
+        // id={item.videoId}
+        // image={display === 'grid' ? item.videoImage.medium : item.videoImage.default}
+        // title={item.videoTitle}
+        // description={item.videoDescription}
         onSelected={onSelected}
         display={display}
-        channel={item.channelTitle}
-        index={index}
+        // channel={item.channelTitle}
+        // index={index}
       />
     );
   });

@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server, rest } from '../testServer';
 import DetailsView from './DetailsView';
-import mockData from '../helper/mock-data.json';
+import mockRelatedResult from '../helper/mock/relatedToId/result.json';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -50,7 +50,7 @@ describe('<DetailsView />', () => {
     test('should render a list of videos', async () => {
       await waitForSpinnerRenders();
       const videosListItems = await screen.findAllByTestId(/video-item/i);
-      expect(videosListItems.length).toBe(24);
+      expect(videosListItems.length).toBe(9);
     });
 
     test('should render a new video after selected from related list videos', async () => {
@@ -59,9 +59,9 @@ describe('<DetailsView />', () => {
       userEvent.click(videosListItems[0]);
 
       await waitForSpinnerRenders();
-      const { title } = mockData.items[0].snippet;
+      const { videoTitle } = mockRelatedResult.data[0];
       const titleElement = screen.getByTestId('title');
-      expect(titleElement).toHaveTextContent(title);
+      expect(titleElement).toHaveTextContent(videoTitle);
     });
   });
 

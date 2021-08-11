@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import HomeView from './HomeView';
 import { server, rest } from '../testServer';
+import { AppContextProvider } from '../context/app-context';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -15,8 +16,13 @@ describe('<HomeView />', () => {
 
   describe('success', () => {
     beforeEach(() => {
-      render(<HomeView />);
+      render(
+        <AppContextProvider>
+          <HomeView />
+        </AppContextProvider>
+      );
     });
+
     test('should render a loading spinner followed by multiple video items', async () => {
       await waitForSpinnerRenders();
       const videosList = await screen.findByTestId('list-videos');
@@ -26,7 +32,7 @@ describe('<HomeView />', () => {
     test('should render a loading spinner folloed by multiple video items', async () => {
       await waitForSpinnerRenders();
       const videosListItems = await screen.findAllByTestId(/video-item/i);
-      expect(videosListItems.length).toBe(24);
+      expect(videosListItems.length).toBe(10);
     });
   });
 

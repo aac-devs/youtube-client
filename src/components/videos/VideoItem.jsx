@@ -1,90 +1,184 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.li`
-  min-width: 300px;
-  background-color: #37474f;
+  list-style: none;
   cursor: pointer;
   outline: none;
   border: none;
-  overflow: hidden;
-  color: #fff;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #fff;
 
   &:hover {
-    background-color: #4c585f;
+    background-color: #ddd;
   }
 
-  p {
+  .videoTitle-area {
+    max-height: 40px;
+    margin-top: 8px;
+    padding: 3px 0;
     font-size: 14px;
-  }
-
-  .description {
-    height: 60px;
-    max-height: 60px;
+    font-weight: bold;
     overflow: hidden;
   }
 
-  display: flex;
-  justify-content: flex-start;
+  .channelTitle-area {
+    max-height: 20px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+    overflow: hidden;
+  }
 
-  width: ${({ display }) => (display === 'grid' ? '300px' : '100%')};
-  height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
-  max-height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
+  .videoPublishedAt-area {
+    max-height: 20px;
+    overflow: hidden;
+    font-size: 14px;
+    color: #555;
+  }
 
-  flex-direction: ${({ display }) => (display === 'grid' ? 'column' : 'row')};
-  align-items: ${({ display }) => (display === 'grid' ? 'center' : 'stretch')};
-  margin-bottom: ${({ display }) => (display === 'grid' ? '0' : '10px')};
-
-  .body {
-    padding: 6px;
-    padding-top: ${({ display }) => (display === 'grid' ? '12px' : '0')};
-    width: 100%;
+  .videoDuration-area {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
-    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    bottom: 10px;
+    right: 5px;
+    padding: 2px 5px;
+    border-radius: 4px;
   }
 
-  img {
-    object-fit: cover;
-    height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
-    min-height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
-    width: ${({ display }) => (display === 'grid' ? '100%' : '160px')};
-  }
+  ${(props) =>
+    props.display === 'grid'
+      ? css`
+          display: grid;
+          width: 300px;
+          max-height: 270px;
 
-  .title {
-    max-height: 48px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
+          grid-template-columns: 48px 252px;
+          grid-template-rows: 170px 1fr;
+          grid-template-areas:
+            'videoImage videoImage'
+            'channelLogo cardBody';
+
+          .videoImage-area {
+            position: absolute;
+            overflow: hidden;
+            grid-area: videoImage;
+            img {
+              object-fit: cover;
+              height: 170px;
+              min-height: 170px;
+              width: 300px;
+            }
+          }
+
+          .channelLogo-area {
+            grid-area: channelLogo;
+            margin: 12px 12px 0 0;
+            overflow: hidden;
+            img {
+              height: 36px;
+              min-height: 36px;
+              width: 36px;
+              min-width: 36px;
+              border-radius: 50%;
+            }
+          }
+          .card-body {
+            grid-area: cardBody;
+            margin-right: 15px;
+          }
+        `
+      : css`
+          width: 100%;
+          min-width: 300px;
+          max-height: 100px;
+          height: 100px;
+          display: flex;
+          margin-bottom: 8px;
+
+          .card-body {
+            overflow: hidden;
+          }
+
+          .videoImage-area {
+            position: relative;
+            overflow: hidden;
+            height: 100px;
+            min-height: 100px;
+            min-width: 170px;
+            max-width: 170px;
+            margin-right: 8px;
+            img {
+              object-fit: cover;
+              height: 100px;
+              width: 170px;
+            }
+            .videoDuration-area {
+              bottom: 5px;
+            }
+          }
+          .videoTitle-area {
+            margin-top: 2px;
+            padding-top: 0;
+          }
+        `}
 `;
 
 const VideoItem = (props) => {
-  const { id, index, title, description, image, display, channel, onSelected } = props;
+  const {
+    videoId,
+    videoTitle,
+    // videoDescription,
+    videoImage,
+    videoDuration,
+    videoPublishedAt,
+    channelTitle,
+    channelLogo,
+    onSelected,
+    display,
+  } = props;
 
   const clickHandler = () => {
-    onSelected({ id, title, description, channel });
+    onSelected(props);
   };
+
+  const aux = videoDuration.replace('PT', '').replace('S', '');
+  const aux1 = aux.search('H') > 0 ? aux.replace('H', ',') : aux;
+  const aux2 = aux.search('M') > 0 ? aux1.replace('M', ',') : aux1;
+  const array = aux2.split(',');
+  if (array.length === 1) {
+    array.unshift('0');
+    array.unshift('0');
+  } else if (array.length === 2) {
+    array.unshift('0');
+  }
+  const [hora, minuto, segundo] = array;
+
+  const formatValue = `${hora > '0' ? `${hora}:` : ''}${
+    minuto === '0' ? '0' : minuto < '10' ? minuto : minuto.padStart(2, '0')
+  }:${segundo.padStart(2, '0')}`;
 
   return (
     <Container
       onClick={clickHandler}
       display={display}
-      data-testid={`video-item-${index}`}
+      data-testid={`video-item-${videoId}`}
     >
-      <div className="image">
-        <img src={image} alt={title} />
+      <div className="videoImage-area">
+        <img src={videoImage.medium} alt={videoTitle} />
+        <div className="videoDuration-area">{formatValue}</div>
       </div>
-      <div className="body">
-        <div className="title">
-          <h4>{title}</h4>
+      {display === 'grid' && (
+        <div className="channelLogo-area">
+          <img src={channelLogo} alt="logo-channel" />
         </div>
-        <div>
-          <h6>{channel}</h6>
-        </div>
-        {display === 'grid' && (
-          <div className="description">
-            <p>{description}</p>
-          </div>
-        )}
+      )}
+      <div className="card-body">
+        <div className="videoTitle-area">{videoTitle}</div>
+        <div className="channelTitle-area">{channelTitle}</div>
+        <div className="videoPublishedAt-area">Emitido {videoPublishedAt}</div>
       </div>
     </Container>
   );

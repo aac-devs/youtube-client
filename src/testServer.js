@@ -1,49 +1,41 @@
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import mockSearchVideos from './helper/mock-search-videos.json';
-import mockSearchRelated from './helper/mock-search-related.json';
-import mockSearchDurations from './helper/mock-videos-duration.json';
-import mockSearchLogos from './helper/mock-channels-logos.json';
+
+import mockRelatedInitial from './helper/mock/relatedToId/initial.json';
+import mockRelatedDurations from './helper/mock/relatedToId/durations.json';
+
+import mockListInitial from './helper/mock/list/initial.json';
+import mockListDurations from './helper/mock/list/durations.json';
+import mockListLogos from './helper/mock/list/logos.json';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
+let relatedToId = false;
+
 const server = setupServer(
   rest.get(`${baseUrl}/search`, (req, res, ctx) => {
-    const searchItem = req.url.searchParams.get('q');
-    const relatedId = req.url.searchParams.get('relatedToVideoId');
-    // console.log('search item:', searchItem);
-    // console.log('related id:', relatedId);
+    const q = req.url.searchParams.get('q');
     let mockData;
-    if (searchItem) {
-      mockData = mockSearchVideos;
+    if (q) {
+      mockData = mockListInitial;
+    } else {
+      relatedToId = true;
+      mockData = mockRelatedInitial;
     }
-    if (relatedId) {
-      mockData = mockSearchRelated;
-    }
-
     return res(ctx.status(200), ctx.json(mockData));
   }),
 
   rest.get(`${baseUrl}/videos`, (req, res, ctx) => {
-    // console.log(mockVideos);
-    const videoIds = req.url.searchParams.get('id');
-    // console.log('videos/durations:', videoIds);
-    let mockData;
-    if (videoIds) {
-      mockData = mockSearchDurations;
+    let mockData = mockListDurations;
+    if (relatedToId) {
+      mockData = mockRelatedDurations;
+      relatedToId = false;
     }
     return res(ctx.status(200), ctx.json(mockData));
   }),
 
   rest.get(`${baseUrl}/channels`, (req, res, ctx) => {
-    // console.log(mockVideos);
-    const channelIds = req.url.searchParams.get('id');
-    // console.log('videos/logos:', channelIds);
-    let mockData;
-    if (channelIds) {
-      mockData = mockSearchLogos;
-    }
-    return res(ctx.status(200), ctx.json(mockData));
+    return res(ctx.status(200), ctx.json(mockListLogos));
   }),
 
   rest.get('*', (req, res, ctx) => {

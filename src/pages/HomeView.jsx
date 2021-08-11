@@ -4,7 +4,6 @@ import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
 import AppContext from '../context/app-context';
 import useHttp from '../hooks/useHttp';
-// import { fetchVideos } from '../lib/api';
 import { findVideos } from '../lib/enhanced-api';
 
 const Container = styled.main`
@@ -20,7 +19,7 @@ const HomeView = ({ onSelected }) => {
   const { sendRequest, loading, data: videos, error } = useHttp(findVideos);
 
   useEffect(() => {
-    sendRequest(searchValue);
+    sendRequest({ q: searchValue, maxResults: 20 });
   }, [sendRequest, searchValue]);
 
   if (error) {

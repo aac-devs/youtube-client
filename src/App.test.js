@@ -2,9 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server, rest } from './testServer';
 import App from './App';
-import { SearchContextProvider } from './context/search-context';
-import mockReactData from './helper/mock-react.json';
-import mockData from './helper/mock-data.json';
+import { AppContextProvider } from './context/app-context';
+import mockListInitial from './helper/mock/list/initial.json';
+import mockListDurations from './helper/mock/list/durations.json';
+import mockListLogos from './helper/mock/list/logos.json';
+import mockListResult from './helper/mock/list/result.json';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -19,26 +21,34 @@ describe('<App />', () => {
 
   beforeEach(() => {
     render(
-      <SearchContextProvider>
+      <AppContextProvider>
         <App />
-      </SearchContextProvider>
+      </AppContextProvider>
     );
   });
 
   test('should render mock-data', async () => {
     await waitForSpinnerRenders();
     const videosListItems = await screen.findAllByTestId(/video-item/i);
-    expect(videosListItems.length).toBe(24);
+    expect(videosListItems.length).toBe(10);
   });
 
   test('should render a new list of videos when search value changes', async () => {
     server.use(
       rest.get(`${baseUrl}/search`, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(mockReactData));
+        return res(ctx.status(200), ctx.json(mockListInitial));
+      }),
+      rest.get(`${baseUrl}/videos`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(mockListDurations));
+      }),
+      rest.get(`${baseUrl}/channels`, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(mockListLogos));
       })
     );
+    await waitForSpinnerRenders();
+
     const currentVideos = await screen.findAllByTestId(/video-item/i);
-    expect(currentVideos.length).toBe(24);
+    expect(currentVideos.length).toBe(10);
 
     const input = screen.getByPlaceholderText('search');
     userEvent.type(input, 'javascript{enter}');
@@ -46,23 +56,23 @@ describe('<App />', () => {
     await waitForSpinnerRenders();
 
     const newVideos = await screen.findAllByTestId(/video-item/i);
-    const { title } = mockReactData.items[0].snippet;
-    expect(newVideos[0]).toHaveTextContent(title);
-    expect(newVideos.length).toBe(20);
+    const { videoTitle } = mockListResult.data[0];
+    expect(newVideos[0]).toHaveTextContent(videoTitle);
+    expect(newVideos.length).toBe(10);
   });
 
   test('should render details view when a video is clicked', async () => {
     const currentVideos = await screen.findAllByTestId(/video-item/i);
-    expect(currentVideos.length).toBe(24);
+    expect(currentVideos.length).toBe(10);
 
     const selectedVideo = currentVideos[0];
     userEvent.click(selectedVideo);
 
     await waitForSpinnerRenders();
 
-    const { title } = mockData.items[0].snippet;
+    const { videoTitle } = mockListResult.data[0];
     const titleElement = screen.getByTestId('title');
-    expect(titleElement).toHaveTextContent(title);
+    expect(titleElement).toHaveTextContent(videoTitle);
   });
 
   test('should return to home view when back button of details view is clicked', async () => {
