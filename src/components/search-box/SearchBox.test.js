@@ -21,7 +21,7 @@ describe('<SearchBox />', () => {
       </AppContext.Provider>
     );
 
-    input = screen.getByPlaceholderText('search');
+    input = screen.getByPlaceholderText('search..');
   });
 
   test('should avoid submit blank texts', () => {

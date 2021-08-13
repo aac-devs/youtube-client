@@ -3,6 +3,7 @@ import { setupServer } from 'msw/node';
 
 import mockRelatedInitial from './helper/mock/relatedToId/initial.json';
 import mockRelatedDurations from './helper/mock/relatedToId/durations.json';
+import mockRelatedLogos from './helper/mock/relatedToId/logos.json';
 
 import mockListInitial from './helper/mock/list/initial.json';
 import mockListDurations from './helper/mock/list/durations.json';
@@ -29,13 +30,17 @@ const server = setupServer(
     let mockData = mockListDurations;
     if (relatedToId) {
       mockData = mockRelatedDurations;
-      relatedToId = false;
     }
     return res(ctx.status(200), ctx.json(mockData));
   }),
 
   rest.get(`${baseUrl}/channels`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockListLogos));
+    let mockData = mockListLogos;
+    if (relatedToId) {
+      mockData = mockRelatedLogos;
+      relatedToId = false;
+    }
+    return res(ctx.status(200), ctx.json(mockData));
   }),
 
   rest.get('*', (req, res, ctx) => {

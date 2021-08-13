@@ -1,53 +1,41 @@
-export const dark = {
-  background: {
-    primary: {
-      light: '#484848',
-      default: '#212121',
-      dark: '#000000',
-    },
-    secondary: {
-      light: '#768fff',
-      default: '#2962ff',
-      dark: '#0039cb',
+const darkTheme = {
+  appBar: {
+    text: '#fff',
+    iconColor: '#f5f5f5',
+    iconHoverColor: '#252525',
+    backgroundColor: 'rgba(47, 47, 47, 0.95)',
+    searchBox: {
+      backgroundColor: '#484848',
+      placeholder: '#999',
     },
   },
   text: {
-    primary: {
-      light: 'rgba(255,255,255,0.6)',
-      default: 'rgba(255,255,255,0.46)',
-      dark: 'rgba(255,255,255,0.46)',
-    },
-    secondary: {
-      light: 'rgba(0,0,0,0.69)',
-      default: 'rgba(255,255,255,0.94)',
-      dark: 'rgba(255,255,255,0.66)',
-    },
+    titleColor: '#fff',
+    channelColor: '#aaa',
   },
+  hoverColor: '#333',
+  border: '1px solid #555',
+  background: '#212121',
 };
 
-export const light = {
-  background: {
-    primary: {
-      light: '#ffffff',
-      default: '#f5f5f5',
-      dark: '#c2c2c2',
-    },
-    secondary: {
-      light: '#768fff',
-      default: '#2962ff',
-      dark: '#0039cb',
+const lightTheme = {
+  appBar: {
+    text: '#000',
+    iconColor: '#484848',
+    iconHoverColor: '#ddd',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    searchBox: {
+      backgroundColor: '#f5f5f5',
+      placeholder: '#777',
     },
   },
   text: {
-    primary: {
-      light: 'rgba(0,0,0,0.55)',
-      default: 'rgba(0,0,0,0.54)',
-      dark: 'rgba(0,0,0,0.59)',
-    },
-    secondary: {
-      light: 'rgba(0,0,0,0.69)',
-      default: 'rgba(255,255,255,0.94)',
-      dark: 'rgba(255,255,255,0.66)',
-    },
+    titleColor: '#000',
+    channelColor: '#555',
   },
+  hoverColor: '#ddd',
+  border: '1px solid #ddd',
+  background: '#f5f5f5',
 };
+
+export { darkTheme, lightTheme };

@@ -1,18 +1,10 @@
 import { useContext, useEffect } from 'react';
-import styled from 'styled-components';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
 import AppContext from '../context/app-context';
 import useHttp from '../hooks/useHttp';
 import { findVideos } from '../lib/enhanced-api';
-
-const Container = styled.main`
-  padding: 10px;
-  margin: 0 auto;
-  max-width: 1700px;
-  width: 100%;
-  padding-top: 74px;
-`;
+import { Container } from './HomeView.styles';
 
 const HomeView = ({ onSelected }) => {
   const { searchValue } = useContext(AppContext);

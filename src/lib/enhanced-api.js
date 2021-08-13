@@ -87,9 +87,6 @@ const findVideos = async (value) => {
       return searchVideoDurations(resp, params);
     })
     .then((resp) => {
-      if (relatedToVideoId) {
-        return resp;
-      }
       const ids = resp.map((video) => video.channelId).join();
       params = {
         route: 'channels',

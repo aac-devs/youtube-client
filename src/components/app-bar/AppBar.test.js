@@ -1,6 +1,8 @@
+import { ThemeProvider } from 'styled-components';
 import { render, screen } from '@testing-library/react';
 import matchMediaPolyfill from 'mq-polyfill';
 import AppBar from './AppBar';
+import { darkTheme } from '../../styles/themes';
 
 describe('<Header />', () => {
   test('should not renders the login button & the label when screen width is less than 960px', () => {
@@ -14,9 +16,12 @@ describe('<Header />', () => {
       }).dispatchEvent(new this.Event('resize'));
     };
     window.resizeTo(800, 300);
-    render(<AppBar />);
-    expect(screen.getByTestId('menu-btn')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('search')).toBeInTheDocument();
+    render(
+      <ThemeProvider theme={darkTheme}>
+        <AppBar />
+      </ThemeProvider>
+    );
+    expect(screen.getByPlaceholderText('search..')).toBeInTheDocument();
     expect(screen.queryByText('mode', { exact: false })).not.toBeInTheDocument();
     expect(screen.queryByTestId('login-btn')).not.toBeInTheDocument();
   });

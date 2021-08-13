@@ -4,4 +4,8 @@ export const types = {
     success: 'SUCCESS',
     error: 'ERROR',
   },
+  theme: {
+    light: 'LIGHT',
+    dark: 'DARK',
+  },
 };

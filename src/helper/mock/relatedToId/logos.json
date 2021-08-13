@@ -1,0 +1,110 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "fwQbA0koFNKrnOzVhLat5Wd-LhQ",
+  "pageInfo": {
+    "totalResults": 3,
+    "resultsPerPage": 5
+  },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "b0YlLf2f8lcZT5ohtu-lmwN5FsQ",
+      "id": "UCP15FVAA2UL-QOcGhy7-ezA",
+      "snippet": {
+        "title": "EDteam",
+        "description": "En EDteam, te damos el poder para alcanzar tus sueños a través de la educación.\n\nEstudia lo que quieras, donde quieras y a tu ritmo.\n\nLíder en educación en línea en español sobre tecnología, programación y diseño. \n\nSomos la primera propuesta orientada a proyectos por lo que todos nuestros cursos culminan con un proyecto en el que se aplica lo aprendido.\n\nEn este canal encontrarás muchos tutoriales gratuitos y demos de nuestros cursos prémium.\n\n100% de raza latina | 100% Remotos. \n💪 #NoTeDetengas",
+        "customUrl": "edteam",
+        "publishedAt": "2012-11-19T19:06:13Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQOtsHdCcBSxaQlzaYneI_mM27MNuxfgcVGAlDaxQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQOtsHdCcBSxaQlzaYneI_mM27MNuxfgcVGAlDaxQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQOtsHdCcBSxaQlzaYneI_mM27MNuxfgcVGAlDaxQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "EDteam",
+          "description": "En EDteam, te damos el poder para alcanzar tus sueños a través de la educación.\n\nEstudia lo que quieras, donde quieras y a tu ritmo.\n\nLíder en educación en línea en español sobre tecnología, programación y diseño. \n\nSomos la primera propuesta orientada a proyectos por lo que todos nuestros cursos culminan con un proyecto en el que se aplica lo aprendido.\n\nEn este canal encontrarás muchos tutoriales gratuitos y demos de nuestros cursos prémium.\n\n100% de raza latina | 100% Remotos. \n💪 #NoTeDetengas"
+        },
+        "country": "PE"
+      }
+    },
+    {
+      "kind": "youtube#channel",
+      "etag": "IzO3x-Divvq8Ws8bwbC1E0Sf8W4",
+      "id": "UCjXAQ-cayM4mIZmUZKMFW_w",
+      "snippet": {
+        "title": "Programador X",
+        "description": "He trabajado en proyectos para Nintendo, Google, y Amazon. Soy Ingeniero de Software en Seattle. 🌃  \nComparto experiencias y tecnologías para programación web semanalmente. 💻  \n\nMis videos te van a ayudar en tu carrera en desarrollo web. Sígueme! 🎉\n\n📚 MIS CURSOS 👉 https://www.academia-x.com\n📷 INSTAGRAM 👉 https://www.instagram.com/programador.x\n💼 LINKEDIN 👉 https://www.linkedin.com/in/xavier-reyes-ochoa\n",
+        "customUrl": "programadorx",
+        "publishedAt": "2009-05-07T02:49:40Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/QAKnwF21V1gXr1I8O2ZQNBDdS6OvF7JLAEZWLprKZp9Vxe4_6NDZn32yhOSPmY5c-S7nQBN2=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/QAKnwF21V1gXr1I8O2ZQNBDdS6OvF7JLAEZWLprKZp9Vxe4_6NDZn32yhOSPmY5c-S7nQBN2=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/QAKnwF21V1gXr1I8O2ZQNBDdS6OvF7JLAEZWLprKZp9Vxe4_6NDZn32yhOSPmY5c-S7nQBN2=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Programador X",
+          "description": "He trabajado en proyectos para Nintendo, Google, y Amazon. Soy Ingeniero de Software en Seattle. 🌃  \nComparto experiencias y tecnologías para programación web semanalmente. 💻  \n\nMis videos te van a ayudar en tu carrera en desarrollo web. Sígueme! 🎉\n\n📚 MIS CURSOS 👉 https://www.academia-x.com\n📷 INSTAGRAM 👉 https://www.instagram.com/programador.x\n💼 LINKEDIN 👉 https://www.linkedin.com/in/xavier-reyes-ochoa\n"
+        },
+        "country": "US"
+      }
+    },
+    {
+      "kind": "youtube#channel",
+      "etag": "_cYAAbzcwSo3USJ5MB6rHSkVkwk",
+      "id": "UCX9NJ471o7Wie1DQe94RVIg",
+      "snippet": {
+        "title": "Fazt",
+        "description": "Fazt es un canal en donde podrás encontrar una variedad de videos de programación, desarrollo Web y muchos otros temas relacionados al mundo de la informática en general. Desde aprender las bases de un lenguaje de programacion hasta subir tu sitio o aplicación Web. Bienvenido al mundo de la web, un mundo en el que la información es libre, al igual que la información de este canal.",
+        "customUrl": "fazttech",
+        "publishedAt": "2015-08-07T19:52:57Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLSggvA4usmC3lIDdqORkmsje78sxwaSPsQ3gefNYw=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLSggvA4usmC3lIDdqORkmsje78sxwaSPsQ3gefNYw=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLSggvA4usmC3lIDdqORkmsje78sxwaSPsQ3gefNYw=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "defaultLanguage": "es-419",
+        "localized": {
+          "title": "Fazt",
+          "description": "Fazt es un canal en donde podrás encontrar una variedad de videos de programación, desarrollo Web y muchos otros temas relacionados al mundo de la informática en general. Desde aprender las bases de un lenguaje de programacion hasta subir tu sitio o aplicación Web. Bienvenido al mundo de la web, un mundo en el que la información es libre, al igual que la información de este canal."
+        },
+        "country": "PE"
+      }
+    }
+  ]
+}

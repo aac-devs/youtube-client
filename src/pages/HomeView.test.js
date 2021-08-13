@@ -1,7 +1,9 @@
+import { ThemeProvider } from 'styled-components';
 import { render, screen, waitFor } from '@testing-library/react';
 import HomeView from './HomeView';
 import { server, rest } from '../testServer';
 import { AppContextProvider } from '../context/app-context';
+import { darkTheme } from '../styles/themes';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -18,7 +20,9 @@ describe('<HomeView />', () => {
     beforeEach(() => {
       render(
         <AppContextProvider>
-          <HomeView />
+          <ThemeProvider theme={darkTheme}>
+            <HomeView />
+          </ThemeProvider>
         </AppContextProvider>
       );
     });

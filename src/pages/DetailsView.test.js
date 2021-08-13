@@ -1,16 +1,20 @@
+import { ThemeProvider } from 'styled-components';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server, rest } from '../testServer';
 import DetailsView from './DetailsView';
 import mockRelatedResult from '../helper/mock/relatedToId/result.json';
+import { darkTheme } from '../styles/themes';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 describe('<DetailsView />', () => {
   const video = {
-    id: 5,
-    title: 'My Video',
-    description: 'Description',
+    videoId: 5,
+    videoTitle: 'My Video',
+    videoDescription: 'Description',
+    videoDuration: 'PT18M11S',
+    videoPublishedAt: '2019-06-10T23:00:02Z',
   };
 
   const waitForSpinnerRenders = async () => {
@@ -23,7 +27,11 @@ describe('<DetailsView />', () => {
 
   describe('success', () => {
     beforeEach(() => {
-      render(<DetailsView selectedVideo={video} />);
+      render(
+        <ThemeProvider theme={darkTheme}>
+          <DetailsView selectedVideo={video} />
+        </ThemeProvider>
+      );
     });
 
     test('should render Loading Spinner for a while', async () => {
@@ -39,12 +47,12 @@ describe('<DetailsView />', () => {
 
     test('should render a title', async () => {
       await waitForSpinnerRenders();
-      expect(screen.getByText(video.title)).toBeInTheDocument();
+      expect(screen.getByText(video.videoTitle)).toBeInTheDocument();
     });
 
     test('should render a description', async () => {
       await waitForSpinnerRenders();
-      expect(screen.getByText(video.description)).toBeInTheDocument();
+      expect(screen.getByText(video.videoDescription)).toBeInTheDocument();
     });
 
     test('should render a list of videos', async () => {
@@ -72,7 +80,11 @@ describe('<DetailsView />', () => {
           return res(ctx.status(404));
         })
       );
-      render(<DetailsView selectedVideo={video} />);
+      render(
+        <ThemeProvider theme={darkTheme}>
+          <DetailsView selectedVideo={video} />
+        </ThemeProvider>
+      );
       await waitForSpinnerRenders();
       const errorMsg = await screen.findByTestId('error-message');
       expect(errorMsg).toBeInTheDocument();
