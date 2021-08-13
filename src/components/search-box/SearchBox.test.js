@@ -3,13 +3,14 @@ import userEvent, { specialChars } from '@testing-library/user-event';
 
 import App from '../../App';
 import AppContext from '../../context/app-context';
+import { types } from '../../types/types';
 
 describe('<SearchBox />', () => {
   let input;
 
   const contextValues = {
     searchValue: '',
-    page: 'home',
+    page: types.page.home,
     searchFor: jest.fn(),
     changePage: jest.fn(),
   };

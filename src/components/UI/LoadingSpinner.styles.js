@@ -33,7 +33,8 @@ export const Spinner = styled.div`
     margin: 8px;
     border-radius: 50%;
     border: 6px solid teal;
-    border-color: #07e4d9 transparent #07e4d9 transparent;
+    border-color: ${({ theme }) => theme.spinnerColor} transparent
+      ${({ theme }) => theme.spinnerColor} transparent;
     animation: ${spinner} 1s linear infinite;
   }
 `;

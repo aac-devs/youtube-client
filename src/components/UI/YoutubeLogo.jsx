@@ -13,7 +13,7 @@ const YoutubeLogo = (props) => {
     );
   });
   return (
-    <Container wide={withText} onClick={props.onClick}>
+    <Container wide={withText} onClick={props.onClick} data-testid="brand-btn">
       <div className="image-area">
         <img src={youtubeLogo} alt="logo" />
       </div>

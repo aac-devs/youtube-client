@@ -16,6 +16,7 @@ const darkTheme = {
   hoverColor: '#333',
   border: '1px solid #555',
   background: '#212121',
+  spinnerColor: '#f5f5f5',
 };
 
 const lightTheme = {
@@ -36,6 +37,7 @@ const lightTheme = {
   hoverColor: '#ddd',
   border: '1px solid #ddd',
   background: '#f5f5f5',
+  spinnerColor: '#212121',
 };
 
 export { darkTheme, lightTheme };

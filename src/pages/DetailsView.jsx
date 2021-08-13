@@ -29,7 +29,7 @@ const DetailsView = ({ selectedVideo }) => {
   };
 
   if (error) {
-    // TODO: Contruir el mensaje de error
+    // TODO: Contruir la card para el mensaje de error
     return <h1 data-testid="error-message">{error}</h1>;
   }
 

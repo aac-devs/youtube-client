@@ -4,10 +4,8 @@ import App from './App';
 import { AppContextProvider } from './context/app-context';
 
 ReactDOM.render(
-  <>
-    <AppContextProvider>
-      <App />
-    </AppContextProvider>
-  </>,
+  <AppContextProvider>
+    <App />
+  </AppContextProvider>,
   document.getElementById('root')
 );

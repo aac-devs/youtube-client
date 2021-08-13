@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { server, rest } from '../testServer';
 import DetailsView from './DetailsView';
 import mockRelatedResult from '../helper/mock/relatedToId/result.json';
-import { darkTheme } from '../styles/themes';
+import { darkTheme as lightTheme } from '../styles/themes';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -28,7 +28,7 @@ describe('<DetailsView />', () => {
   describe('success', () => {
     beforeEach(() => {
       render(
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={lightTheme}>
           <DetailsView selectedVideo={video} />
         </ThemeProvider>
       );
@@ -81,7 +81,7 @@ describe('<DetailsView />', () => {
         })
       );
       render(
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={lightTheme}>
           <DetailsView selectedVideo={video} />
         </ThemeProvider>
       );

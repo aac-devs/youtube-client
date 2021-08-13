@@ -62,6 +62,8 @@ describe('<App />', () => {
   });
 
   test('should render details view when a video is clicked', async () => {
+    await waitForSpinnerRenders();
+
     const currentVideos = await screen.findAllByTestId(/video-item/i);
     expect(currentVideos.length).toBe(10);
 
@@ -75,23 +77,39 @@ describe('<App />', () => {
     expect(titleElement).toHaveTextContent(videoTitle);
   });
 
-  // test('should return to home view when back button of details view is clicked', async () => {
-  //   const currentVideos = await screen.findAllByTestId(/video-item/i);
+  test('should render details view when a video is clicked', async () => {
+    await waitForSpinnerRenders();
 
-  //   const selectedVideo = currentVideos[0];
-  //   userEvent.click(selectedVideo);
+    const currentVideos = await screen.findAllByTestId(/video-item/i);
+    expect(currentVideos.length).toBe(10);
 
-  //   await waitForSpinnerRenders();
+    const selectedVideo = currentVideos[0];
+    userEvent.click(selectedVideo);
 
-  //   const backButton = await screen.findByRole('button', { name: 'back to home' });
-  //   userEvent.click(backButton);
+    await waitForSpinnerRenders();
 
-  //   await waitForSpinnerRenders();
+    const { videoTitle } = mockListResult.data[0];
+    const titleElement = screen.getByTestId('title');
+    expect(titleElement).toHaveTextContent(videoTitle);
+  });
 
-  //   expect(
-  //     screen.queryByRole('button', { name: 'back to home' })
-  //   ).not.toBeInTheDocument();
-  // });
+  test('should return to home view when brand button of AppBar is clicked', async () => {
+    const currentVideos = await screen.findAllByTestId(/video-item/i);
+
+    const selectedVideo = currentVideos[0];
+    userEvent.click(selectedVideo);
+
+    await waitForSpinnerRenders();
+
+    expect(screen.getByTitle(/youtube video player/i)).toBeInTheDocument();
+
+    const backButton = await screen.findByTestId('brand-btn');
+    userEvent.click(backButton);
+
+    await waitForSpinnerRenders();
+
+    expect(screen.queryByTitle(/youtube video player/i)).not.toBeInTheDocument();
+  });
 
   test('should return to home view when when search value changes', async () => {
     const currentVideos = await screen.findAllByTestId(/video-item/i);

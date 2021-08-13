@@ -13,7 +13,7 @@ const AppBar = () => {
   const ctx = useContext(AppContext);
 
   const gotoHomeClickHandler = () => {
-    ctx.changePage('home');
+    ctx.changePage(types.page.home);
   };
 
   const changeThemeHandler = (event) => {
@@ -36,6 +36,7 @@ const AppBar = () => {
       {!matches && (
         <div className="login-section">
           <Switch
+            id="switch-theme"
             onChange={changeThemeHandler}
             checked={swTheme}
             color="default"

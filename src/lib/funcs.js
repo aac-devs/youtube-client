@@ -28,13 +28,13 @@ const formattedDuration = (duration) => {
   if (array.length < 3) {
     array.unshift('0');
   }
-  if (array.length < 2) {
+  if (array.length <= 2) {
     array.unshift('0');
   }
-  const [hora, minuto, segundo] = array;
-  return `${hora > '0' ? `${hora}:` : ''}${
-    minuto === '0' ? '0' : minuto < '10' ? minuto : minuto.padStart(2, '0')
-  }:${segundo.padStart(2, '0')}`;
+  const [hours, minute, seconds] = array;
+  return `${+hours === 0 ? '' : +minute !== 0 ? `${hours}:` : `${hours}:`}${
+    +hours !== 0 ? minute.padStart(2, '0') : minute
+  }:${seconds.padStart(2, '0')}`;
 };
 
 export { formattedDate, formattedDuration };

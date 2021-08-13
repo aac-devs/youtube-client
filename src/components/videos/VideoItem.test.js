@@ -13,56 +13,46 @@ describe('<VideoItem />', () => {
     publishedAt: '2019-06-10T23:00:02Z',
   };
 
+  const clickHandler = jest.fn();
+  beforeEach(() => {
+    render(
+      <ThemeProvider theme={darkTheme}>
+        <VideoItem
+          display="flex"
+          videoImage={data.image}
+          videoTitle={data.title}
+          videoDescription={data.description}
+          videoDuration={data.duration}
+          videoPublishedAt={data.publishedAt}
+          onSelected={clickHandler}
+        />
+      </ThemeProvider>
+    );
+  });
+
+  test('should call clickHandler if the component is clicked', () => {
+    const element = screen.getByRole('listitem');
+    userEvent.click(element);
+    expect(clickHandler).toHaveBeenCalledTimes(1);
+  });
+
   describe('grid:', () => {
-    beforeEach(() => {
-      render(
-        <ThemeProvider theme={darkTheme}>
-          <VideoItem
-            display="grid"
-            videoImage={data.image}
-            videoTitle={data.title}
-            videoDescription={data.description}
-            videoDuration={data.duration}
-            videoPublishedAt={data.publishedAt}
-          />
-        </ThemeProvider>
-      );
-    });
     test('should renders an image in an img element', () => {
       expect(screen.getByTestId('video-image')).toBeInTheDocument();
     });
+
     test('should renders a title', () => {
       expect(screen.getByText(data.title)).toBeInTheDocument();
     });
   });
-  describe('flex:', () => {
-    const clickHandler = jest.fn();
 
-    beforeEach(() => {
-      render(
-        <ThemeProvider theme={darkTheme}>
-          <VideoItem
-            display="flex"
-            videoImage={data.image}
-            videoTitle={data.title}
-            videoDescription={data.description}
-            videoDuration={data.duration}
-            videoPublishedAt={data.publishedAt}
-            onSelected={clickHandler}
-          />
-        </ThemeProvider>
-      );
-    });
+  describe('flex:', () => {
     test('should renders an image in an img element', () => {
       expect(screen.getByTestId('video-image')).toBeInTheDocument();
     });
+
     test('should renders a title', () => {
       expect(screen.getByText(data.title)).toBeInTheDocument();
-    });
-    test('should call clickHandler if the component is clicked', () => {
-      const element = screen.getByRole('listitem');
-      userEvent.click(element);
-      expect(clickHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

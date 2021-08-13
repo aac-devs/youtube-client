@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import appReducer from '../reducers/appReducer';
 import { types } from '../types/types';
 
 const AppContext = React.createContext({
@@ -6,41 +7,46 @@ const AppContext = React.createContext({
   searchFor: () => {},
   appTheme: '',
   changeAppTheme: () => {},
-  page: '', // provisional until react-router
-  changePage: () => {}, // provisional until react-router
+  page: '',
+  changePage: () => {},
 });
 
+const initialState = {
+  searchValue: 'Control Automático Autoclave',
+  appTheme: null,
+  page: types.page.home,
+};
+
 export const AppContextProvider = (props) => {
-  const [searchValue, setSearchValue] = useState('Control Automático Autoclave');
-  const [page, setPage] = useState('home');
-  const [appTheme, setAppTheme] = useState(types.theme.light);
+  const [appState, dispatch] = useReducer(appReducer, initialState);
+  const { searchValue, appTheme, page } = appState;
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('storedTheme');
-    if (storedTheme) {
-      setAppTheme(storedTheme);
-    } else {
+    const stored = localStorage.getItem('storedTheme');
+    if (!stored) {
       localStorage.setItem('storedTheme', types.theme.light);
+      dispatch({ type: types.appContex.setAppTheme, payload: types.theme.light });
+    } else if (stored && appTheme) {
+      localStorage.setItem('storedTheme', appTheme);
+    } else {
+      dispatch({ type: types.appContex.setAppTheme, payload: stored });
     }
-  }, []);
+  }, [appTheme]);
 
   const searchValueHandler = (value) => {
-    setSearchValue(value);
-    setPage('home');
+    dispatch({ type: types.appContex.setSearchValue, payload: value });
+    if (page !== types.page.home) {
+      dispatch({ type: types.appContex.setCurrentPage, payload: types.page.home });
+    }
   };
+
   const changePageHandler = (value) => {
-    setPage(value);
+    dispatch({ type: types.appContex.setCurrentPage, payload: value });
   };
 
   const changeThemeHandler = (value) => {
-    let theme;
-    if (value) {
-      theme = types.theme.light;
-    } else {
-      theme = types.theme.dark;
-    }
-    setAppTheme(theme);
-    localStorage.setItem('storedTheme', theme);
+    const theme = value ? types.theme.light : types.theme.dark;
+    dispatch({ type: types.appContex.setAppTheme, payload: theme });
   };
 
   const value = {
