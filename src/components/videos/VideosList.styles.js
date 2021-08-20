@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const Container = styled.ul`
   min-width: 300px;
   ${({ display }) =>
-    display === 'grid'
+    display === 'home'
       ? css`
           display: grid;
           grid-template-columns: repeat(auto-fit, 300px);
@@ -11,9 +11,13 @@ export const Container = styled.ul`
           grid-row-gap: 30px;
           justify-content: center;
         `
-      : css`
+      : display === 'related'
+      ? css`
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
+        `
+      : css`
+          background-color: #fff;
         `}
 `;

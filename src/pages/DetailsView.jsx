@@ -1,79 +1,70 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+
+import Details from '../components/UI/Details';
 import VideosList from '../components/videos/VideosList';
 import useHttp from '../hooks/useHttp';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
-import Frame from '../components/UI/Frame';
-import { findVideos } from '../lib/enhanced-api';
-import { formattedDate } from '../lib/funcs';
+import { findVideos, findVideo } from '../lib/enhanced-api';
 import { Container } from './DetailsView.styles';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 
-const DetailsView = ({ selectedVideo }) => {
-  const [videoDetails, setVideoDetails] = useState(selectedVideo);
-  const { sendRequest, loading, data: relatedVideos, error } = useHttp(findVideos);
+const DetailsView = () => {
+  const {
+    sendRequest: sendSingleRequest,
+    data: video,
+    error: singleError,
+  } = useHttp(findVideo);
 
   const {
-    videoId: id,
-    videoTitle: title,
-    videoDescription: description,
-    channelTitle: channel,
-    videoPublishedAt: published,
-    channelLogo: logo,
-  } = videoDetails;
+    sendRequest: sendRelatedRequest,
+    loading,
+    data: videos,
+    error: relatedError,
+  } = useHttp(findVideos);
+
+  const history = useHistory();
+  const { videoId } = useParams();
 
   useEffect(() => {
-    sendRequest({ relatedToVideoId: id, maxResults: 15 });
-  }, [sendRequest, id]);
+    sendSingleRequest(videoId);
+  }, [sendSingleRequest, videoId]);
 
-  const videoSelectedHandler = (value) => {
-    setVideoDetails(value);
-  };
+  useEffect(() => {
+    sendRelatedRequest({ relatedToVideoId: videoId, maxResults: 20 });
+  }, [sendRelatedRequest, videoId]);
 
-  if (error) {
-    // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{error}</h1>;
-  }
+  const videoSelectedHandler = useCallback(
+    (id) => {
+      history.push(`/videos/${id}`);
+    },
+    [history]
+  );
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  const publishedDate = formattedDate(published);
+  if (singleError) {
+    // TODO: Contruir la card para el mensaje de error
+    return <h1 data-testid="error-message">{singleError}</h1>;
+  }
+
+  if (relatedError) {
+    // TODO: Contruir la card para el mensaje de error
+    return <h1 data-testid="error-message">{relatedError}</h1>;
+  }
+
+  console.log({ video });
+
+  if (!video) {
+    return null;
+  }
 
   return (
     <Container>
-      <div className="video-area">
-        <div className="video-container">
-          <Frame id={id} />
-        </div>
-
-        <div className="video-info">
-          <div className="title-section">
-            <h1 className="video-title" data-testid="title">
-              {title}
-            </h1>
-            <div className="video-publishedAt">&raquo;&ensp;{publishedDate}</div>
-          </div>
-          <hr />
-          <div className="description-section">
-            <div className="channel-area">
-              <div className="logo">
-                <img src={logo} alt="logo-channel" />
-              </div>
-              <div className="channel-title">{channel}</div>
-            </div>
-            <div className="description-area">
-              <div className="video-description">{description}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Details {...video} />
       <div className="relates-area">
-        <VideosList
-          list={relatedVideos}
-          onSelected={videoSelectedHandler}
-          display="flex"
-        />
+        <VideosList list={videos} onSelected={videoSelectedHandler} display="related" />
       </div>
     </Container>
   );

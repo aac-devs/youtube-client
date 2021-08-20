@@ -109,4 +109,35 @@ const findVideos = async (value) => {
     });
 };
 
-export { findVideos };
+const findVideo = (id) => {
+  let params = {
+    route: 'videos',
+    part: 'snippet',
+    id,
+  };
+  return searchVideos(params)
+    .then((resp) => {
+      params = {
+        route: 'channels',
+        part: 'snippet',
+        id: resp[0].channelId,
+      };
+      return searchChannelLogos(resp, params);
+    })
+    .then((resp) => {
+      const data = resp[0];
+      data.videoId = id;
+      return {
+        ok: true,
+        data,
+      };
+    })
+    .catch((error) => {
+      return {
+        ok: false,
+        error: error.message || 'Something went wrong',
+      };
+    });
+};
+
+export { findVideos, findVideo };

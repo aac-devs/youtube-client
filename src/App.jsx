@@ -1,35 +1,44 @@
-import { useContext, useState } from 'react';
-import { ThemeProvider } from 'styled-components';
-import AppBar from './components/app-bar/AppBar';
-import AppContext from './context/app-context';
-import GlobalStyles from './global-styles';
+import { useContext } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import DetailsView from './pages/DetailsView';
 import HomeView from './pages/HomeView';
-import { darkTheme, lightTheme } from './styles/themes';
-import { types } from './types/types';
+import Layout from './components/layout/Layout';
+import AuthContext from './context/auth-context';
+import FavoritesView from './pages/FavoritesView';
+import FavoriteDetailsView from './pages/FavoriteDetailsView';
+import NotFound from './pages/NotFound';
+// import LoadingSpinner from './components/UI/LoadingSpinner';
+// import AppContext from './context/app-context';
 
 const App = () => {
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const { page, changePage, appTheme } = useContext(AppContext);
-
-  const selectedVideoHandler = (value) => {
-    setSelectedVideo(value);
-    changePage(types.page.details);
-  };
-
-  let screen;
-  if (page === types.page.home) {
-    screen = <HomeView onSelected={selectedVideoHandler} />;
-  } else {
-    screen = <DetailsView selectedVideo={selectedVideo} />;
-  }
-
+  const { user } = useContext(AuthContext);
   return (
-    <ThemeProvider theme={appTheme === types.theme.light ? lightTheme : darkTheme}>
-      <GlobalStyles />
-      <AppBar />
-      {screen}
-    </ThemeProvider>
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to="/videos" />
+        </Route>
+        <Route path="/videos" exact>
+          <HomeView />
+        </Route>
+        <Route path="/videos/:videoId">
+          <DetailsView />
+        </Route>
+        {user && (
+          <>
+            <Route path="/favorites" exact>
+              <FavoritesView />
+            </Route>
+            <Route path="/favorites/:videoId">
+              <FavoriteDetailsView />
+            </Route>
+          </>
+        )}
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Layout>
   );
 };
 

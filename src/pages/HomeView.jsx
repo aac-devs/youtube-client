@@ -1,18 +1,31 @@
-import { useContext, useEffect } from 'react';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
+import { useCallback, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import VideosList from '../components/videos/VideosList';
 import AppContext from '../context/app-context';
-import useHttp from '../hooks/useHttp';
 import { findVideos } from '../lib/enhanced-api';
 import { Container } from './HomeView.styles';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
+import useHttp from '../hooks/useHttp';
 
-const HomeView = ({ onSelected }) => {
-  const { searchValue } = useContext(AppContext);
+const HomeView = () => {
   const { sendRequest, loading, data: videos, error } = useHttp(findVideos);
+
+  const history = useHistory();
+  const { searchValue } = useContext(AppContext);
+
+  console.log('<HomeView />');
 
   useEffect(() => {
     sendRequest({ q: searchValue, maxResults: 20 });
   }, [sendRequest, searchValue]);
+
+  const videoSelectedHandler = useCallback(
+    (videoId) => {
+      console.log(videoId);
+      history.push(`/videos/${videoId}`);
+    },
+    [history]
+  );
 
   if (error) {
     // TODO: Contruir la card para el mensaje de error
@@ -25,7 +38,7 @@ const HomeView = ({ onSelected }) => {
 
   return (
     <Container>
-      <VideosList list={videos} onSelected={onSelected} display="grid" />
+      <VideosList list={videos} onSelected={videoSelectedHandler} display="home" />
     </Container>
   );
 };

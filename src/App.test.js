@@ -33,6 +33,22 @@ describe('<App />', () => {
     expect(videosListItems.length).toBe(10);
   });
 
+  test('should render details view when a video is clicked', async () => {
+    await waitForSpinnerRenders();
+
+    const currentVideos = await screen.findAllByTestId(/video-item/i);
+    expect(currentVideos.length).toBe(10);
+
+    const selectedVideo = currentVideos[0];
+    userEvent.click(selectedVideo);
+
+    await waitForSpinnerRenders();
+
+    const { videoTitle } = mockListResult.data[0];
+    const titleElement = screen.getByTestId('title');
+    expect(titleElement).toHaveTextContent(videoTitle);
+  });
+
   test('should render a new list of videos when search value changes', async () => {
     server.use(
       rest.get(`${baseUrl}/search`, (req, res, ctx) => {

@@ -1,9 +1,12 @@
 import SearchIcon from '@material-ui/icons/Search';
 import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../../context/app-context';
 import { Container } from './SearchBox.styles';
 
 const SearchBox = () => {
+  const history = useHistory();
+
   const [searchValue, setSearchValue] = useState('');
   const { searchFor } = useContext(AppContext);
 
@@ -18,6 +21,7 @@ const SearchBox = () => {
       searchFor(enteredValue);
     }
     setSearchValue('');
+    history.push('/videos');
   };
 
   return (

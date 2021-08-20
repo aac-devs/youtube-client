@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button } from '../../global-styles';
 
 export const Container = styled.nav`
@@ -43,11 +43,22 @@ export const RoundButton = styled(Button)`
   border-radius: 50%;
   border: none;
   padding: 0;
-  background-color: transparent;
-  color: ${({ theme }) => theme.appBar.iconColor};
   margin: 0 20px;
-  transition: background-color 0.3s ease-in-out;
-  &:hover {
-    background-color: ${({ theme }) => theme.hoverColor};
-  }
+  ${({ url }) =>
+    url
+      ? css`
+          background-image: url(${(props) => props.url});
+          /* max-height: 100%; */
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        `
+      : css`
+          background-color: transparent;
+          color: ${({ theme }) => theme.appBar.iconColor};
+          transition: background-color 0.3s ease-in-out;
+          &:hover {
+            background-color: ${({ theme }) => theme.hoverColor};
+          }
+        `}
 `;

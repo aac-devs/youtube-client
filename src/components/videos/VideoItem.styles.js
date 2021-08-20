@@ -2,13 +2,46 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.li`
   list-style: none;
-  cursor: pointer;
   outline: none;
   border: none;
+  position: relative;
   transition: background-color 0.3s ease-in-out;
 
   &:hover {
     background-color: ${({ theme }) => theme.hoverColor};
+  }
+
+  .click-sensor {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .favorite-button {
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    z-index: 10;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: dodgerblue;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: #fff;
+    }
   }
 
   .videoTitle-area {
@@ -49,7 +82,7 @@ export const Container = styled.li`
   }
 
   ${({ display }) =>
-    display === 'grid'
+    display === 'home'
       ? css`
           display: grid;
           width: 300px;
@@ -90,7 +123,8 @@ export const Container = styled.li`
             margin-right: 15px;
           }
         `
-      : css`
+      : display === 'related'
+      ? css`
           width: 100%;
           min-width: 300px;
           max-height: 100px;
@@ -123,5 +157,8 @@ export const Container = styled.li`
             margin-top: 2px;
             padding-top: 0;
           }
+        `
+      : css`
+          background-color: #fff;
         `}
 `;
