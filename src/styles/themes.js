@@ -19,12 +19,12 @@ const darkTheme = {
   spinnerColor: '#f5f5f5',
   login: {
     container: {
-      background: 'rgba(0, 0, 0, 0.3)',
+      background: 'rgba(0, 0, 0, 0.7)',
     },
     card: {
       background: 'rgba(47, 47, 47, 0.97)',
       color: '#fff',
-      shadow: '0px 0px 8px #777',
+      shadow: '0px 0px 5px #222',
     },
     input: {
       background: '#484848',
@@ -59,12 +59,12 @@ const lightTheme = {
   spinnerColor: '#212121',
   login: {
     container: {
-      background: 'rgba(255, 255, 255, 0.3)',
+      background: 'rgba(0, 0, 0, 0.7)',
     },
     card: {
       background: 'rgba(255, 255, 255, 0.97)',
       color: '#000',
-      shadow: '0px 0px 8px #777',
+      shadow: '0px 0px 5px #222',
     },
     input: {
       background: '#eee',

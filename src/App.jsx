@@ -6,9 +6,7 @@ import Layout from './components/layout/Layout';
 import AuthContext from './context/auth-context';
 import FavoritesView from './pages/FavoritesView';
 import FavoriteDetailsView from './pages/FavoriteDetailsView';
-import NotFound from './pages/NotFound';
-// import LoadingSpinner from './components/UI/LoadingSpinner';
-// import AppContext from './context/app-context';
+// import NotFound from './pages/NotFound';
 
 const App = () => {
   const { user } = useContext(AuthContext);
@@ -25,17 +23,18 @@ const App = () => {
           <DetailsView />
         </Route>
         {user && (
-          <>
+          <Switch>
             <Route path="/favorites" exact>
               <FavoritesView />
             </Route>
             <Route path="/favorites/:videoId">
               <FavoriteDetailsView />
             </Route>
-          </>
+          </Switch>
         )}
         <Route path="*">
-          <NotFound />
+          {/* <NotFound /> */}
+          <Redirect to="/videos" />
         </Route>
       </Switch>
     </Layout>

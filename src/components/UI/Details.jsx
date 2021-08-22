@@ -4,7 +4,7 @@ import { formattedDate } from '../../lib/funcs';
 
 const Details = (props) => {
   const publishedDate = formattedDate(props.videoPublishedAt);
-  console.log('<Details />');
+  // console.log('<Details />');
 
   return (
     <Container>

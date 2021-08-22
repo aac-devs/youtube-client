@@ -7,10 +7,6 @@ export const Container = styled.li`
   position: relative;
   transition: background-color 0.3s ease-in-out;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.hoverColor};
-  }
-
   .click-sensor {
     cursor: pointer;
     height: 100%;
@@ -22,18 +18,18 @@ export const Container = styled.li`
     z-index: 1;
   }
 
-  .favorite-button {
+  .fav-button {
     cursor: pointer;
     height: 35px;
     width: 35px;
     z-index: 10;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: ${({ top }) => top};
+    right: 10px;
     background-color: rgba(0, 0, 0, 0.8);
     color: dodgerblue;
     border-radius: 4px;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
@@ -41,6 +37,14 @@ export const Container = styled.li`
     &:hover {
       transform: scale(1.1);
       color: #fff;
+    }
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.hoverColor};
+
+    .fav-button {
+      display: flex;
     }
   }
 
@@ -159,6 +163,39 @@ export const Container = styled.li`
           }
         `
       : css`
-          background-color: #fff;
+          width: 100%;
+          min-width: 300px;
+          max-height: 120px;
+          height: 120px;
+          display: flex;
+          padding: 20px;
+          border-bottom: ${({ theme }) => theme.border};
+          /* margin-bottom: 8px; */
+
+          .card-body {
+            overflow: hidden;
+          }
+
+          .videoImage-area {
+            position: relative;
+            overflow: hidden;
+            height: 80px;
+            min-height: 100px;
+            min-width: 150px;
+            max-width: 150px;
+            margin-right: 8px;
+            img {
+              object-fit: cover;
+              height: 80px;
+              width: 150px;
+            }
+            .videoDuration-area {
+              bottom: 25px;
+            }
+          }
+          .videoTitle-area {
+            margin-top: 2px;
+            padding-top: 0;
+          }
         `}
 `;

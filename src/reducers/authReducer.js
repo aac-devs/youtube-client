@@ -5,10 +5,17 @@ const authReducer = (state, action) => {
     case types.authContext.login:
       return {
         user: action.payload,
+        favorites: [],
       };
     case types.authContext.logout:
       return {
         user: null,
+        favorites: [],
+      };
+    case types.authContext.loadFavorites:
+      return {
+        ...state,
+        favorites: action.payload,
       };
     default:
       return state;

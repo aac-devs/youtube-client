@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import VideosList from '../components/videos/VideosList';
 import AppContext from '../context/app-context';
-import { findVideos } from '../lib/enhanced-api';
+import { findVideos } from '../lib/youtube-api';
 import { Container } from './HomeView.styles';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import useHttp from '../hooks/useHttp';
@@ -13,7 +13,7 @@ const HomeView = () => {
   const history = useHistory();
   const { searchValue } = useContext(AppContext);
 
-  console.log('<HomeView />');
+  // console.log('<HomeView />');
 
   useEffect(() => {
     sendRequest({ q: searchValue, maxResults: 20 });
@@ -21,7 +21,6 @@ const HomeView = () => {
 
   const videoSelectedHandler = useCallback(
     (videoId) => {
-      console.log(videoId);
       history.push(`/videos/${videoId}`);
     },
     [history]

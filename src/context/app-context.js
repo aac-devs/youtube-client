@@ -7,20 +7,16 @@ const AppContext = React.createContext({
   searchFor: () => {},
   appTheme: '',
   changeAppTheme: () => {},
-  favorites: [],
-  addToFavorites: () => {},
-  removeFromFavorites: () => {},
 });
 
 const initialState = {
   searchValue: 'Control Automático Autoclave',
   appTheme: null,
-  favorites: [],
 };
 
 export const AppContextProvider = (props) => {
   const [appState, dispatch] = useReducer(appReducer, initialState);
-  const { searchValue, appTheme, favorites } = appState;
+  const { searchValue, appTheme } = appState;
 
   useEffect(() => {
     const stored = localStorage.getItem('storedTheme');
@@ -43,34 +39,11 @@ export const AppContextProvider = (props) => {
     dispatch({ type: types.appContext.setAppTheme, payload: theme });
   };
 
-  const addToFavoritesHandler = (video) => {
-    const { videoId, videoImage, videoTitle, videoDuration, channelTitle } = video;
-    const favVideo = {
-      videoId,
-      videoImage,
-      videoTitle,
-      videoDuration,
-      channelTitle,
-    };
-    dispatch({ type: types.appContext.addToFavorites, payload: favVideo });
-    // Enviar a Firebase
-  };
-
-  const removeFromFavoritesHandler = (videoId) => {
-    dispatch({ type: types.appContext.removeFromFavorites, payload: videoId });
-    // Enviar a Firebase
-  };
-
-  console.log(favorites);
-
   const value = {
     searchValue,
     searchFor: searchValueHandler,
     appTheme,
     changeAppTheme: changeThemeHandler,
-    favorites,
-    addToFavorites: addToFavoritesHandler,
-    removeFromFavorites: removeFromFavoritesHandler,
   };
 
   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;

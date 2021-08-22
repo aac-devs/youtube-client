@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Details from '../components/UI/Details';
 import VideosList from '../components/videos/VideosList';
 import useHttp from '../hooks/useHttp';
-import { findVideos, findVideo } from '../lib/enhanced-api';
+import { findVideos, findVideo } from '../lib/youtube-api';
 import { Container } from './DetailsView.styles';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 
@@ -44,17 +44,10 @@ const DetailsView = () => {
     return <LoadingSpinner />;
   }
 
-  if (singleError) {
+  if (singleError || relatedError) {
     // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{singleError}</h1>;
+    return <h1 data-testid="error-message">{singleError || relatedError}</h1>;
   }
-
-  if (relatedError) {
-    // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{relatedError}</h1>;
-  }
-
-  console.log({ video });
 
   if (!video) {
     return null;

@@ -11,11 +11,10 @@ export const types = {
   appContext: {
     setSearchValue: '[APP-CONTEXT] set search value',
     setAppTheme: '[APP-CONTEXT] set app theme',
-    addToFavorites: '[APP-CONTEXT] add to favorites',
-    removeFromFavorites: '[APP-CONTEXT] remove from favorites',
   },
   authContext: {
     login: '[AUTH-CONTEXT] login',
     logout: '[AUTH-CONTEXT] logout',
+    loadFavorites: '[AUTH-CONTEXT] load favorites',
   },
 };

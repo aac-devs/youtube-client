@@ -12,16 +12,6 @@ const appReducer = (state, action) => {
         ...state,
         appTheme: action.payload,
       };
-    case types.appContext.addToFavorites:
-      return {
-        ...state,
-        favorites: [...state.favorites, action.payload],
-      };
-    case types.appContext.removeFromFavorites:
-      return {
-        ...state,
-        favorites: state.favorites.filter((item) => item.videoId !== action.payload),
-      };
     default:
       return state;
   }

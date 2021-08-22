@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Button = styled.button`
+const StyledButton = styled.button`
   padding: 1px;
   outline: 0;
   border: none;
@@ -12,7 +12,6 @@ const Button = styled.button`
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
-
   transition: box-shadow 0.3s ease;
 
   .google-icon-wrapper {
@@ -45,7 +44,7 @@ const Button = styled.button`
 
 const GoogleButton = (props) => {
   return (
-    <Button className="google-btn" onClick={() => props.onClick()}>
+    <StyledButton className="google-btn" onClick={() => props.onClick()}>
       <div className="google-icon-wrapper">
         <img
           className="google-icon"
@@ -56,7 +55,7 @@ const GoogleButton = (props) => {
       <div className="btn-text">
         <b>Sign in with Google</b>
       </div>
-    </Button>
+    </StyledButton>
   );
 };
 

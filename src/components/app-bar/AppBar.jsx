@@ -1,8 +1,18 @@
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Switch from '@material-ui/core/Switch';
-import PersonIcon from '@material-ui/icons/Person';
+import { useMediaQuery, Switch } from '@material-ui/core';
+// import Switch from '@material-ui/core/Switch';
+import {
+  HomeOutlined,
+  FavoriteBorder,
+  WbSunnyOutlined,
+  Brightness2,
+  Person,
+} from '@material-ui/icons';
+// import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+// import WbSunnyOutlinedIcon from '@material-ui/icons/WbSunnyOutlined';
+// import Brightness2Icon from '@material-ui/icons/Brightness2';
+// import PersonIcon from '@material-ui/icons/Person';
 import SearchBox from '../search-box/SearchBox';
 import YoutubeLogo from '../UI/YoutubeLogo';
 import AppContext from '../../context/app-context';
@@ -18,7 +28,7 @@ import {
   signInWithEmailAndPassword,
   signInWithGoogle,
   signOut,
-} from '../../lib/firebase-api';
+} from '../../lib/firebase-auth-api';
 
 const AppBar = () => {
   const history = useHistory();
@@ -28,18 +38,30 @@ const AppBar = () => {
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showModalForm, setShowModalForm] = useState(false);
+  const [showRightMenu, setShowRightMenu] = useState(false);
+  const [showLeftMenu, setShowLeftMenu] = useState(false);
 
-  console.log(authContext);
+  const { pathname } = history.location;
 
-  const gotoHomeClickHandler = () => {
-    history.push('/videos');
+  // Menus:
+  const goToPageHandler = (page) => {
+    history.push(page);
+    setShowRightMenu(false);
+    setShowLeftMenu(false);
   };
 
-  const changeThemeHandler = (event) => {
-    ctx.changeAppTheme(event.target.checked);
+  const showRightMenuHandler = () => {
+    setShowRightMenu(true);
   };
 
+  const showLeftMenuHandler = () => {
+    console.log('show left menu');
+    setShowLeftMenu(true);
+  };
+
+  // Login Modal:
   const showModal = () => {
+    setShowLeftMenu(false);
     setShowModalForm(true);
   };
 
@@ -60,43 +82,44 @@ const AppBar = () => {
     setShowRegisterForm(false);
   };
 
-  const userSignUpHandler = async (signUpUser) => {
-    const { ok, user, error } = await sighUpWithEmailAndPassword(signUpUser);
-    if (ok) {
+  // Authentication:
+  const authLoginHandler = ({ ok, user, error }) => {
+    if (ok && user) {
       authContext.login(user);
-    } else {
-      console.log(error);
-    }
-    hideModal();
-  };
-
-  const userSignInHandler = async (signInUser) => {
-    const { ok, user, error } = await signInWithEmailAndPassword(signInUser);
-    if (ok) {
-      authContext.login(user);
-    } else {
-      console.log(error);
-    }
-    hideModal();
-  };
-
-  const googleSignInHandler = async () => {
-    const { ok, user, error } = await signInWithGoogle();
-    if (ok) {
-      authContext.login(user);
-    } else {
-      console.log(error);
-    }
-    hideModal();
-  };
-
-  const userSignOutHandler = async () => {
-    const { ok, error } = await signOut();
-    if (ok) {
+    } else if (ok && !user) {
       authContext.logout();
     } else {
       console.log(error);
     }
+    hideModal();
+  };
+
+  const userSignUpHandler = async (signUpUser) => {
+    authLoginHandler(await sighUpWithEmailAndPassword(signUpUser));
+  };
+
+  const userSignInHandler = async (signInUser) => {
+    authLoginHandler(await signInWithEmailAndPassword(signInUser));
+  };
+
+  const googleSignInHandler = async () => {
+    authLoginHandler(await signInWithGoogle());
+  };
+
+  const userSignOutHandler = async () => {
+    authLoginHandler(await signOut());
+    setShowRightMenu(false);
+    setShowLeftMenu(false);
+  };
+
+  // Theme:
+  const changeThemeHandler = (event) => {
+    ctx.changeAppTheme(event.target.checked);
+  };
+
+  const changeThemeFromLeftMenuHandler = (value) => {
+    ctx.changeAppTheme(value);
+    setShowLeftMenu(false);
   };
 
   const themeModeText =
@@ -129,9 +152,73 @@ const AppBar = () => {
       )}
 
       <div className="search-section">
-        <YoutubeLogo withText={!matches} onClick={gotoHomeClickHandler} />
+        <YoutubeLogo
+          withText={!matches}
+          onClick={matches ? showLeftMenuHandler : () => goToPageHandler('/videos')}
+        />
         <SearchBox />
+        {showLeftMenu && (
+          <div
+            role="button"
+            className="backdrop-left-menu"
+            onClick={() => setShowLeftMenu(false)}
+          />
+        )}
+        <div
+          className={`left-menu-items ${
+            showLeftMenu ? 'show-left-menu' : 'hide-left-menu'
+          }`}
+        >
+          {authContext.user && (
+            <RoundButton
+              style={{ alignSelf: 'flex-end', marginRight: '0px', marginBottom: '10px' }}
+              type="button"
+              url={authContext.user ? source : null}
+            >
+              {!authContext.user}
+            </RoundButton>
+          )}
+          {pathname !== '/videos' && (
+            <div role="button" type="button" onClick={() => goToPageHandler('/videos')}>
+              <HomeOutlined />
+              &nbsp;Home
+            </div>
+          )}
+          {authContext.user && pathname !== '/favorites' && (
+            <div
+              role="button"
+              type="button"
+              onClick={() => goToPageHandler('/favorites')}
+            >
+              <FavoriteBorder />
+              &nbsp;Favorites
+            </div>
+          )}
+          {ctx.appTheme === types.theme.light && (
+            <div role="button" onClick={() => changeThemeFromLeftMenuHandler(false)}>
+              <Brightness2 />
+              &nbsp;Change to dark mode
+            </div>
+          )}
+          {ctx.appTheme === types.theme.dark && (
+            <div role="button" onClick={() => changeThemeFromLeftMenuHandler(true)}>
+              <WbSunnyOutlined />
+              &nbsp;Change to light mode
+            </div>
+          )}
+          {!authContext.user && (
+            <div onClick={showModal} role="button">
+              Sign In
+            </div>
+          )}
+          {authContext.user && (
+            <div role="button" onClick={userSignOutHandler}>
+              Sign Out
+            </div>
+          )}
+        </div>
       </div>
+
       {!matches && (
         <div className="login-section">
           <Switch
@@ -143,16 +230,45 @@ const AppBar = () => {
           />
           {themeModeText}
           <RoundButton
-            onClick={showModal}
+            onClick={authContext.user ? showRightMenuHandler : showModal}
             type="button"
             data-testid="login-btn"
             url={authContext.user ? source : null}
           >
-            {!authContext.user && <PersonIcon />}
+            {!authContext.user && <Person />}
           </RoundButton>
-          <button type="button" onClick={userSignOutHandler}>
-            Logout
-          </button>
+          {showRightMenu && (
+            <div
+              role="button"
+              className="backdrop-right-menu"
+              onClick={() => setShowRightMenu(false)}
+            />
+          )}
+          <div
+            className={`right-menu-items ${
+              showRightMenu ? 'show-right-menu' : 'hide-right-menu'
+            }`}
+          >
+            {pathname !== '/videos' && (
+              <div role="button" type="button" onClick={() => goToPageHandler('/videos')}>
+                <HomeOutlined />
+                &nbsp;Home
+              </div>
+            )}
+            {pathname !== '/favorites' && (
+              <div
+                role="button"
+                type="button"
+                onClick={() => goToPageHandler('/favorites')}
+              >
+                <FavoriteBorder />
+                &nbsp;Favorites
+              </div>
+            )}
+            <div role="button" type="button" onClick={userSignOutHandler}>
+              Sign Out
+            </div>
+          </div>
         </div>
       )}
     </Container>
