@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import Details from '../components/UI/Details';
+import Details from '../components/Details';
 import VideosList from '../components/videos/VideosList';
 import useHttp from '../hooks/useHttp';
 import { findVideos, findVideo } from '../lib/youtube-api';
 import { Container } from './DetailsView.styles';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
+import LoadingSpinner from '../components/layout/LoadingSpinner';
 import AuthContext from '../context/auth-context';
 
 const DetailsView = () => {
@@ -56,8 +56,8 @@ const DetailsView = () => {
     return null;
   }
 
-  console.log('video final');
-  console.log(video);
+  // console.log('video final');
+  // console.log(video);
 
   return (
     <Container>

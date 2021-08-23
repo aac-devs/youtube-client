@@ -1,5 +1,6 @@
-import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
+import { db, firebase, googleAuthProvider } from '../firebase/firebase-config';
 
+// AUTHENTICATION:
 const authMethod = async (method, params) => {
   try {
     const { user } = params.email
@@ -42,9 +43,37 @@ const signOut = async () => {
   }
 };
 
+// DATABASE:
+const getDocuments = (snapshot) => {
+  const documents = [];
+  snapshot.forEach((item) => {
+    documents.push({
+      docId: item.id,
+      ...item.data(),
+    });
+  });
+  return documents;
+};
+
+const addFavoriteToFirebase = async (data) => {
+  return db
+    .collection('favorites')
+    .add(data)
+    .then((docRef) => {
+      return docRef.id;
+    });
+};
+
+const removeFavoriteFromFirebase = async (docId) => {
+  db.collection('favorites').doc(docId).delete();
+};
+
 export {
   signInWithEmailAndPassword,
   signInWithGoogle,
   signOut,
   sighUpWithEmailAndPassword,
+  addFavoriteToFirebase,
+  removeFavoriteFromFirebase,
+  getDocuments,
 };

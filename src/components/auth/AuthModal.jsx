@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
-// import { useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import youtubeLogo from '../../../assets/youtube.png';
-import { Backdrop, Card } from './Modal.styles';
+import YoutubeLogo from '../../assets/youtube.png';
+import { Backdrop, Card } from './AuthModal.styles';
 
 const loginModalRoot = document.createElement('div');
 loginModalRoot.setAttribute('id', 'modal-root');
@@ -26,7 +25,7 @@ const Modal = (props) => {
         <Backdrop onClick={() => props.onClose()}>
           <Card onClick={clickHandler}>
             <div className="image-area">
-              <img src={youtubeLogo} alt="logo" />
+              <img src={YoutubeLogo} alt="logo" />
             </div>
             {props.children}
           </Card>

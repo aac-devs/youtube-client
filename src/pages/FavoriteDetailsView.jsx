@@ -3,8 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useHttp from '../hooks/useHttp';
 import { findVideo } from '../lib/youtube-api';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
-import Details from '../components/UI/Details';
+import LoadingSpinner from '../components/layout/LoadingSpinner';
+import Details from '../components/Details';
 import VideosList from '../components/videos/VideosList';
 import AuthContext from '../context/auth-context';
 
@@ -69,11 +69,6 @@ const FavoriteDetailsView = () => {
   if (!video) {
     return null;
   }
-
-  // const removeFromFavoritesHandler = (id) => {
-  //   removeFromFavorites(id);
-  //   history.push('/favorites');
-  // };
 
   return (
     <Container>

@@ -1,6 +1,6 @@
 import Frame from './Frame';
 import { Container } from './Details.styles';
-import { formattedDate } from '../../lib/funcs';
+import { formattedDate } from '../lib/aux-functions';
 
 const Details = (props) => {
   const {

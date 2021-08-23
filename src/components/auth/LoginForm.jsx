@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import GoogleButton from '../UI/GoogleButton';
+import GoogleButton from './GoogleButton';
 
 const LoginForm = (props) => {
   const emailRef = useRef();

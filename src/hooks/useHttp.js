@@ -1,5 +1,5 @@
 import { useReducer, useCallback } from 'react';
-import httpReducer from '../reducers/httpReducer';
+import httpReducer from '../reducers/http-reducer';
 import { types } from '../types/types';
 
 // import mockRelated from '../helper/mock/relatedToId/result.json';

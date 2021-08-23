@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import AuthContext from '../../context/auth-context';
-import { formattedDate, formattedDuration } from '../../lib/funcs';
+import { formattedDate, formattedDuration } from '../../lib/aux-functions';
 import { Container } from './VideoItem.styles';
-import FavButton from '../UI/FavButton';
+import FavButton from './FavButton';
 
 const VideoItem = (props) => {
   const { user, favorites, addToFavorites, removeFromFavorites } =

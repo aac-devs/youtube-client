@@ -3,9 +3,9 @@ import {
   addFavoriteToFirebase,
   removeFavoriteFromFirebase,
   getDocuments,
-} from '../lib/firebase-data-api';
-import { db } from '../firebase/firebaseConfig';
-import authReducer from '../reducers/authReducer';
+} from '../lib/firebase-api';
+import { db } from '../firebase/firebase-config';
+import authReducer from '../reducers/auth-reducer';
 import { types } from '../types/types';
 
 const AuthContext = React.createContext({

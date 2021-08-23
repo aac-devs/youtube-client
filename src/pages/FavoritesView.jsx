@@ -10,6 +10,13 @@ const Container = styled.main`
   max-width: 1200px;
   width: 100%;
   padding-top: 74px;
+
+  .no-favorites {
+    color: ${({ theme }) => theme.text.titleColor};
+    text-align: center;
+    font-size: 28px;
+    font-weight: 500;
+  }
 `;
 
 const FavoritesView = () => {
@@ -27,6 +34,7 @@ const FavoritesView = () => {
 
   return (
     <Container>
+      {favorites.length === 0 && <div className="no-favorites">No favorites found</div>}
       <VideosList
         list={favorites}
         onSelected={favoriteSelectedHandler}

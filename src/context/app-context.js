@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import appReducer from '../reducers/appReducer';
+import appReducer from '../reducers/app-reducer';
 import { types } from '../types/types';
 
 const AppContext = React.createContext({

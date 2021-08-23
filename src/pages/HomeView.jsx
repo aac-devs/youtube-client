@@ -4,7 +4,7 @@ import VideosList from '../components/videos/VideosList';
 import AppContext from '../context/app-context';
 import { findVideos } from '../lib/youtube-api';
 import { Container } from './HomeView.styles';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
+import LoadingSpinner from '../components/layout/LoadingSpinner';
 import useHttp from '../hooks/useHttp';
 
 const HomeView = () => {

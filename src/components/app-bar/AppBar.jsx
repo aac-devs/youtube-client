@@ -13,8 +13,8 @@ import {
 // import WbSunnyOutlinedIcon from '@material-ui/icons/WbSunnyOutlined';
 // import Brightness2Icon from '@material-ui/icons/Brightness2';
 // import PersonIcon from '@material-ui/icons/Person';
-import SearchBox from '../search-box/SearchBox';
-import YoutubeLogo from '../UI/YoutubeLogo';
+import SearchBox from './SearchBox';
+import YoutubeLogo from '../YoutubeLogo';
 import AppContext from '../../context/app-context';
 import AuthContext from '../../context/auth-context';
 import { Container, RoundButton } from './AppBar.styles';
@@ -22,13 +22,13 @@ import { types } from '../../types/types';
 import loggedIcon from '../../assets/logged.png';
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
-import Modal from '../UI/modal/Modal';
+import Modal from '../auth/AuthModal';
 import {
   sighUpWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithGoogle,
   signOut,
-} from '../../lib/firebase-auth-api';
+} from '../../lib/firebase-api';
 
 const AppBar = () => {
   const history = useHistory();
