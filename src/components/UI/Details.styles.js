@@ -27,12 +27,39 @@ export const Container = styled.main`
     width: 100%;
     .title-section {
       margin-bottom: 15px;
-      .video-title {
-        color: ${({ theme }) => theme.text.titleColor};
-        font-size: 20px;
-        font-weight: 400;
-        text-align: justify;
-        text-justify: inter-word;
+
+      .title-header-section {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .video-title {
+          color: ${({ theme }) => theme.text.titleColor};
+          font-size: 20px;
+          font-weight: 400;
+          text-align: justify;
+          text-justify: inter-word;
+          flex-grow: 1;
+        }
+
+        .add-remove-favorites {
+          background-color: transparent;
+          color: ${({ theme }) => theme.text.channelColor};
+          font-size: 20px;
+          padding: 4px 12px;
+          border-radius: 5px;
+          border: ${({ theme }) => theme.border};
+          outline: none;
+          cursor: pointer;
+          transition: background-color 0.3s ease-in-out;
+          width: 250px;
+          min-width: 250px;
+          margin-left: 20px;
+
+          &:hover {
+            background-color: ${({ theme }) => theme.hoverColor};
+          }
+        }
       }
       .video-publishedAt {
         color: ${({ theme }) => theme.text.channelColor};
@@ -40,6 +67,7 @@ export const Container = styled.main`
         font-size: 14px;
       }
     }
+
     hr {
       background-color: transparent;
       border: none;

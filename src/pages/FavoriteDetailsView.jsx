@@ -43,7 +43,8 @@ const FavoriteDetailsView = () => {
 
   const history = useHistory();
   const { videoId } = useParams();
-  const { favorites } = useContext(AuthContext);
+  const { user, favorites, addToFavorites, removeFromFavorites } =
+    useContext(AuthContext);
 
   useEffect(() => {
     sendSingleRequest(videoId);
@@ -69,9 +70,20 @@ const FavoriteDetailsView = () => {
     return null;
   }
 
+  // const removeFromFavoritesHandler = (id) => {
+  //   removeFromFavorites(id);
+  //   history.push('/favorites');
+  // };
+
   return (
     <Container>
-      <Details {...video} />
+      <Details
+        {...video}
+        userLogged={user}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        favorites={favorites}
+      />
       <div className="relates-area">
         <VideosList
           list={favorites}

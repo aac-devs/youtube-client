@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import Details from '../components/UI/Details';
@@ -7,8 +7,11 @@ import useHttp from '../hooks/useHttp';
 import { findVideos, findVideo } from '../lib/youtube-api';
 import { Container } from './DetailsView.styles';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
+import AuthContext from '../context/auth-context';
 
 const DetailsView = () => {
+  const { user, favorites, addToFavorites, removeFromFavorites } =
+    useContext(AuthContext);
   const {
     sendRequest: sendSingleRequest,
     data: video,
@@ -53,9 +56,18 @@ const DetailsView = () => {
     return null;
   }
 
+  console.log('video final');
+  console.log(video);
+
   return (
     <Container>
-      <Details {...video} />
+      <Details
+        {...video}
+        userLogged={user}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        favorites={favorites}
+      />
       <div className="relates-area">
         <VideosList list={videos} onSelected={videoSelectedHandler} display="related" />
       </div>

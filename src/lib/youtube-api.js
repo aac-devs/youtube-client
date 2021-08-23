@@ -20,6 +20,9 @@ const fetchData = async (params) => {
 
 const searchVideos = async (params) => {
   const data = await fetchData(params);
+  console.log('search videos');
+  console.log(data);
+
   const filteredData = data.items.map((video) => {
     const {
       id: { videoId },
@@ -43,6 +46,9 @@ const searchVideos = async (params) => {
 
 const searchVideoDurations = async (videos, params) => {
   const data = await fetchData(params);
+  console.log('search video durations');
+  console.log(data);
+
   return videos.map((video) => {
     return {
       ...video,
@@ -54,6 +60,9 @@ const searchVideoDurations = async (videos, params) => {
 
 const searchChannelLogos = async (videos, params) => {
   const data = await fetchData(params);
+  console.log('search channel logos');
+  console.log(data);
+
   return videos.map((video) => {
     const channelLogo =
       data.items.find((item) => item.id === video.channelId)?.snippet?.thumbnails.medium
@@ -116,6 +125,15 @@ const findVideo = (id) => {
     id,
   };
   return searchVideos(params)
+    .then((resp) => {
+      params = {
+        route: 'videos',
+        part: 'contentDetails',
+        id,
+      };
+      const newResp = [{ ...resp[0], videoId: id }];
+      return searchVideoDurations(newResp, params);
+    })
     .then((resp) => {
       params = {
         route: 'channels',

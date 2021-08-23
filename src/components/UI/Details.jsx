@@ -3,32 +3,74 @@ import { Container } from './Details.styles';
 import { formattedDate } from '../../lib/funcs';
 
 const Details = (props) => {
-  const publishedDate = formattedDate(props.videoPublishedAt);
-  // console.log('<Details />');
+  const {
+    videoId,
+    videoDuration,
+    videoDescription,
+    videoImage,
+    videoTitle,
+    videoPublishedAt,
+    addToFavorites,
+    removeFromFavorites,
+    userLogged,
+    channelTitle,
+    channelLogo,
+    favorites,
+  } = props;
+
+  const publishedDate = formattedDate(videoPublishedAt);
+
+  let favData;
+  let isFav = false;
+  if (userLogged) {
+    favData = {
+      channelTitle,
+      videoDuration,
+      videoId,
+      videoTitle,
+      videoImage,
+    };
+    isFav = favorites.find((fav) => fav.videoId === videoId) || false;
+  }
 
   return (
     <Container>
       <div className="video-container">
-        <Frame id={props.videoId} />
+        <Frame id={videoId} />
       </div>
 
       <div className="video-info">
         <div className="title-section">
-          <h1 className="video-title" data-testid="title">
-            {props.videoTitle}
-          </h1>
+          <div className="title-header-section">
+            <h1 className="video-title" data-testid="title">
+              {videoTitle}
+            </h1>
+            {userLogged && (
+              <button
+                onClick={
+                  isFav
+                    ? () => removeFromFavorites(videoId)
+                    : () => addToFavorites(favData)
+                }
+                type="button"
+                className="add-remove-favorites"
+              >
+                {isFav ? 'Remove from favorites' : 'Add to favorites'}
+              </button>
+            )}
+          </div>
           <div className="video-publishedAt">&raquo;&ensp;{publishedDate}</div>
         </div>
         <hr />
         <div className="description-section">
           <div className="channel-area">
             <div className="logo">
-              <img src={props.channelLogo} alt="logo-channel" />
+              <img src={channelLogo} alt="logo-channel" />
             </div>
-            <div className="channel-title">{props.channelTitle}</div>
+            <div className="channel-title">{channelTitle}</div>
           </div>
           <div className="description-area">
-            <div className="video-description">{props.videoDescription}</div>
+            <div className="video-description">{videoDescription}</div>
           </div>
         </div>
       </div>

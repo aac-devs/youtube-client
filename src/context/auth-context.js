@@ -70,7 +70,7 @@ export const AuthContextProvider = (props) => {
   };
 
   const logoutHandler = () => {
-    console.log('logout handler');
+    // console.log('logout handler');
     dispatch({ type: types.authContext.logout });
     localStorage.setItem('storedUser', null);
   };
@@ -94,7 +94,7 @@ export const AuthContextProvider = (props) => {
     await removeFavoriteFromFirebase(video.docId);
   };
 
-  console.log(favorites);
+  // console.log(favorites);
 
   const value = {
     user,

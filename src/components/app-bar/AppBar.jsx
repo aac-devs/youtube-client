@@ -55,7 +55,7 @@ const AppBar = () => {
   };
 
   const showLeftMenuHandler = () => {
-    console.log('show left menu');
+    // console.log('show left menu');
     setShowLeftMenu(true);
   };
 

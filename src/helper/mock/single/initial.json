@@ -1,0 +1,57 @@
+{
+  "etag": "kvCfqmqVzea8QnGwPiVEf-YPDb8",
+  "items": [
+    {
+      "etag": "DkDhZ4yMLqDFIYjUr2DvT-PGZcY",
+      "id": "lWQ69WX7-hA",
+      "kind": "youtube#video",
+      "snippet": {
+        "categoryId": "27",
+        "channelId": "UCP15FVAA2UL-QOcGhy7-ezA",
+        "channelTitle": "EDteam",
+        "defaultAudioLanguage": "es-419",
+        "description": "React.js es una librería para crear interfaces web, con ella están construidas las dos redes sociales más grandes: Facebook e Instagram. En este video aprenderás las bases de esta librería.\n\n¿Te gustaría crear tu propia plataforma de educación online?\nEn la especialidad de Desarrollo frontend con React.js  aprenderás lo necesario para construir tu primera aplicación real tal y como fue construida la app de EDteam.\n👉https://ed.team/react\n\n🔥 Aprende programación, diseño y emprendimiento con la mejor metodología en español. Un futuro de oportunidades laborales y de emprendimiento te está esperando.\n#React #Frontend #NuncaTeDetengas\n\nWeb y comunidad EDteam\n✅ https://ed.team\n\nSé un estudiante premium en EDteam\n✅ https://ed.team/premium\n\nInstagram:\n✅ https://ed.team/instagram\n\nTwitter\n✅ https://ed.team/twitter",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "description": "React.js es una librería para crear interfaces web, con ella están construidas las dos redes sociales más grandes: Facebook e Instagram. En este video aprenderás las bases de esta librería.\n\n¿Te gustaría crear tu propia plataforma de educación online?\nEn la especialidad de Desarrollo frontend con React.js  aprenderás lo necesario para construir tu primera aplicación real tal y como fue construida la app de EDteam.\n👉https://ed.team/react\n\n🔥 Aprende programación, diseño y emprendimiento con la mejor metodología en español. Un futuro de oportunidades laborales y de emprendimiento te está esperando.\n#React #Frontend #NuncaTeDetengas\n\nWeb y comunidad EDteam\n✅ https://ed.team\n\nSé un estudiante premium en EDteam\n✅ https://ed.team/premium\n\nInstagram:\n✅ https://ed.team/instagram\n\nTwitter\n✅ https://ed.team/twitter",
+          "title": "¿Qué es React.js y cómo funciona?"
+        },
+        "publishedAt": "2019-06-10T23:00:02Z",
+        "tags": ["diseño web", "desarrollo web", "react", "javascript", "frontend"],
+        "thumbnails": {
+          "default": {
+            "height": 90,
+            "url": "https://i.ytimg.com/vi/lWQ69WX7-hA/default.jpg",
+            "width": 120
+          },
+          "high": {
+            "height": 360,
+            "url": "https://i.ytimg.com/vi/lWQ69WX7-hA/hqdefault.jpg",
+            "width": 480
+          },
+          "maxres": {
+            "height": 720,
+            "url": "https://i.ytimg.com/vi/lWQ69WX7-hA/maxresdefault.jpg",
+            "width": 1280
+          },
+          "medium": {
+            "height": 180,
+            "url": "https://i.ytimg.com/vi/lWQ69WX7-hA/mqdefault.jpg",
+            "width": 320
+          },
+          "standard": {
+            "height": 480,
+            "url": "https://i.ytimg.com/vi/lWQ69WX7-hA/sddefault.jpg",
+            "width": 640
+          }
+        },
+        "title": "¿Qué es React.js y cómo funciona?"
+      }
+    }
+  ],
+  "kind": "youtube#videoListResponse",
+  "pageInfo": {
+    "resultsPerPage": 1,
+    "totalResults": 1
+  }
+}
