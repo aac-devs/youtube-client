@@ -1,87 +1,37 @@
-import styled from 'styled-components';
-
-const Container = styled.li`
-  min-width: 300px;
-  background-color: #37474f;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  overflow: hidden;
-  color: #fff;
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: #4c585f;
-  }
-
-  p {
-    font-size: 14px;
-  }
-
-  .description {
-    height: 60px;
-    max-height: 60px;
-    overflow: hidden;
-  }
-
-  display: flex;
-  justify-content: flex-start;
-
-  width: ${({ display }) => (display === 'grid' ? '300px' : '100%')};
-  height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
-  max-height: ${({ display }) => (display === 'grid' ? '280px' : '100px')};
-
-  flex-direction: ${({ display }) => (display === 'grid' ? 'column' : 'row')};
-  align-items: ${({ display }) => (display === 'grid' ? 'center' : 'stretch')};
-  margin-bottom: ${({ display }) => (display === 'grid' ? '0' : '10px')};
-
-  .body {
-    padding: 6px;
-    padding-top: ${({ display }) => (display === 'grid' ? '12px' : '0')};
-    width: 100%;
-    color: #fff;
-    text-align: left;
-  }
-
-  img {
-    object-fit: cover;
-    height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
-    min-height: ${({ display }) => (display === 'grid' ? '140px' : '100px')};
-    width: ${({ display }) => (display === 'grid' ? '100%' : '160px')};
-  }
-
-  .title {
-    max-height: 48px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-`;
+import { formattedDate, formattedDuration } from '../../lib/funcs';
+import { Container } from './VideoItem.styles';
 
 const VideoItem = (props) => {
-  const { id, index, title, description, image, display, onSelected } = props;
-
   const clickHandler = () => {
-    onSelected({ id, title, description });
+    props.onSelected(props);
   };
+
+  const duration = formattedDuration(props.videoDuration);
+  const publishedDate = formattedDate(props.videoPublishedAt);
 
   return (
     <Container
       onClick={clickHandler}
-      display={display}
-      data-testid={`video-item-${index}`}
+      display={props.display}
+      data-testid={`video-item-${props.videoId}`}
     >
-      <div className="image">
-        <img src={image} alt={title} />
+      <div className="videoImage-area">
+        <img
+          src={props.videoImage.medium}
+          alt={props.videoTitle}
+          data-testid="video-image"
+        />
+        <div className="videoDuration-area">{duration}</div>
       </div>
-      <div className="body">
-        <div className="title">
-          <h4>{title}</h4>
+      {props.display === 'grid' && (
+        <div className="channelLogo-area">
+          <img src={props.channelLogo} alt="logo-channel" data-testid="video-logo" />
         </div>
-        {display === 'grid' && (
-          <div className="description">
-            <p>{description}</p>
-          </div>
-        )}
+      )}
+      <div className="card-body">
+        <div className="videoTitle-area">{props.videoTitle}</div>
+        <div className="channelTitle-area">{props.channelTitle}</div>
+        <div className="videoPublishedAt-area">Published at {publishedDate}</div>
       </div>
     </Container>
   );

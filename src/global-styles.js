@@ -34,7 +34,7 @@ html {
   display: flex;
   height: 100vh;
   width: 100%;
-  background-color: #37474f;
+  background-color: ${({ theme }) => theme.background};
 }
 
 .separator::before {

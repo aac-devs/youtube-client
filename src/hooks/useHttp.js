@@ -1,28 +1,50 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useCallback } from 'react';
+import httpReducer from '../reducers/httpReducer';
+import { types } from '../types/types';
 
-const useHttp = (fetchFunction, dependency, type) => {
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+// import mockRelated from '../helper/mock/relatedToId/result.json';
+// import mockList from '../helper/mock/list/result.json';
 
-  useEffect(() => {
-    setError(null);
-    setLoading(true);
-    fetchFunction(dependency, type)
-      .then((res) => {
-        setList(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [dependency, type, fetchFunction]);
+const initialState = {
+  data: null,
+  error: null,
+  loading: false,
+};
+
+const useHttp = (requestFunction) => {
+  const [httpState, dispatch] = useReducer(httpReducer, initialState);
+
+  const sendRequest = useCallback(
+    async (requestData) => {
+      dispatch({ type: types.http.send });
+      try {
+        // Provisional para probar visualmente sin realizar peticiones a la api:
+        // if (requestData.relatedToVideoId) {
+        //   dispatch({ type: types.http.success, responseData: mockRelated.data });
+        // } else {
+        //   dispatch({ type: types.http.success, responseData: mockList.data });
+        // }
+        //
+
+        // Código real: las pruebas fallan debido al MSW
+        const responseData = await requestFunction(requestData);
+        if (!responseData.ok) {
+          throw new Error(responseData.error);
+        }
+        dispatch({ type: types.http.success, responseData: responseData.data });
+      } catch (error) {
+        dispatch({
+          type: types.http.error,
+          errorMessage: error.message,
+        });
+      }
+    },
+    [requestFunction]
+  );
 
   return {
-    list,
-    loading,
-    error,
+    sendRequest,
+    ...httpState,
   };
 };
 

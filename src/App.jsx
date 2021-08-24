@@ -1,35 +1,35 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 import AppBar from './components/app-bar/AppBar';
+import AppContext from './context/app-context';
+import GlobalStyles from './global-styles';
 import DetailsView from './pages/DetailsView';
 import HomeView from './pages/HomeView';
+import { darkTheme, lightTheme } from './styles/themes';
+import { types } from './types/types';
 
 const App = () => {
-  const [searchValue, setSearchValue] = useState('react');
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [page, setPage] = useState('home');
-
-  const searchHandler = (value) => {
-    if (page !== 'home') {
-      setPage('home');
-    }
-    setSearchValue(value);
-  };
+  const { page, changePage, appTheme } = useContext(AppContext);
 
   const selectedVideoHandler = (value) => {
     setSelectedVideo(value);
-    setPage('details');
+    changePage(types.page.details);
   };
 
+  let screen;
+  if (page === types.page.home) {
+    screen = <HomeView onSelected={selectedVideoHandler} />;
+  } else {
+    screen = <DetailsView selectedVideo={selectedVideo} />;
+  }
+
   return (
-    <>
-      <AppBar onSearch={searchHandler} />
-      {page === 'home' && (
-        <HomeView searchValue={searchValue} onSelected={selectedVideoHandler} />
-      )}
-      {page === 'details' && (
-        <DetailsView onBackToHome={() => setPage('home')} selectedVideo={selectedVideo} />
-      )}
-    </>
+    <ThemeProvider theme={appTheme === types.theme.light ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <AppBar />
+      {screen}
+    </ThemeProvider>
   );
 };
 

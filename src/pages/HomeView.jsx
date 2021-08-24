@@ -1,28 +1,31 @@
-import styled from 'styled-components';
+import { useContext, useEffect } from 'react';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VideosList from '../components/videos/VideosList';
+import AppContext from '../context/app-context';
 import useHttp from '../hooks/useHttp';
-import { fetchVideos } from '../lib/api';
+import { findVideos } from '../lib/enhanced-api';
+import { Container } from './HomeView.styles';
 
-const Container = styled.main`
-  padding: 10px;
-  margin: 0 auto;
-  max-width: 1700px;
-  width: 100%;
-  padding-top: 74px;
-`;
+const HomeView = ({ onSelected }) => {
+  const { searchValue } = useContext(AppContext);
+  const { sendRequest, loading, data: videos, error } = useHttp(findVideos);
 
-const HomeView = ({ searchValue, onSelected }) => {
-  const { list: videos, loading, error } = useHttp(fetchVideos, searchValue);
+  useEffect(() => {
+    sendRequest({ q: searchValue, maxResults: 20 });
+  }, [sendRequest, searchValue]);
 
-  // TODO: Contruir el mensaje de error
+  if (error) {
+    // TODO: Contruir la card para el mensaje de error
+    return <h1 data-testid="error-message">{error}</h1>;
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <Container>
-      {!loading && !error && (
-        <VideosList list={videos} onSelected={onSelected} display="grid" />
-      )}
-      {loading && <LoadingSpinner />}
-      {error && <h1 data-testid="error-message">{error}</h1>}
+      <VideosList list={videos} onSelected={onSelected} display="grid" />
     </Container>
   );
 };
