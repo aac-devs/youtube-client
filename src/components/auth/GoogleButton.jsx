@@ -44,7 +44,11 @@ const StyledButton = styled.button`
 
 const GoogleButton = (props) => {
   return (
-    <StyledButton className="google-btn" onClick={() => props.onClick()}>
+    <StyledButton
+      data-testid="google-button"
+      className="google-btn"
+      onClick={() => props.onClick()}
+    >
       <div className="google-icon-wrapper">
         <img
           className="google-icon"

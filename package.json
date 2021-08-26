@@ -19,8 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:coverage": "react-scripts test --watchAll --coverage",
+    "test": "react-scripts test --detectOpenHandles --watchAll",
+    "test:coverage": "react-scripts test --watchAll --coverage --detectOpenHandles",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix"
@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@react-mock/localstorage": "^0.1.2",
     "@testing-library/react-hooks": "^7.0.1",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -55,9 +56,12 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.2",
+    "history": "^4.10.1",
+    "jest-fetch-mock": "^3.0.3",
     "mq-polyfill": "^1.1.8",
     "msw": "^0.33.3",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "react-router": "^5.2.0"
   },
   "jest": {
     "collectCoverageFrom": [

@@ -23,8 +23,6 @@ const FavoritesView = () => {
   const { favorites } = useContext(AuthContext);
   const history = useHistory();
 
-  // console.log('<FavoritesView />');
-
   const favoriteSelectedHandler = useCallback(
     (videoId) => {
       history.push(`/favorites/${videoId}`);

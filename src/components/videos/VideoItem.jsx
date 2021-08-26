@@ -28,9 +28,14 @@ const VideoItem = (props) => {
   };
 
   return (
-    <Container display={props.display} data-testid={`video-item-${props.videoId}`}>
+    <Container display={props.display}>
       {user && props.display === 'favorites' && <FavButton top="42.5px" {...favProps} />}
-      <div className="click-sensor" role="button" onClick={clickHandler} />
+      <div
+        className="click-sensor"
+        role="button"
+        onClick={clickHandler}
+        data-testid={`video-item-${props.videoId}`}
+      />
       <div className="videoImage-area">
         {user && props.display !== 'favorites' && <FavButton top="5px" {...favProps} />}
         <img

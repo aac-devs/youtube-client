@@ -13,8 +13,6 @@ const HomeView = () => {
   const history = useHistory();
   const { searchValue } = useContext(AppContext);
 
-  // console.log('<HomeView />');
-
   useEffect(() => {
     sendRequest({ q: searchValue, maxResults: 20 });
   }, [sendRequest, searchValue]);

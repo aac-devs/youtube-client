@@ -6,7 +6,6 @@ import Layout from './components/layout/Layout';
 import AuthContext from './context/auth-context';
 import FavoritesView from './pages/FavoritesView';
 import FavoriteDetailsView from './pages/FavoriteDetailsView';
-// import NotFound from './pages/NotFound';
 
 const App = () => {
   const { user } = useContext(AuthContext);
@@ -33,7 +32,6 @@ const App = () => {
           </Switch>
         )}
         <Route path="*">
-          {/* <NotFound /> */}
           <Redirect to="/videos" />
         </Route>
       </Switch>

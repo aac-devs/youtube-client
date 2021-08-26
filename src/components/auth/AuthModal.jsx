@@ -22,7 +22,7 @@ const Modal = (props) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onClick={() => props.onClose()}>
+        <Backdrop onClick={() => props.onClose()} data-testid="auth-backdrop">
           <Card onClick={clickHandler}>
             <div className="image-area">
               <img src={YoutubeLogo} alt="logo" />

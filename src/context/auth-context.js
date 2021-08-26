@@ -31,17 +31,21 @@ export const AuthContextProvider = (props) => {
   globalUser = user;
 
   const connectSocketFirebase = useCallback((fireUser) => {
-    db.collection('favorites').onSnapshot((snap) => {
-      const firebaseData = getDocuments(snap);
-      if (firebaseData.length > 0) {
-        if (fireUser) {
-          if (fireUser.uid === globalUser?.uid) {
-            const userData = firebaseData.filter((data) => data.userId === fireUser.uid);
-            dispatch({ type: types.authContext.loadFavorites, payload: userData });
+    db.firestore()
+      .collection('favorites')
+      .onSnapshot((snap) => {
+        const firebaseData = getDocuments(snap);
+        if (firebaseData.length > 0) {
+          if (fireUser) {
+            if (fireUser.uid === globalUser?.uid) {
+              const userData = firebaseData.filter(
+                (data) => data.userId === fireUser.uid
+              );
+              dispatch({ type: types.authContext.loadFavorites, payload: userData });
+            }
           }
         }
-      }
-    });
+      });
   }, []);
 
   useEffect(() => {
@@ -70,13 +74,11 @@ export const AuthContextProvider = (props) => {
   };
 
   const logoutHandler = () => {
-    // console.log('logout handler');
     dispatch({ type: types.authContext.logout });
     localStorage.setItem('storedUser', null);
   };
 
   /// FAVORITES:
-
   const addToFavoritesHandler = async (video) => {
     const { videoId, videoImage, videoTitle, videoDuration, channelTitle } = video;
     const favVideo = {
@@ -93,8 +95,6 @@ export const AuthContextProvider = (props) => {
     const video = favorites.find((item) => item.videoId === videoId);
     await removeFavoriteFromFirebase(video.docId);
   };
-
-  // console.log(favorites);
 
   const value = {
     user,

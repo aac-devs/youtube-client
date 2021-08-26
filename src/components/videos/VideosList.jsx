@@ -20,7 +20,7 @@ export const StyledList = styled.ul`
           justify-content: flex-start;
         `
       : css`
-          /* background-color: #fff; */
+          /* TODO: */
         `}
 `;
 

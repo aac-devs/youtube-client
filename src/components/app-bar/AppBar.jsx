@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMediaQuery, Switch } from '@material-ui/core';
-// import Switch from '@material-ui/core/Switch';
 import {
   HomeOutlined,
   FavoriteBorder,
@@ -9,10 +8,6 @@ import {
   Brightness2,
   Person,
 } from '@material-ui/icons';
-// import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-// import WbSunnyOutlinedIcon from '@material-ui/icons/WbSunnyOutlined';
-// import Brightness2Icon from '@material-ui/icons/Brightness2';
-// import PersonIcon from '@material-ui/icons/Person';
 import SearchBox from './SearchBox';
 import YoutubeLogo from '../YoutubeLogo';
 import AppContext from '../../context/app-context';
@@ -55,7 +50,6 @@ const AppBar = () => {
   };
 
   const showLeftMenuHandler = () => {
-    // console.log('show left menu');
     setShowLeftMenu(true);
   };
 
@@ -160,6 +154,7 @@ const AppBar = () => {
         {showLeftMenu && (
           <div
             role="button"
+            data-testid="backdrop-left-menu"
             className="backdrop-left-menu"
             onClick={() => setShowLeftMenu(false)}
           />

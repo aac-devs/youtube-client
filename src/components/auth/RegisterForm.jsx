@@ -7,7 +7,6 @@ const RegisterForm = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log('submit handler');
     const enteredEmail = emailRef.current.value;
     const entered1Password = password1Ref.current.value;
     // const entered2Password = password2Ref.current.value;
@@ -24,7 +23,6 @@ const RegisterForm = (props) => {
     <>
       <h5>User Register</h5>
       <form onSubmit={submitHandler}>
-        {/* <input type="text" placeholder="Enter your name.." /> */}
         <input
           type="email"
           placeholder="Enter your email.."
@@ -43,7 +41,9 @@ const RegisterForm = (props) => {
           ref={password2Ref}
           defaultValue="123456"
         />
-        <button type="submit">Sign up</button>
+        <button type="submit" data-testid="signup-btn">
+          Sign up
+        </button>
       </form>
       <p onClick={props.onOpenLoginForm}>Already registered?</p>
     </>

@@ -34,7 +34,9 @@ const LoginForm = (props) => {
           ref={passwordRef}
           defaultValue="123456"
         />
-        <button type="submit">Sign in</button>
+        <button type="submit" data-testid="signin-btn">
+          Sign in
+        </button>
       </form>
       <GoogleButton onClick={props.onGoogleClick} />
       <p onClick={props.onOpenRegisterForm}>Create a new account</p>

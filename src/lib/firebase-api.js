@@ -57,6 +57,7 @@ const getDocuments = (snapshot) => {
 
 const addFavoriteToFirebase = async (data) => {
   return db
+    .firestore()
     .collection('favorites')
     .add(data)
     .then((docRef) => {
@@ -65,7 +66,7 @@ const addFavoriteToFirebase = async (data) => {
 };
 
 const removeFavoriteFromFirebase = async (docId) => {
-  db.collection('favorites').doc(docId).delete();
+  db.firestore().collection('favorites').doc(docId).delete();
 };
 
 export {

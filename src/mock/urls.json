@@ -1,0 +1,4 @@
+{
+  "search_q": "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&maxResults=10&type=video&safeSearch=strict&q=react",
+  "search_related": "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&maxResults=10&type=video&safeSearch=strict&relatedToVideoId=lWQ69WX7-hA"
+}
