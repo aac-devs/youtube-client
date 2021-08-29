@@ -3,7 +3,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 describe('<LoadingSpinner />', () => {
   const portal = document.createElement('div');
-  portal.setAttribute('id', 'spinner');
+  portal.setAttribute('id', 'spinner-root');
 
   test('should renders the spinner correctly', () => {
     render(<LoadingSpinner />, { container: document.body.appendChild(portal) });

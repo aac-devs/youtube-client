@@ -1,4 +1,4 @@
-import youtubeLogo from '../../assets/youtube.png';
+import youtubeLogo from '../assets/youtube.png';
 import { Container } from './YoutubeLogo.styles';
 
 const YoutubeLogo = (props) => {

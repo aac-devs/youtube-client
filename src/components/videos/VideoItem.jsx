@@ -1,21 +1,43 @@
-import { formattedDate, formattedDuration } from '../../lib/funcs';
+import React, { useContext } from 'react';
+import AuthContext from '../../context/auth-context';
+import { formattedDate, formattedDuration } from '../../lib/aux-functions';
 import { Container } from './VideoItem.styles';
+import FavButton from './FavButton';
 
 const VideoItem = (props) => {
+  const { user, favorites, addToFavorites, removeFromFavorites } =
+    useContext(AuthContext);
+
   const clickHandler = () => {
-    props.onSelected(props);
+    props.onSelected(props.videoId);
   };
 
   const duration = formattedDuration(props.videoDuration);
-  const publishedDate = formattedDate(props.videoPublishedAt);
+
+  let publishedDate;
+  if (props.display !== 'favorites') {
+    publishedDate = formattedDate(props.videoPublishedAt);
+  }
+
+  const favProps = {
+    favorites,
+    videoId: props.videoId,
+    values: props,
+    addToFavorites,
+    removeFromFavorites,
+  };
 
   return (
-    <Container
-      onClick={clickHandler}
-      display={props.display}
-      data-testid={`video-item-${props.videoId}`}
-    >
+    <Container display={props.display}>
+      {user && props.display === 'favorites' && <FavButton top="42.5px" {...favProps} />}
+      <div
+        className="click-sensor"
+        role="button"
+        onClick={clickHandler}
+        data-testid={`video-item-${props.videoId}`}
+      />
       <div className="videoImage-area">
+        {user && props.display !== 'favorites' && <FavButton top="5px" {...favProps} />}
         <img
           src={props.videoImage.medium}
           alt={props.videoTitle}
@@ -23,7 +45,7 @@ const VideoItem = (props) => {
         />
         <div className="videoDuration-area">{duration}</div>
       </div>
-      {props.display === 'grid' && (
+      {props.display === 'home' && (
         <div className="channelLogo-area">
           <img src={props.channelLogo} alt="logo-channel" data-testid="video-logo" />
         </div>
@@ -31,10 +53,12 @@ const VideoItem = (props) => {
       <div className="card-body">
         <div className="videoTitle-area">{props.videoTitle}</div>
         <div className="channelTitle-area">{props.channelTitle}</div>
-        <div className="videoPublishedAt-area">Published at {publishedDate}</div>
+        {props.display !== 'favorites' && (
+          <div className="videoPublishedAt-area">Published at {publishedDate}</div>
+        )}
       </div>
     </Container>
   );
 };
 
-export default VideoItem;
+export default React.memo(VideoItem);

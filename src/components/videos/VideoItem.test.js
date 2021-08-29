@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import VideoItem from './VideoItem';
 import { darkTheme } from '../../styles/themes';
+import AuthContext from '../../context/auth-context';
 
 describe('<VideoItem />', () => {
   const data = {
@@ -14,24 +15,36 @@ describe('<VideoItem />', () => {
   };
 
   const clickHandler = jest.fn();
+
+  const authContextValue = {
+    user: { uid: '123456', displayName: null, photoURL: null },
+    login: jest.fn(),
+    logout: jest.fn(),
+    favorites: [],
+    addToFavorites: jest.fn(),
+    removeFromFavorites: jest.fn(),
+  };
+
   beforeEach(() => {
     render(
-      <ThemeProvider theme={darkTheme}>
-        <VideoItem
-          display="flex"
-          videoImage={data.image}
-          videoTitle={data.title}
-          videoDescription={data.description}
-          videoDuration={data.duration}
-          videoPublishedAt={data.publishedAt}
-          onSelected={clickHandler}
-        />
-      </ThemeProvider>
+      <AuthContext.Provider value={authContextValue}>
+        <ThemeProvider theme={darkTheme}>
+          <VideoItem
+            display="home"
+            videoImage={data.image}
+            videoTitle={data.title}
+            videoDescription={data.description}
+            videoDuration={data.duration}
+            videoPublishedAt={data.publishedAt}
+            onSelected={clickHandler}
+          />
+        </ThemeProvider>
+      </AuthContext.Provider>
     );
   });
 
   test('should call clickHandler if the component is clicked', () => {
-    const element = screen.getByRole('listitem');
+    const element = screen.getByTestId(/video-item/i);
     userEvent.click(element);
     expect(clickHandler).toHaveBeenCalledTimes(1);
   });
@@ -43,6 +56,12 @@ describe('<VideoItem />', () => {
 
     test('should renders a title', () => {
       expect(screen.getByText(data.title)).toBeInTheDocument();
+    });
+
+    test('favButton', () => {
+      const favButton = screen.getByTestId('fav-add-button');
+      userEvent.click(favButton);
+      expect(authContextValue.addToFavorites).toHaveBeenCalledTimes(1);
     });
   });
 

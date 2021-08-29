@@ -2,13 +2,50 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.li`
   list-style: none;
-  cursor: pointer;
   outline: none;
   border: none;
+  position: relative;
   transition: background-color 0.3s ease-in-out;
+
+  .click-sensor {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .fav-button {
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    z-index: 10;
+    position: absolute;
+    top: ${({ top }) => top};
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: dodgerblue;
+    border-radius: 4px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      color: #fff;
+    }
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.hoverColor};
+
+    .fav-button {
+      display: flex;
+    }
   }
 
   .videoTitle-area {
@@ -49,7 +86,7 @@ export const Container = styled.li`
   }
 
   ${({ display }) =>
-    display === 'grid'
+    display === 'home'
       ? css`
           display: grid;
           width: 300px;
@@ -90,7 +127,8 @@ export const Container = styled.li`
             margin-right: 15px;
           }
         `
-      : css`
+      : display === 'related'
+      ? css`
           width: 100%;
           min-width: 300px;
           max-height: 100px;
@@ -117,6 +155,42 @@ export const Container = styled.li`
             }
             .videoDuration-area {
               bottom: 5px;
+            }
+          }
+          .videoTitle-area {
+            margin-top: 2px;
+            padding-top: 0;
+          }
+        `
+      : css`
+          width: 100%;
+          min-width: 300px;
+          max-height: 120px;
+          height: 120px;
+          display: flex;
+          padding: 20px;
+          border-bottom: ${({ theme }) => theme.border};
+          /* margin-bottom: 8px; */
+
+          .card-body {
+            overflow: hidden;
+          }
+
+          .videoImage-area {
+            position: relative;
+            overflow: hidden;
+            height: 80px;
+            min-height: 100px;
+            min-width: 150px;
+            max-width: 150px;
+            margin-right: 8px;
+            img {
+              object-fit: cover;
+              height: 80px;
+              width: 150px;
+            }
+            .videoDuration-area {
+              bottom: 25px;
             }
           }
           .videoTitle-area {

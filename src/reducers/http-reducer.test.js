@@ -1,5 +1,5 @@
 import { types } from '../types/types';
-import httpReducer from './httpReducer';
+import httpReducer from './http-reducer';
 
 describe('httpReducer', () => {
   const initialState = {

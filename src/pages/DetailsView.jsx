@@ -1,82 +1,136 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useContext } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import Details from '../components/Details';
 import VideosList from '../components/videos/VideosList';
 import useHttp from '../hooks/useHttp';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
-import Frame from '../components/UI/Frame';
-import { findVideos } from '../lib/enhanced-api';
-import { formattedDate } from '../lib/funcs';
+import { findVideos, findVideo } from '../lib/youtube-api';
 import { Container } from './DetailsView.styles';
+import LoadingSpinner from '../components/layout/LoadingSpinner';
+import AuthContext from '../context/auth-context';
 
-const DetailsView = ({ selectedVideo }) => {
-  const [videoDetails, setVideoDetails] = useState(selectedVideo);
-  const { sendRequest, loading, data: relatedVideos, error } = useHttp(findVideos);
+const DetailsView = () => {
+  const { user, favorites, addToFavorites, removeFromFavorites } =
+    useContext(AuthContext);
+  const {
+    sendRequest: sendSingleRequest,
+    data: video,
+    error: singleError,
+  } = useHttp(findVideo);
 
   const {
-    videoId: id,
-    videoTitle: title,
-    videoDescription: description,
-    channelTitle: channel,
-    videoPublishedAt: published,
-    channelLogo: logo,
-  } = videoDetails;
+    sendRequest: sendRelatedRequest,
+    loading,
+    data: videos,
+    error: relatedError,
+  } = useHttp(findVideos);
+
+  const history = useHistory();
+  const { videoId } = useParams();
 
   useEffect(() => {
-    sendRequest({ relatedToVideoId: id, maxResults: 15 });
-  }, [sendRequest, id]);
+    sendSingleRequest(videoId);
+  }, [sendSingleRequest, videoId]);
 
-  const videoSelectedHandler = (value) => {
-    setVideoDetails(value);
-  };
+  useEffect(() => {
+    sendRelatedRequest({ relatedToVideoId: videoId, maxResults: 20 });
+  }, [sendRelatedRequest, videoId]);
 
-  if (error) {
-    // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{error}</h1>;
-  }
+  const videoSelectedHandler = useCallback(
+    (id) => {
+      history.push(`/videos/${id}`);
+    },
+    [history]
+  );
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  const publishedDate = formattedDate(published);
+  if (singleError || relatedError) {
+    // TODO: Contruir la card para el mensaje de error
+    return <h1 data-testid="error-message">{singleError || relatedError}</h1>;
+  }
+
+  if (!video) {
+    return null;
+  }
 
   return (
     <Container>
-      <div className="video-area">
-        <div className="video-container">
-          <Frame id={id} />
-        </div>
-
-        <div className="video-info">
-          <div className="title-section">
-            <h1 className="video-title" data-testid="title">
-              {title}
-            </h1>
-            <div className="video-publishedAt">&raquo;&ensp;{publishedDate}</div>
-          </div>
-          <hr />
-          <div className="description-section">
-            <div className="channel-area">
-              <div className="logo">
-                <img src={logo} alt="logo-channel" />
-              </div>
-              <div className="channel-title">{channel}</div>
-            </div>
-            <div className="description-area">
-              <div className="video-description">{description}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Details
+        {...video}
+        userLogged={user}
+        addToFavorites={addToFavorites}
+        removeFromFavorites={removeFromFavorites}
+        favorites={favorites}
+      />
       <div className="relates-area">
-        <VideosList
-          list={relatedVideos}
-          onSelected={videoSelectedHandler}
-          display="flex"
-        />
+        <VideosList list={videos} onSelected={videoSelectedHandler} display="related" />
       </div>
     </Container>
   );
 };
 
 export default DetailsView;
+
+// const [singleLoad, setSingleLoad] = useState(false);
+
+// const [videoId, setVideoId] = useState(null);
+// const history = useHistory();
+// const { pathname } = history.location;
+
+// console.log('<DetailsView />');
+
+// useEffect(() => {
+//   console.log('pathname', pathname);
+//   const array = pathname.split('/');
+//   setVideoId(array[array.length - 1]);
+// }, [pathname]);
+
+// useEffect(() => {
+//   if (video) {
+//     setSingleLoad(true);
+//   }
+// }, [video]);
+
+// // carga el video para los detalles
+// useEffect(() => {
+//   console.log('arranca single');
+//   sendSingleRequest(videoId);
+// }, [sendSingleRequest, videoId]);
+
+// // carga todos los videos
+// useEffect(() => {
+//   if (singleLoad) {
+//     console.log('arranca list');
+//     sendRelatedRequest({ relatedToVideoId: videoId, maxResults: 20 });
+//     setSingleLoad(false);
+//   }
+// }, [sendRelatedRequest, videoId, singleLoad]);
+
+// // captura el evento del video seleccionado
+// const videoSelectedHandler = useCallback(
+//   (id) => {
+//     console.log('video selected handler');
+//     // setSingleLoad(false);
+//     setVideoId(id);
+//     history.push(`/videos/${id}`);
+//   },
+//   [history]
+// );
+
+// if (loading) {
+//   return <LoadingSpinner />;
+// }
+
+// if (singleError || relatedError) {
+//   // TODO: Contruir la card para el mensaje de error
+//   return <h1 data-testid="error-message">{singleError || relatedError}</h1>;
+// }
+
+// if (!video) {
+//   return null;
+// }
+
+// console.log('video final');
+// console.log(video);

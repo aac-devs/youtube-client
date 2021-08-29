@@ -1,13 +1,17 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { findVideos } from '../lib/enhanced-api';
+import { findVideos } from '../lib/youtube-api';
 import useHttp from './useHttp';
-import { server, rest } from '../testServer';
-import mockRelatedResult from '../helper/mock/relatedToId/result.json';
-import mockListResult from '../helper/mock/list/result.json';
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
+import mockListInitial from '../mock/list/initial.json';
+import mockListDurations from '../mock/list/durations.json';
+import mockListLogos from '../mock/list/logos.json';
+import mockListResult from '../mock/list/result.json';
 
 describe('useHttp Hook', () => {
+  test('1', () => expect(true).toBe(true));
+
+  beforeEach(() => {
+    fetchMock.resetMocks();
+  });
   test('handles loading state correctly', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useHttp(findVideos));
     act(() => {
@@ -18,33 +22,25 @@ describe('useHttp Hook', () => {
     expect(result.current.loading).toBe(false);
   });
 
-  test('get related videos data succesfully', async () => {
+  test('get a list of videos succesfully', async () => {
+    fetchMock.mockResponses(
+      [JSON.stringify(mockListInitial), { status: 200 }],
+      [JSON.stringify(mockListDurations), { status: 200 }],
+      [JSON.stringify(mockListLogos), { status: 200 }]
+    );
     const { result, waitForNextUpdate } = renderHook(() => useHttp(findVideos));
     act(() => {
-      result.current.sendRequest({ relatedToVideoId: 'rel' });
-    });
-    await waitForNextUpdate();
-    expect(result.current.data).toEqual(mockRelatedResult.data);
-  });
-
-  test('get search list videos data succesfully', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useHttp(findVideos));
-    act(() => {
-      result.current.sendRequest({ q: 'html' });
+      result.current.sendRequest({ q: 'react' });
     });
     await waitForNextUpdate();
     expect(result.current.data).toEqual(mockListResult.data);
   });
 
   test('handles error state correctly', async () => {
-    server.use(
-      rest.get(`${baseUrl}/search`, (req, res) => {
-        return res.networkError();
-      })
-    );
+    fetchMock.mockReject(new Error('fake error message'));
     const { result, waitForNextUpdate } = renderHook(() => useHttp(findVideos));
     act(() => {
-      result.current.sendRequest({ relatedToVideoId: '25' });
+      result.current.sendRequest({ relatedToVideoId: 'lWQ69WX7-hA' });
     });
     await waitForNextUpdate();
     expect(result.current.error).not.toBe(null);

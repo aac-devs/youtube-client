@@ -1,11 +1,10 @@
 import { types } from '../types/types';
-import appReducer from './appReducer';
+import appReducer from './app-reducer';
 
 describe('appReducer', () => {
   const initialState = {
     searchValue: 'react',
     appTheme: null,
-    page: types.page.home,
   };
 
   test('should return the initial state', () => {
@@ -15,7 +14,7 @@ describe('appReducer', () => {
 
   test('should change the search value', () => {
     const state = appReducer(initialState, {
-      type: types.appContex.setSearchValue,
+      type: types.appContext.setSearchValue,
       payload: 'javascript',
     });
     expect(state).toEqual({
@@ -24,20 +23,9 @@ describe('appReducer', () => {
     });
   });
 
-  test('should change the current page', () => {
-    const state = appReducer(initialState, {
-      type: types.appContex.setCurrentPage,
-      payload: types.page.details,
-    });
-    expect(state).toEqual({
-      ...initialState,
-      page: types.page.details,
-    });
-  });
-
   test('should change the current them', () => {
     const state = appReducer(initialState, {
-      type: types.appContex.setAppTheme,
+      type: types.appContext.setAppTheme,
       payload: types.theme.dark,
     });
     expect(state).toEqual({

@@ -1,20 +1,44 @@
+import React from 'react';
+import styled, { css } from 'styled-components';
 import VideoItem from './VideoItem';
-import { Container } from './VideosList.styles';
 
-const VideosList = (props) => {
-  const { list, display, onSelected } = props;
+export const StyledList = styled.ul`
+  min-width: 300px;
+  ${({ display }) =>
+    display === 'home'
+      ? css`
+          display: grid;
+          grid-template-columns: repeat(auto-fit, 300px);
+          grid-column-gap: 15px;
+          grid-row-gap: 30px;
+          justify-content: center;
+        `
+      : display === 'related'
+      ? css`
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+        `
+      : css`
+          /* TODO: */
+        `}
+`;
 
-  const listItems = list?.map((item) => {
-    return (
-      <VideoItem key={item.videoId} {...item} onSelected={onSelected} display={display} />
-    );
-  });
-
+const VideosList = ({ list, display, onSelected }) => {
   return (
-    <Container display={display} data-testid="list-videos">
-      {listItems}
-    </Container>
+    <StyledList display={display} data-testid="list-videos">
+      {list?.map((item) => {
+        return (
+          <VideoItem
+            key={item.videoId}
+            {...item}
+            onSelected={onSelected}
+            display={display}
+          />
+        );
+      })}
+    </StyledList>
   );
 };
 
-export default VideosList;
+export default React.memo(VideosList);

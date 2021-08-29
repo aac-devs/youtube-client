@@ -1,4 +1,4 @@
-import { formattedDate, formattedDuration } from './funcs';
+import { formattedDate, formattedDuration } from './aux-functions';
 
 describe('funcs.js', () => {
   test('should format the string date given by youtube api', () => {
