@@ -16,7 +16,7 @@ const RegisterForm = (props) => {
       email: enteredEmail,
       password: entered1Password,
     };
-
+    console.log({ userData });
     props.onUserSignUp(userData);
   };
   return (
@@ -27,19 +27,19 @@ const RegisterForm = (props) => {
           type="email"
           placeholder="Enter your email.."
           ref={emailRef}
-          defaultValue="user@mail.com"
+          // defaultValue="user@mail.com"
         />
         <input
           type="password"
           placeholder="Enter your password.."
           ref={password1Ref}
-          defaultValue="123456"
+          // defaultValue="123456"
         />
         <input
           type="password"
           placeholder="Confirm your password.."
           ref={password2Ref}
-          defaultValue="123456"
+          // defaultValue="123456"
         />
         <button type="submit" data-testid="signup-btn">
           Sign up

@@ -55,6 +55,8 @@ const DetailsView = () => {
     return null;
   }
 
+  console.log({ video });
+
   return (
     <Container>
       <Details

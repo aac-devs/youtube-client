@@ -24,6 +24,7 @@ import {
   signInWithGoogle,
   signOut,
 } from '../../lib/firebase-api';
+import ErrorCard from '../ErrorCard';
 
 const AppBar = () => {
   const history = useHistory();
@@ -78,25 +79,32 @@ const AppBar = () => {
 
   // Authentication:
   const authLoginHandler = ({ ok, user, error }) => {
+    // console.log({ ok, user, error });
     if (ok && user) {
       authContext.login(user);
     } else if (ok && !user) {
       authContext.logout();
     } else {
-      console.log(error);
+      authContext.setError('Authentication error', error);
+      // console.log(error);
     }
     hideModal();
   };
 
   const userSignUpHandler = async (signUpUser) => {
+    console.log('user sign up');
+    authContext.resetError();
     authLoginHandler(await sighUpWithEmailAndPassword(signUpUser));
   };
 
   const userSignInHandler = async (signInUser) => {
+    console.log('user sign in');
+    authContext.resetError();
     authLoginHandler(await signInWithEmailAndPassword(signInUser));
   };
 
   const googleSignInHandler = async () => {
+    authContext.resetError();
     authLoginHandler(await signInWithGoogle());
   };
 
@@ -104,6 +112,10 @@ const AppBar = () => {
     authLoginHandler(await signOut());
     setShowRightMenu(false);
     setShowLeftMenu(false);
+  };
+
+  const closeErrorHandler = () => {
+    authContext.resetError();
   };
 
   // Theme:
@@ -127,6 +139,9 @@ const AppBar = () => {
 
   return (
     <Container>
+      {authContext.error && (
+        <ErrorCard onClose={closeErrorHandler} {...authContext.error} />
+      )}
       {showModalForm && (
         <Modal onClose={hideModal}>
           {showLoginForm && (
@@ -227,10 +242,12 @@ const AppBar = () => {
           <RoundButton
             onClick={authContext.user ? showRightMenuHandler : showModal}
             type="button"
-            data-testid="login-btn"
+            data-testid={
+              authContext.user ? `login-btn-${authContext.user.uid}` : 'login-btn'
+            }
             url={authContext.user ? source : null}
           >
-            {!authContext.user && <Person />}
+            {!authContext.user && <Person data-testid="no-logged-user" />}
           </RoundButton>
           {showRightMenu && (
             <div

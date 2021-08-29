@@ -12,13 +12,22 @@ const buildUrl = (params) => {
   }`;
 };
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 const fetchData = async (params) => {
+  // console.log('fetching....');
+  console.log(buildUrl(params));
+  // await delay(1000);
   const response = await fetch(buildUrl(params));
+  // console.log({ response });
   const data = await response.json();
+  // console.log('end fetching...');
+  console.log({ data });
   return data;
 };
 
 const searchVideos = async (params) => {
+  // console.log('search videos');
   const data = await fetchData(params);
   const filteredData = data.items.map((video) => {
     const {
@@ -42,6 +51,7 @@ const searchVideos = async (params) => {
 };
 
 const searchVideoDurations = async (videos, params) => {
+  // console.log('video durations');
   const data = await fetchData(params);
   return videos.map((video) => {
     return {
@@ -53,6 +63,7 @@ const searchVideoDurations = async (videos, params) => {
 };
 
 const searchChannelLogos = async (videos, params) => {
+  // console.log('channel logos');
   const data = await fetchData(params);
   return videos.map((video) => {
     const channelLogo =
@@ -66,50 +77,51 @@ const searchChannelLogos = async (videos, params) => {
 };
 
 const findVideos = async (value) => {
-  const { q, relatedToVideoId, maxResults } = value;
-  let params = {
-    route: 'search',
-    part: 'snippet',
-    q,
-    relatedToVideoId,
-    maxResults,
-    type: 'video',
-    safeSearch: 'strict',
-  };
-  return searchVideos(params)
-    .then((resp) => {
-      const ids = resp.map((video) => video.videoId).join();
-      params = {
-        route: 'videos',
-        part: 'contentDetails',
-        id: ids,
-      };
-      return searchVideoDurations(resp, params);
-    })
-    .then((resp) => {
-      const ids = resp.map((video) => video.channelId).join();
-      params = {
-        route: 'channels',
-        part: 'snippet',
-        id: ids,
-      };
-      return searchChannelLogos(resp, params);
-    })
-    .then((data) => {
-      return {
-        ok: true,
-        data,
-      };
-    })
-    .catch((error) => {
-      return {
-        ok: false,
-        error: error.message || 'Something went wrong',
-      };
-    });
+  try {
+    const { q, relatedToVideoId, maxResults } = value;
+    let params = {
+      route: 'search',
+      part: 'snippet',
+      q,
+      relatedToVideoId,
+      maxResults,
+      type: 'video',
+      safeSearch: 'strict',
+    };
+
+    let resp = await searchVideos(params);
+    let ids = resp.map((video) => video.videoId).join();
+    params = {
+      route: 'videos',
+      part: 'contentDetails',
+      id: ids,
+    };
+
+    // await delay(1000);
+    resp = await searchVideoDurations(resp, params);
+    ids = resp.map((video) => video.channelId).join();
+    params = {
+      route: 'channels',
+      part: 'snippet',
+      id: ids,
+    };
+
+    // await delay(1000);
+    resp = await searchChannelLogos(resp, params);
+    return {
+      ok: true,
+      data: resp,
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      ok: false,
+      error: error.message || 'Something went wrong',
+    };
+  }
 };
 
-const findVideo = (id) => {
+const findVideo = async (id) => {
   let params = {
     route: 'videos',
     part: 'snippet',

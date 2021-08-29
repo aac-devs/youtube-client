@@ -2,9 +2,9 @@ import { useReducer, useCallback } from 'react';
 import httpReducer from '../reducers/http-reducer';
 import { types } from '../types/types';
 
-// import mockRelated from '../helper/mock/relatedToId/result.json';
-// import mockList from '../helper/mock/list/result.json';
-// import mockSingle from '../helper/mock/single/result.json';
+// import mockRelated from '../mock/relatedToId/result.json';
+// import mockList from '../mock/list/result.json';
+// import mockSingle from '../mock/single/result.json';
 
 const initialState = {
   data: null,
@@ -25,7 +25,7 @@ const useHttp = (requestFunction) => {
         // } else if (requestData.q) {
         //   dispatch({ type: types.http.success, responseData: mockList.data });
         // } else {
-        //   dispatch({ type: types.http.success, responseData: mockSingle });
+        //   dispatch({ type: types.http.success, responseData: mockSingle.data });
         // }
 
         // Código real: las pruebas fallan debido al MSW

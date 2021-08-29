@@ -16,5 +16,9 @@ export const types = {
     login: '[AUTH-CONTEXT] login',
     logout: '[AUTH-CONTEXT] logout',
     loadFavorites: '[AUTH-CONTEXT] load favorites',
+    addToFavorites: '[AUTH-CONTEXT] add to favorites',
+    removeFromFavorites: '[AUTH-CONTEXT] remove from favorites',
+    setError: '[AUTH-CONTEXT] set error',
+    resetError: '[AUTH-CONTEXT] reset error',
   },
 };
