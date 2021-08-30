@@ -16,7 +16,6 @@ const RegisterForm = (props) => {
       email: enteredEmail,
       password: entered1Password,
     };
-    console.log({ userData });
     props.onUserSignUp(userData);
   };
   return (

@@ -30,13 +30,11 @@ const authReducer = (state, action) => {
         favorites: state.favorites.filter((fav) => fav.docId !== action.payload),
       };
     case types.authContext.setError:
-      console.log('reducer set error');
       return {
         ...state,
         error: action.payload,
       };
     case types.authContext.resetError:
-      console.log('reducer reset error');
       return {
         ...state,
         error: null,

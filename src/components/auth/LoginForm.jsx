@@ -26,13 +26,13 @@ const LoginForm = (props) => {
           type="email"
           placeholder="Enter your email.."
           ref={emailRef}
-          defaultValue="user@mail.com"
+          // defaultValue="user@mail.com"
         />
         <input
           type="password"
           placeholder="Enter your password.."
           ref={passwordRef}
-          defaultValue="123456"
+          // defaultValue="123456"
         />
         <button type="submit" data-testid="signin-btn">
           Sign in

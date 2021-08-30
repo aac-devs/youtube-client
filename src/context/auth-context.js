@@ -47,12 +47,13 @@ export const AuthContextProvider = (props) => {
         const resp = await getAllFromFavorites(user.uid);
         if (resp.ok) {
           dispatch({ type: types.authContext.loadFavorites, payload: resp.data });
+        } else {
+          // Guardar el error
+          dispatch({
+            type: types.authContext.setError,
+            payload: { title: 'Favorites read', message: resp.error },
+          });
         }
-        // Guardar el error
-        dispatch({
-          type: types.authContext.setError,
-          payload: { title: 'Favorites read', message: resp.error },
-        });
       }
     };
     getFavoritesFromFirebase();

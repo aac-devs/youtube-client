@@ -13,6 +13,14 @@ import mockListInitial from './mock/list/initial.json';
 import mockListDurations from './mock/list/durations.json';
 import mockListLogos from './mock/list/logos.json';
 import mockListResult from './mock/list/result.json';
+
+import mockRelatedInitial from './mock/relatedToId/initial.json';
+import mockRelatedDurations from './mock/relatedToId/durations.json';
+import mockRelatedLogos from './mock/relatedToId/logos.json';
+
+import mockSingleInitial from './mock/single/initial.json';
+import mockSingleDurations from './mock/single/durations.json';
+import mockSingleLogos from './mock/single/logos.json';
 import userEvent, { specialChars } from '@testing-library/user-event';
 import urls from './mock/urls.json';
 import { createMemoryHistory } from 'history';
@@ -20,31 +28,211 @@ import { Router } from 'react-router';
 import App from './App';
 import { AuthContextProvider } from './context/auth-context';
 import { LocalStorageMock } from '@react-mock/localstorage';
-import fetchMock from 'fetch-mock';
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
+import fetchMock from 'fetch-mock-jest';
 
 describe('<App />', () => {
   const history = createMemoryHistory();
-
   const localUser = null;
-  // JSON.stringify({
-  //   uid: 'EJsDAFvLZCGM60vZO2WIXKDj6fG9',
-  //   displayName: null,
-  //   photoURL: null,
-  // });
-  // JSON.stringify(localUser)
-
-  beforeAll(() => {
-    fetchMock.config.fallbackToNetwork = true;
-  });
 
   beforeEach(() => {
-    fetchMock.restore();
-    fetchMock.get(urls.list.initial, JSON.stringify(mockListInitial));
-    fetchMock.get(urls.list.durations, JSON.stringify(mockListDurations));
-    fetchMock.get(urls.list.logos, JSON.stringify(mockListLogos));
-    // console.log(fetchMock.config);
+    // jest.useFakeTimers();
+    fetchMock.config.fallbackToNetwork = true;
+
+    // fetchMock.mock = function (matcher, response, options) {
+    //   console.log({ matcher });
+    //   console.log({ response });
+    //   console.log({ options });
+    //   return {};
+    // };
+
+    // fetchMock.restore();
+    // fetchMock.catch();
+
+    // fetchMock
+    //   .get(urls.list.initial, JSON.stringify(mockListInitial))
+    //   .get(urls.list.durations, JSON.stringify(mockListDurations))
+    //   .get(urls.list.logos, JSON.stringify(mockListLogos))
+
+    // .get(urls.single.initial, JSON.stringify(mockSingleInitial))
+    // .get(urls.single.durations, JSON.stringify(mockSingleDurations))
+    // .get(urls.single.logos, JSON.stringify(mockSingleLogos))
+
+    // .get(urls.related.initial, JSON.stringify(mockRelatedInitial))
+    // .get(urls.related.durations, JSON.stringify(mockRelatedDurations))
+    // .get(urls.related.logos, JSON.stringify(mockRelatedLogos));
+
+    // .catch((url) => {
+    //   console.log({ url });
+    //   return url;
+    // });
+
+    // render(
+    //   <LocalStorageMock items={{ storedUser: localUser, storedTheme: 'DARK' }}>
+    //     <ThemeProvider theme={darkTheme}>
+    //       <AppContextProvider>
+    //         <AuthContextProvider>
+    //           <Router history={history}>
+    //             <App />
+    //           </Router>
+    //         </AuthContextProvider>
+    //       </AppContextProvider>
+    //     </ThemeProvider>
+    //   </LocalStorageMock>
+    // );
+  });
+
+  afterEach(() => {
+    // jest.useRealTimers();
+  });
+
+  afterAll(() => {
+    console.log(fetchMock.calls());
+  });
+
+  // it('intenta registrar un nuevo usuario, si ya está registrado muestra un error, de lo contrario, lo registra satisfactoriamente', async () => {
+  //   // Espera que se renderice el loading spinner
+  //   expect(await screen.getByTestId('spinner-backdrop')).toBeInTheDocument();
+
+  //   // Espera que se rendericen los videos en la homeview
+  //   expect((await screen.findAllByTestId(/video-item/i)).length).toBe(10);
+
+  //   // Verifica que el usuario no esté logueado:
+  //   expect(screen.getByTestId('login-btn')).toBeInTheDocument();
+
+  //   // Abre el login modal:
+  //   expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
+  //   userEvent.click(screen.getByTestId(/login-btn/i));
+  //   expect(await screen.findByTestId('signin-btn')).toBeInTheDocument();
+
+  //   // Cambia al formulario de registro:
+  //   userEvent.click(screen.getByText(/create a new account/i));
+  //   expect(screen.getByText(/user register/i)).toBeInTheDocument();
+
+  //   // Llena los datos de nuevo usuario en los campos de texto, se submitea después de confirmar la contraseña:
+  //   userEvent.type(screen.getByPlaceholderText(/enter your email../i), 'aac@mail.com');
+  //   userEvent.type(screen.getByPlaceholderText(/enter your password../i), '123456');
+  //   userEvent.type(
+  //     screen.getByPlaceholderText(/confirm your password../i),
+  //     '123456{enter}'
+  //   );
+
+  //   // Espera que se remueva el formulario de registro
+  //   await waitForElementToBeRemoved(screen.getByText(/user register/i));
+
+  //   // Muestra un modal con error de registro o carga la imagen en el botón de login
+  //   if (screen.queryByText(/authentication error/i)) {
+  //     // Error, el usuario que intenta crear ya existe
+  //     expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
+  //     expect(screen.getByText(/the email address is already in/i)).toBeInTheDocument();
+  //   } else {
+  //     // Se creó un nuevo usuario, ya se encuentra logueado
+  //     expect(screen.getByTestId(/login-btn-/i)).toBeInTheDocument();
+  //     expect(await screen.findAllByTestId(/fav-add-button-/i)).toBeInTheDocument();
+  //   }
+  // });
+
+  // it('loguea un usuario y agrega favoritos a la lista de favoritos', async () => {
+  //   fetchMock
+  //     .get(urls.list.initial, JSON.stringify(mockListInitial))
+  //     .get(urls.list.durations, JSON.stringify(mockListDurations))
+  //     .get(urls.list.logos, JSON.stringify(mockListLogos));
+
+  //   render(
+  //     <LocalStorageMock items={{ storedUser: localUser, storedTheme: 'DARK' }}>
+  //       <ThemeProvider theme={darkTheme}>
+  //         <AppContextProvider>
+  //           <AuthContextProvider>
+  //             <Router history={history}>
+  //               <App />
+  //             </Router>
+  //           </AuthContextProvider>
+  //         </AppContextProvider>
+  //       </ThemeProvider>
+  //     </LocalStorageMock>
+  //   );
+
+  //   // Espera que se renderice el loading spinner
+  //   expect(await screen.getByTestId('spinner-backdrop')).toBeInTheDocument();
+  //   const videosList = await screen.findAllByTestId(/video-item/i);
+  //   expect(videosList[0]).toBeInTheDocument();
+  //   fetchMock.restore();
+
+  //   // Verifica que el usuario no esté logueado:
+  //   expect(screen.getByTestId('login-btn')).toBeInTheDocument();
+
+  //   // Abre el login modal:
+  //   expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
+  //   userEvent.click(screen.getByTestId(/login-btn/i));
+  //   expect(await screen.findByTestId('signin-btn')).toBeInTheDocument();
+
+  //   // Llena los datos del usuario (usuario registrado en el test anterior) y submitea el formulario.
+  //   userEvent.type(screen.getByPlaceholderText(/enter your email../i), 'aac@mail.com');
+  //   userEvent.type(
+  //     screen.getByPlaceholderText(/enter your password../i),
+  //     '123456{enter}'
+  //   );
+
+  //   // Espera que se remueva el formulario de registro
+  //   await waitForElementToBeRemoved(screen.getByText(/user login/i));
+
+  //   // Muestra un modal con error de login o carga la imagen en el botón de login
+  //   if (screen.queryByText(/authentication error/i)) {
+  //     // Error, el usuario no se encuentra registrado
+  //     expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
+  //     expect(
+  //       screen.getByText(/there is no user record corresponding to this/i)
+  //     ).toBeInTheDocument();
+  //   } else {
+  //     // se logueó satisfactoriamente
+  //     expect(screen.getByTestId(/login-btn-/i)).toBeInTheDocument();
+  //   }
+
+  //   // Obtener los botones de favoritos que corresponden a videos que se pueden eliminar de favoritos
+  //   const favVideosAdded = await screen.findAllByTestId(/fav-remove-button/i);
+  //   expect(favVideosAdded[0]).toBeInTheDocument();
+
+  //   // Obtener los botones de favoritos que corresponden a videos que se pueden agregar a favoritos
+  //   const videosFavButton = await screen.findAllByTestId(/fav-add-button-/i);
+  //   expect(videosFavButton[0]).toBeInTheDocument();
+
+  //   // screen.debug(favVideosAdded);
+  //   // screen.debug(videosFavButton);
+  //   expect(favVideosAdded.length).toBe(3);
+  //   expect(videosFavButton.length).toBe(7);
+
+  //   // Estos eventos se deben ejecutar la primera vez que se corren las pruebas para que cargar los tres favoritos en el emulador de la base de datos, obviamente, esta primera prueba fallará.
+  //   // userEvent.click(videosFavButton[0]);
+  //   // userEvent.click(videosFavButton[1]);
+  //   // userEvent.click(videosFavButton[2]);
+
+  //   // Confirma que estamos en la ruta /videos
+  //   expect(history.location.pathname).toBe('/videos');
+
+  //   // Hace click en el item favoritos del menú:
+  //   userEvent.click(screen.getByTestId(/login-btn/i));
+  //   userEvent.click(screen.getByTestId(/menu-fav-right-btn/i));
+
+  //   // Confirma que pasamos a la ruta /favorites
+  //   expect(history.location.pathname).toBe('/favorites');
+  //   // Espero que se renderice una lista con 3 favoritos
+  //   const favs = await screen.findAllByTestId(/video-item-favorites/i);
+  //   expect(favs[0]).toBeInTheDocument();
+  //   expect(favs.length).toBe(3);
+  // });
+
+  it('otro test', async () => {
+    fetchMock
+      .get(urls.list.initial, JSON.stringify(mockListInitial))
+      .get(urls.list.durations, JSON.stringify(mockListDurations))
+      .get(urls.list.logos, JSON.stringify(mockListLogos))
+
+      .get(urls.single.initial, JSON.stringify(mockSingleInitial))
+      .get(urls.related.initial, JSON.stringify(mockRelatedInitial))
+      .get(urls.single.durations, JSON.stringify(mockSingleDurations))
+      .get(urls.related.durations, JSON.stringify(mockRelatedDurations))
+      .get(urls.single.logos, JSON.stringify(mockSingleLogos))
+
+      .get(urls.related.logos, JSON.stringify(mockRelatedLogos));
 
     render(
       <LocalStorageMock items={{ storedUser: localUser, storedTheme: 'DARK' }}>
@@ -59,204 +247,26 @@ describe('<App />', () => {
         </ThemeProvider>
       </LocalStorageMock>
     );
-  });
 
-  afterEach(() => {});
-
-  afterAll(() => {});
-
-  const registerUser = async () => {
-    // Activar el botón de login y esperar que el modal aparezca:
-    const loginBtn = screen.getByTestId('login-btn');
-    expect(loginBtn).toBeInTheDocument();
-    userEvent.click(loginBtn);
-    await waitFor(() => {
-      expect(screen.getByTestId('signin-btn')).toBeInTheDocument();
-    });
-
-    // Activar el botón de crear nueva cuenta y esperar que el formulario de registro aparezca:
-    const createAccount = screen.getByText(/create a new account/i);
-    expect(createAccount).toBeInTheDocument();
-    userEvent.click(createAccount);
-    await waitFor(() => {
-      expect(screen.getByTestId('signup-btn')).toBeInTheDocument();
-    });
-
-    // Cargar un usuario random en el input del email
-    const emailInput = screen.getByPlaceholderText(/enter your email../i);
-    userEvent.clear(emailInput);
-    userEvent.type(emailInput, `user${Math.floor(Math.random() * 10000)}@mail.com`);
-
-    // Confirmar con un Enter en el input de confirmación de password y esperar que el formulario de registro desaparezca:
-    const password2Input = screen.getByPlaceholderText(/confirm your password../i);
-    userEvent.type(password2Input, '123456{enter}');
-
-    await waitForElementToBeRemoved(password2Input);
-    // await new Promise((r) => setTimeout(r, 1000));
-
-    // await waitFor(() => screen.queryByTestId('hola-no-esta'), {
-    //   timeout: 5000,
-    // });
-    // await waitForElementToBeRemoved(screen.findByTestId('no-logged-user'));
-  };
-
-  // test('should render a list of mocked videos at the beginning', async () => {
-  //   await waitForSpinnerRenders();
-  //   const videosListItems = await screen.findAllByTestId(/video-item/i);
-  //   expect(videosListItems.length).toBe(10);
-  //   await expect(screen.queryByTestId('no-logged-user')).toBeInTheDocument();
-  // });
-
-  // test('shoul', async () => {
-  //   console.time('label');
-  //   await waitForSpinnerRenders();
-  //   // Activar el botón de crear nueva cuenta y esperar que el formulario de registro aparezca:
-  //   await waitForLogginButton();
-
-  //   const createAccount = screen.getByText(/create a new account/i);
-  //   expect(createAccount).toBeInTheDocument();
-  //   userEvent.click(createAccount);
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('signup-btn')).toBeInTheDocument();
-  //   });
-
-  //   // Confirmar con un Enter en el input de confirmación de password y esperar que el formulario de registro desaparezca:
-  //   const password2Input = screen.getByPlaceholderText(/confirm your password../i);
-  //   userEvent.type(password2Input, '123456{enter}');
-  //   await waitForElementToBeRemoved(password2Input);
-
-  //   let errorModal;
-  //   await waitFor(
-  //     async () => {
-  //       errorModal = await screen.queryByTestId('error-card-title');
-  //       console.log(errorModal);
-  //       if (errorModal) {
-  //         console.log('error, usuario ya registrado');
-  //         expect(errorModal).toBeInTheDocument();
-  //         const aceptBtn = await screen.getByTestId('error-card-button');
-  //         userEvent.click(aceptBtn);
-  //         // await waitForElementToBeRemoved(aceptBtn);
-
-  //         // const loginBtn = screen.getByTestId('login-btn');
-  //         // expect(loginBtn).toBeInTheDocument();
-  //         // userEvent.click(loginBtn);
-  //         // await waitFor(() => {
-  //         //   expect(screen.getByTestId('signin-btn')).toBeInTheDocument();
-  //         // });
-  //         await waitForLogginButton();
-
-  //         console.log('entra al waitfor -------------------------------------');
-  //         console.timeEnd('label');
-  //         const passwordInput = screen.getByPlaceholderText(/enter your password../i);
-  //         userEvent.type(passwordInput, specialChars.enter);
-  //         const loginButton = screen.getByTestId(/login-btn/i);
-  //         await waitFor(() => {
-  //           expect(loginButton).not.toBeInTheDocument();
-  //         });
-  //         screen.debug(screen.getByTestId(/login-btn/i));
-  //         // await waitForElementToBeRemoved(screen.getByTestId('login-btn'));
-  //       } else {
-  //         expect(errorModal).not.toBeInTheDocument();
-  //       }
-  //     },
-  //     { timeout: 20000 }
-  //   );
-  // });
-
-  it('timer', async () => {
+    // Espera que se renderice el loading spinner
     expect(await screen.getByTestId('spinner-backdrop')).toBeInTheDocument();
-    await waitForElementToBeRemoved(screen.queryByTestId('spinner-backdrop'));
-    expect((await screen.findAllByTestId(/video-item/i)).length).toBe(10);
-  });
+    const videosList = await screen.findAllByTestId(/video-item/i);
+    expect(videosList[0]).toBeInTheDocument();
 
-  it('timer 2', async () => {
-    console.log('---------------------------------------------');
-    console.time('timer');
-    expect(await screen.getByTestId('spinner-backdrop')).toBeInTheDocument();
+    userEvent.click(videosList[0]);
 
-    // Verifica que el usuario no esté logueado:
-    expect(screen.getByTestId('login-btn')).toBeInTheDocument();
+    const detailsTitle = await screen.findByTestId(/details-title/i);
+    expect(detailsTitle).toBeInTheDocument();
 
-    // Abre el login modal:
-    expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
-    userEvent.click(screen.getByTestId(/login-btn/i));
-    expect(await screen.findByTestId('signin-btn')).toBeInTheDocument();
+    fetchMock.restore();
 
-    // Cambia al formulario de registro:
-    userEvent.click(screen.getByText(/create a new account/i));
-    expect(screen.getByText(/user register/i)).toBeInTheDocument();
+    // const videoItems = await screen.findAllByTestId(/video-item/i);
+    // expect(videoItems.length).toBe(10);
 
-    // fillRegisterForm();
-    userEvent.type(screen.getByPlaceholderText(/enter your email../i), 'aac@mail.com');
-    userEvent.type(screen.getByPlaceholderText(/enter your password../i), '123456');
-    userEvent.type(
-      screen.getByPlaceholderText(/confirm your password../i),
-      '123456{enter}'
-    );
+    // const { videoDescription } = mockListResult.data[0];
+    // console.log(videoDescription);
+    // expect(await screen.findByText(videoDescription)).toBeInTheDocument();
 
-    await waitForElementToBeRemoved(screen.getByText(/user register/i));
-    if (screen.queryByText(/authentication error/i)) {
-      // Error, el usuario que intenta crear ya existe
-      expect(screen.getByTestId(/login-btn/i)).toBeInTheDocument();
-      expect(screen.getByText(/the email address is already in/i)).toBeInTheDocument();
-    } else {
-      // Se creó un nuevo usuario, ya se encuentra logueado
-      expect(screen.getByTestId(/login-btn-/i)).toBeInTheDocument();
-    }
-
-    console.log('#############################################');
-    console.timeEnd('timer');
     // screen.debug();
   });
-
-  // it('timer 2', async () => {
-  //   console.log('---------------------------------------------');
-  //   console.time('timer');
-  //   // screen.debug();
-  //   const videosListItems = await screen.findAllByTestId(/video-item/i);
-  //   expect(videosListItems.length).toBe(10);
-  //   // const spinner = await screen.getByTestId('spinner-backdrop');
-  //   // expect(spinner).toBeInTheDocument();
-  //   // await waitForElementToBeRemoved(screen.queryByTestId('spinner-backdrop'));
-  //   expect(true).toBe(true);
-  //   console.log('#############################################');
-  //   console.timeEnd('timer');
-  // });
-
-  // test('should register a new user', async () => {
-  // Esperar a que el spinner aparezca y desaparezca:
-  // const spinner = await screen.getByTestId('spinner-backdrop');
-  // expect(spinner).toBeInTheDocument();
-  // await waitForElementToBeRemoved(screen.queryByTestId('spinner-backdrop'));
-  // await waitForSpinnerRenders();
-  // Confirmar que la lista de videos sea cargada en el home:
-  // const videosListItems = await screen.findAllByTestId(/video-item/i);
-  // expect(videosListItems.length).toBe(10);
-  // await registerUser();
-  // Registrar usuario random:
-  // Finalmente, verificar que no aparezca el ícono de usuario no logueado:
-  // await expect(screen.queryByTestId('no-logged-user')).not.toBeInTheDocument();
-  // TODO: PROBLEMA CON ADD, recuerde que instalé un paquete y modifiqué en dos partes el package.json.
-  // });
-
-  // test('add favorites to', async () => {
-  // Esperar a que el spinner aparezca y desaparezca:
-  // const spinner = await screen.getByTestId('spinner-backdrop');
-  // expect(spinner).toBeInTheDocument();
-  // await waitForElementToBeRemoved(screen.queryByTestId('spinner-backdrop'));
-  // await waitForSpinnerRenders();
-  // // Confirmar que la lista de videos sea cargada en el home:
-  // let videosListItems = await screen.findAllByTestId(/video-item/i);
-  // expect(videosListItems.length).toBe(10);
-  // // Registrar usuario
-  // await registerUser();
-  // // console.log(mockListResult.data[0].videoId);
-  // const favButtons = await screen.findAllByTestId(/fav-add-button/i);
-  // userEvent.click(favButtons[0]);
-  // const favButtonAdded = await screen.findByTestId(
-  //   `fav-remove-button-${mockListResult.data[0].videoId}`
-  // );
-  // expect(favButtonAdded).toBeInTheDocument();
-  // screen.debug(favButtonAdded);
-  // });
 });

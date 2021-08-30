@@ -1,6 +1,7 @@
 {
   "kind": "youtube#channelListResponse",
   "etag": "ThEKrriHflrc8BMqMQ9PCX-PBMY",
+  "mocked": "list-logos",
   "pageInfo": {
     "totalResults": 10,
     "resultsPerPage": 5

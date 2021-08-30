@@ -42,7 +42,7 @@ const Details = (props) => {
       <div className="video-info">
         <div className="title-section">
           <div className="title-header-section">
-            <h1 className="video-title" data-testid="title">
+            <h1 className="video-title" data-testid="details-title">
               {videoTitle}
             </h1>
             {userLogged && (

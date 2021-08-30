@@ -4,5 +4,16 @@
     "durations": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=contentDetails&id=lWQ69WX7-hA,EMk6nom1aS4,zIY87vU33aA,T_j60n1zgu0,1-2eyS0k-IA,A0vq3jLAoQg,Ke90Tje7VS0,w7ejDZ8SWv8,Dorf8i6lCuk,xJZa2_aldDs",
     "logos": "https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=UCP15FVAA2UL-QOcGhy7-ezA,UCJgGc8pQO1lv04VXrBxA_Hg,UCX9NJ471o7Wie1DQe94RVIg,UC8LeXCWOalN8SxlrPcG-PaQ,UC-foHKza2KlpQuo2wi6UCAg,UCRjEjH_Xj7sQNJ9A_RU-RiA,UCWv7vMbMWH4-V0ZXdmDpPBA,UC29ju8bIPH5as8OGnQzwJyA,UCSJbGtTlrDami-tDGPUV9-w,UCg8ss4xW9jASrqWGP30jXiw"
   },
-  "search_related": "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&maxResults=10&type=video&safeSearch=strict&relatedToVideoId=lWQ69WX7-hA"
+
+  "related": {
+    "initial": "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&maxResults=20&type=video&safeSearch=strict&relatedToVideoId=lWQ69WX7-hA",
+    "durations": "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyBPRKySBubvLQnt-Zre9eWIqVQpea7NRM0&id=zIY87vU33aA,M3DO5Zfk4NI,A-iKX8Shge4,5TzL6XzWYLc,jGehuhFhtnE,mXpZDQ2Au8U,N8mFHB7JDkw,qJT2FY1jjjE,RqQ1d1qEWlE",
+    "logos": "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=AIzaSyBPRKySBubvLQnt-Zre9eWIqVQpea7NRM0&id=UCX9NJ471o7Wie1DQe94RVIg,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCjXAQ-cayM4mIZmUZKMFW_w,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCX9NJ471o7Wie1DQe94RVIg"
+  },
+
+  "single": {
+    "initial": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=lWQ69WX7-hA",
+    "durations": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=contentDetails&id=lWQ69WX7-hA",
+    "logos": " https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=UCP15FVAA2UL-QOcGhy7-ezA"
+  }
 }

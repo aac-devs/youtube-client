@@ -57,6 +57,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.2",
     "fetch-mock": "^9.11.0",
+    "fetch-mock-jest": "^1.5.1",
     "history": "^4.10.1",
     "jest-environment-jsdom-fourteen": "^1.0.1",
     "jest-fetch-mock": "^3.0.3",

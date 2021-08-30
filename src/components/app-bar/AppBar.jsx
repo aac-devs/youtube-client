@@ -79,26 +79,22 @@ const AppBar = () => {
 
   // Authentication:
   const authLoginHandler = ({ ok, user, error }) => {
-    // console.log({ ok, user, error });
     if (ok && user) {
       authContext.login(user);
     } else if (ok && !user) {
       authContext.logout();
     } else {
       authContext.setError('Authentication error', error);
-      // console.log(error);
     }
     hideModal();
   };
 
   const userSignUpHandler = async (signUpUser) => {
-    console.log('user sign up');
     authContext.resetError();
     authLoginHandler(await sighUpWithEmailAndPassword(signUpUser));
   };
 
   const userSignInHandler = async (signInUser) => {
-    console.log('user sign in');
     authContext.resetError();
     authLoginHandler(await signInWithEmailAndPassword(signInUser));
   };
@@ -271,6 +267,7 @@ const AppBar = () => {
               <div
                 role="button"
                 type="button"
+                data-testid='menu-fav-right-btn'
                 onClick={() => goToPageHandler('/favorites')}
               >
                 <FavoriteBorder />

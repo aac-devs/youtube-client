@@ -26,7 +26,7 @@ export const StyledList = styled.ul`
 
 const VideosList = ({ list, display, onSelected }) => {
   return (
-    <StyledList display={display} data-testid="list-videos">
+    <StyledList display={display} data-testid={`list-videos-${display}`}>
       {list?.map((item) => {
         return (
           <VideoItem

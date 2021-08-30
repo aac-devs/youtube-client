@@ -12,22 +12,16 @@ const buildUrl = (params) => {
   }`;
 };
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
 const fetchData = async (params) => {
-  // console.log('fetching....');
-  console.log(buildUrl(params));
-  // await delay(1000);
+  // console.log(buildUrl(params));
   const response = await fetch(buildUrl(params));
   // console.log({ response });
   const data = await response.json();
-  // console.log('end fetching...');
   console.log({ data });
   return data;
 };
 
 const searchVideos = async (params) => {
-  // console.log('search videos');
   const data = await fetchData(params);
   const filteredData = data.items.map((video) => {
     const {
@@ -51,7 +45,6 @@ const searchVideos = async (params) => {
 };
 
 const searchVideoDurations = async (videos, params) => {
-  // console.log('video durations');
   const data = await fetchData(params);
   return videos.map((video) => {
     return {
@@ -63,7 +56,6 @@ const searchVideoDurations = async (videos, params) => {
 };
 
 const searchChannelLogos = async (videos, params) => {
-  // console.log('channel logos');
   const data = await fetchData(params);
   return videos.map((video) => {
     const channelLogo =
@@ -97,7 +89,6 @@ const findVideos = async (value) => {
       id: ids,
     };
 
-    // await delay(1000);
     resp = await searchVideoDurations(resp, params);
     ids = resp.map((video) => video.channelId).join();
     params = {
@@ -106,7 +97,6 @@ const findVideos = async (value) => {
       id: ids,
     };
 
-    // await delay(1000);
     resp = await searchChannelLogos(resp, params);
     return {
       ok: true,
@@ -127,6 +117,7 @@ const findVideo = async (id) => {
     part: 'snippet',
     id,
   };
+  console.log('single videos');
   return searchVideos(params)
     .then((resp) => {
       params = {
@@ -135,6 +126,7 @@ const findVideo = async (id) => {
         id,
       };
       const newResp = [{ ...resp[0], videoId: id }];
+      console.log('single durations');
       return searchVideoDurations(newResp, params);
     })
     .then((resp) => {
@@ -143,11 +135,13 @@ const findVideo = async (id) => {
         part: 'snippet',
         id: resp[0].channelId,
       };
+      console.log('single channels');
       return searchChannelLogos(resp, params);
     })
     .then((resp) => {
       const data = resp[0];
       data.videoId = id;
+      console.log({ data });
       return {
         ok: true,
         data,

@@ -2,7 +2,6 @@ import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 // AUTHENTICATION:
 const authMethod = async (method, params) => {
-  console.log('auth method');
   try {
     const { user } = params.email
       ? await firebase.auth()[method](params.email, params.password)
@@ -49,8 +48,6 @@ const signOut = async () => {
 // const FIREBASE_DOMAIN = 'http://localhost:9000/favorites/';
 const FIREBASE_DOMAIN = process.env.REACT_APP_FIREBASE_DOMAIN;
 
-console.log('FIREBASE DOMAIN:', FIREBASE_DOMAIN);
-
 const getAllFromFavorites = async (userId) => {
   try {
     const url = `${FIREBASE_DOMAIN}${userId}.json`;
@@ -82,7 +79,6 @@ const addFavoriteToFirebase = async (data) => {
     const dataResp = await resp.json();
     return { ok: true, docId: dataResp.name };
   } catch (error) {
-    console.log(error.message);
     return { ok: false, error: error.message };
   }
 };
