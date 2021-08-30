@@ -7,13 +7,13 @@
 
   "related": {
     "initial": "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&maxResults=20&type=video&safeSearch=strict&relatedToVideoId=lWQ69WX7-hA",
-    "durations": "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyBPRKySBubvLQnt-Zre9eWIqVQpea7NRM0&id=zIY87vU33aA,M3DO5Zfk4NI,A-iKX8Shge4,5TzL6XzWYLc,jGehuhFhtnE,mXpZDQ2Au8U,N8mFHB7JDkw,qJT2FY1jjjE,RqQ1d1qEWlE",
-    "logos": "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=AIzaSyBPRKySBubvLQnt-Zre9eWIqVQpea7NRM0&id=UCX9NJ471o7Wie1DQe94RVIg,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCjXAQ-cayM4mIZmUZKMFW_w,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCX9NJ471o7Wie1DQe94RVIg"
+    "durations": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=contentDetails&id=zIY87vU33aA,M3DO5Zfk4NI,A-iKX8Shge4,5TzL6XzWYLc,jGehuhFhtnE,mXpZDQ2Au8U,N8mFHB7JDkw,qJT2FY1jjjE,RqQ1d1qEWlE",
+    "logos": "https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=UCX9NJ471o7Wie1DQe94RVIg,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCjXAQ-cayM4mIZmUZKMFW_w,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCP15FVAA2UL-QOcGhy7-ezA,UCX9NJ471o7Wie1DQe94RVIg"
   },
 
   "single": {
     "initial": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=lWQ69WX7-hA",
     "durations": "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=contentDetails&id=lWQ69WX7-hA",
-    "logos": " https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=UCP15FVAA2UL-QOcGhy7-ezA"
+    "logos": "https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDKEmhNLQ2aN0Kb97T63dDKzR4gMGCEdMc&part=snippet&id=UCP15FVAA2UL-QOcGhy7-ezA"
   }
 }

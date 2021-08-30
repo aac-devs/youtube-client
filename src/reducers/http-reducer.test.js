@@ -27,7 +27,7 @@ describe('httpReducer', () => {
   test('should return a data array', () => {
     const state = httpReducer(initialState, {
       type: types.http.success,
-      responseData: [1, 2, 3],
+      payload: [1, 2, 3],
     });
     expect(state).toEqual({
       data: [1, 2, 3],
@@ -36,15 +36,32 @@ describe('httpReducer', () => {
     });
   });
 
-  test('should return an error message', () => {
+  test('should set an error', () => {
     const state = httpReducer(initialState, {
-      type: types.http.error,
-      errorMessage: 'Something went wrong',
+      type: types.http.setError,
+      payload: { title: 'Error title', message: 'Something went wrong' },
     });
     expect(state).toEqual({
       data: null,
-      error: 'Something went wrong',
       loading: false,
+      error: { title: 'Error title', message: 'Something went wrong' },
+    });
+  });
+
+  test('should reset an error', () => {
+    const state = httpReducer(
+      {
+        ...initialState,
+        error: { title: 'Error title', message: 'Something went wrong' },
+      },
+      {
+        type: types.http.resetError,
+      }
+    );
+    expect(state).toEqual({
+      data: null,
+      loading: false,
+      error: null,
     });
   });
 });

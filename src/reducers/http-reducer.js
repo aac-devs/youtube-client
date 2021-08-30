@@ -10,14 +10,20 @@ const httpReducer = (state, action) => {
       };
     case types.http.success:
       return {
-        data: action.responseData,
+        data: action.payload,
         error: null,
         loading: false,
       };
-    case types.http.error:
+    case types.http.setError:
       return {
         data: null,
-        error: action.errorMessage,
+        error: action.payload,
+        loading: false,
+      };
+    case types.http.resetError:
+      return {
+        ...state,
+        error: null,
         loading: false,
       };
 

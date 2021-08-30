@@ -267,7 +267,7 @@ const AppBar = () => {
               <div
                 role="button"
                 type="button"
-                data-testid='menu-fav-right-btn'
+                data-testid="menu-fav-right-btn"
                 onClick={() => goToPageHandler('/favorites')}
               >
                 <FavoriteBorder />

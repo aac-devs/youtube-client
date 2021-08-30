@@ -21,6 +21,9 @@ export const StyledList = styled.ul`
         `
       : css`
           /* TODO: */
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
         `}
 `;
 

@@ -44,8 +44,6 @@ const signOut = async () => {
 };
 
 // DATABASE:
-// const FIREBASE_DOMAIN = 'https://client-37115-default-rtdb.firebaseio.com/favorites/';
-// const FIREBASE_DOMAIN = 'http://localhost:9000/favorites/';
 const FIREBASE_DOMAIN = process.env.REACT_APP_FIREBASE_DOMAIN;
 
 const getAllFromFavorites = async (userId) => {

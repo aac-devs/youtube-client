@@ -6,15 +6,13 @@ import { findVideos } from '../lib/youtube-api';
 import { Container } from './HomeView.styles';
 import LoadingSpinner from '../components/layout/LoadingSpinner';
 import useHttp from '../hooks/useHttp';
+import ErrorCard from '../components/ErrorCard';
 
 const HomeView = () => {
-  const { sendRequest, loading, data: videos, error } = useHttp(findVideos);
+  const { sendRequest, loading, data: videos, error, onResetError } = useHttp(findVideos);
 
   const history = useHistory();
   const { searchValue } = useContext(AppContext);
-
-  // console.log({ searchValue });
-  // console.log({ history });
 
   useEffect(() => {
     sendRequest({ q: searchValue, maxResults: 20 });
@@ -28,8 +26,9 @@ const HomeView = () => {
   );
 
   if (error) {
-    // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{error}</h1>;
+    return (
+      <ErrorCard data-testid="error-message" onClose={() => onResetError()} {...error} />
+    );
   }
 
   if (loading) {

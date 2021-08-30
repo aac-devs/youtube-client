@@ -9,7 +9,7 @@ import FavoriteDetailsView from './pages/FavoriteDetailsView';
 
 const App = () => {
   const { user } = useContext(AuthContext);
-  // console.log({ user });
+
   return (
     <Layout>
       <Switch>

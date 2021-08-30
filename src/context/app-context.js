@@ -39,9 +39,6 @@ export const AppContextProvider = (props) => {
     dispatch({ type: types.appContext.setAppTheme, payload: theme });
   };
 
-  // console.log({ searchValue });
-  // console.log({ appTheme });
-
   const value = {
     searchValue,
     searchFor: searchValueHandler,

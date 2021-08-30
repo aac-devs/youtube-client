@@ -13,11 +13,8 @@ const buildUrl = (params) => {
 };
 
 const fetchData = async (params) => {
-  // console.log(buildUrl(params));
   const response = await fetch(buildUrl(params));
-  // console.log({ response });
   const data = await response.json();
-  console.log({ data });
   return data;
 };
 
@@ -117,7 +114,6 @@ const findVideo = async (id) => {
     part: 'snippet',
     id,
   };
-  console.log('single videos');
   return searchVideos(params)
     .then((resp) => {
       params = {
@@ -126,7 +122,6 @@ const findVideo = async (id) => {
         id,
       };
       const newResp = [{ ...resp[0], videoId: id }];
-      console.log('single durations');
       return searchVideoDurations(newResp, params);
     })
     .then((resp) => {
@@ -135,13 +130,11 @@ const findVideo = async (id) => {
         part: 'snippet',
         id: resp[0].channelId,
       };
-      console.log('single channels');
       return searchChannelLogos(resp, params);
     })
     .then((resp) => {
       const data = resp[0];
       data.videoId = id;
-      console.log({ data });
       return {
         ok: true,
         data,

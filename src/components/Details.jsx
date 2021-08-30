@@ -21,7 +21,7 @@ const Details = (props) => {
   const publishedDate = formattedDate(videoPublishedAt);
 
   let favData;
-  let isFav = false;
+  let isFav;
   if (userLogged) {
     favData = {
       channelTitle,
@@ -30,8 +30,16 @@ const Details = (props) => {
       videoTitle,
       videoImage,
     };
-    isFav = favorites.find((fav) => fav.videoId === videoId) || false;
+    isFav = favorites.find((fav) => fav.videoId === videoId);
   }
+
+  const favButtonClickHandler = () => {
+    if (isFav) {
+      removeFromFavorites(videoId);
+    } else {
+      addToFavorites(favData);
+    }
+  };
 
   return (
     <Container>
@@ -47,13 +55,10 @@ const Details = (props) => {
             </h1>
             {userLogged && (
               <button
-                onClick={
-                  isFav
-                    ? () => removeFromFavorites(videoId)
-                    : () => addToFavorites(favData)
-                }
+                onClick={favButtonClickHandler}
                 type="button"
                 className="add-remove-favorites"
+                data-testid="add-remove-favs-btn"
               >
                 {isFav ? 'Remove from favorites' : 'Add to favorites'}
               </button>

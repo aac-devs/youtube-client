@@ -2,7 +2,8 @@ export const types = {
   http: {
     send: 'SEND',
     success: 'SUCCESS',
-    error: 'ERROR',
+    setError: 'SET ERROR',
+    resetError: 'RESET ERROR',
   },
   theme: {
     light: 'LIGHT',

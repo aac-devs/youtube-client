@@ -48,7 +48,6 @@ export const AuthContextProvider = (props) => {
         if (resp.ok) {
           dispatch({ type: types.authContext.loadFavorites, payload: resp.data });
         } else {
-          // Guardar el error
           dispatch({
             type: types.authContext.setError,
             payload: { title: 'Favorites read', message: resp.error },
@@ -114,10 +113,6 @@ export const AuthContextProvider = (props) => {
   const resetErrorHandler = () => {
     dispatch({ type: types.authContext.resetError });
   };
-
-  console.log({ user });
-  console.log({ favorites });
-  console.log({ error });
 
   const value = {
     user,

@@ -22,24 +22,9 @@ const RegisterForm = (props) => {
     <>
       <h5>User Register</h5>
       <form onSubmit={submitHandler}>
-        <input
-          type="email"
-          placeholder="Enter your email.."
-          ref={emailRef}
-          // defaultValue="user@mail.com"
-        />
-        <input
-          type="password"
-          placeholder="Enter your password.."
-          ref={password1Ref}
-          // defaultValue="123456"
-        />
-        <input
-          type="password"
-          placeholder="Confirm your password.."
-          ref={password2Ref}
-          // defaultValue="123456"
-        />
+        <input type="email" placeholder="Enter your email.." ref={emailRef} />
+        <input type="password" placeholder="Enter your password.." ref={password1Ref} />
+        <input type="password" placeholder="Confirm your password.." ref={password2Ref} />
         <button type="submit" data-testid="signup-btn">
           Sign up
         </button>
