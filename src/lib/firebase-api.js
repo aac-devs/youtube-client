@@ -93,7 +93,6 @@ const removeFavoriteFromFirebase = async (userId, docId) => {
     await resp.json();
     return { ok: true };
   } catch (error) {
-    console.log(error.message);
     return { ok: false, error: error.message };
   }
 };
