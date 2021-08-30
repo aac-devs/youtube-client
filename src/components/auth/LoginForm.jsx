@@ -22,16 +22,8 @@ const LoginForm = (props) => {
     <>
       <h5>User Login</h5>
       <form onSubmit={submitHandler}>
-        <input
-          type="email"
-          placeholder="Enter your email.."
-          ref={emailRef}
-        />
-        <input
-          type="password"
-          placeholder="Enter your password.."
-          ref={passwordRef}
-        />
+        <input type="email" placeholder="Enter your email.." ref={emailRef} />
+        <input type="password" placeholder="Enter your password.." ref={passwordRef} />
         <button type="submit" data-testid="signin-btn">
           Sign in
         </button>
