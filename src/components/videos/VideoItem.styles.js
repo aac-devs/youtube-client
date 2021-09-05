@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.li`
+export const StyledVideoItem = styled.li`
   list-style: none;
   outline: none;
   border: none;
@@ -16,28 +16,6 @@ export const Container = styled.li`
     top: 0;
     left: 0;
     z-index: 1;
-  }
-
-  .fav-button {
-    cursor: pointer;
-    height: 35px;
-    width: 35px;
-    z-index: 10;
-    position: absolute;
-    top: ${({ top }) => top};
-    right: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: dodgerblue;
-    border-radius: 4px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: scale(1.1);
-      color: #fff;
-    }
   }
 
   &:hover {
@@ -125,6 +103,7 @@ export const Container = styled.li`
           .card-body {
             grid-area: cardBody;
             margin-right: 15px;
+            position: relative;
           }
         `
       : display === 'related'
@@ -138,6 +117,8 @@ export const Container = styled.li`
 
           .card-body {
             overflow: hidden;
+            position: relative;
+            flex-grow: 1;
           }
 
           .videoImage-area {

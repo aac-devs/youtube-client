@@ -1,15 +1,12 @@
 import styled from 'styled-components';
+import { PageContainer } from '../global-styles';
 
-export const Container = styled.main`
-  margin: 0 auto;
-  max-width: 1700px;
-  padding: 10px;
-  padding-top: 74px;
-  width: 100%;
+export const DetailsViewContainer = styled(PageContainer)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  @media (max-width: 960px) {
+
+  @media (max-width: 1024px) {
     flex-direction: column;
   }
 
@@ -17,7 +14,7 @@ export const Container = styled.main`
     width: 400px;
     min-width: 400px;
     margin-left: 10px;
-    @media (max-width: 960px) {
+    @media (max-width: 1024px) {
       width: 100%;
       min-width: 300px;
       margin: 20px 0 0 0;

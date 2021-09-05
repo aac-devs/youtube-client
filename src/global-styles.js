@@ -67,4 +67,21 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
+export const PageContainer = styled.main`
+  padding: 10px;
+  margin: 0 auto;
+  max-width: 1700px;
+  width: 100%;
+  padding-top: 74px;
+`;
+
+export const BackDrop = styled.div`
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+`;
+
 export default GlobalStyles;

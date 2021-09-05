@@ -1,17 +1,11 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMediaQuery, Switch } from '@material-ui/core';
-import {
-  HomeOutlined,
-  FavoriteBorder,
-  WbSunnyOutlined,
-  Brightness2,
-  Person,
-} from '@material-ui/icons';
+import { Person } from '@material-ui/icons';
 import SearchBox from './SearchBox';
 import YoutubeLogo from '../YoutubeLogo';
-import AppContext from '../../context/app-context';
-import AuthContext from '../../context/auth-context';
+import { useAppContext } from '../../context/app-context';
+import { useAuthContext } from '../../context/auth-context';
 import { Container, RoundButton } from './AppBar.styles';
 import { types } from '../../types/types';
 import loggedIcon from '../../assets/logged.png';
@@ -25,38 +19,23 @@ import {
   signOut,
 } from '../../lib/firebase-api';
 import ErrorCard from '../ErrorCard';
+import DropMenu from './DropMenu';
 
 const AppBar = () => {
   const history = useHistory();
   const matches = useMediaQuery('(max-width:960px)');
-  const ctx = useContext(AppContext);
-  const authContext = useContext(AuthContext);
+  const { appTheme, changeAppTheme } = useAppContext();
+  const { user, error, login, logout, setError, resetError } = useAuthContext();
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showModalForm, setShowModalForm] = useState(false);
-  const [showRightMenu, setShowRightMenu] = useState(false);
-  const [showLeftMenu, setShowLeftMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [menuSide, setMenuSide] = useState('');
 
   const { pathname } = history.location;
 
-  // Menus:
-  const goToPageHandler = (page) => {
-    history.push(page);
-    setShowRightMenu(false);
-    setShowLeftMenu(false);
-  };
-
-  const showRightMenuHandler = () => {
-    setShowRightMenu(true);
-  };
-
-  const showLeftMenuHandler = () => {
-    setShowLeftMenu(true);
-  };
-
   // Login Modal:
   const showModal = () => {
-    setShowLeftMenu(false);
     setShowModalForm(true);
   };
 
@@ -78,66 +57,87 @@ const AppBar = () => {
   };
 
   // Authentication:
-  const authLoginHandler = ({ ok, user, error }) => {
-    if (ok && user) {
-      authContext.login(user);
-    } else if (ok && !user) {
-      authContext.logout();
+  const authLoginHandler = ({ ok, user: loginUser, error: loginError }) => {
+    resetError();
+    if (ok && loginUser) {
+      login(loginUser);
+    } else if (ok && !loginUser) {
+      logout();
     } else {
-      authContext.setError('Authentication error', error);
+      setError('Authentication error', loginError);
     }
     hideModal();
   };
 
   const userSignUpHandler = async (signUpUser) => {
-    authContext.resetError();
     authLoginHandler(await sighUpWithEmailAndPassword(signUpUser));
   };
 
   const userSignInHandler = async (signInUser) => {
-    authContext.resetError();
     authLoginHandler(await signInWithEmailAndPassword(signInUser));
   };
 
   const googleSignInHandler = async () => {
-    authContext.resetError();
     authLoginHandler(await signInWithGoogle());
   };
 
   const userSignOutHandler = async () => {
     authLoginHandler(await signOut());
-    setShowRightMenu(false);
-    setShowLeftMenu(false);
   };
 
   const closeErrorHandler = () => {
-    authContext.resetError();
+    resetError();
   };
 
   // Theme:
   const changeThemeHandler = (event) => {
-    ctx.changeAppTheme(event.target.checked);
+    if (!event?.target) {
+      changeAppTheme(event);
+      return;
+    }
+    if (event.target.checked) {
+      changeAppTheme(types.theme.light);
+    } else {
+      changeAppTheme(types.theme.dark);
+    }
   };
 
-  const changeThemeFromLeftMenuHandler = (value) => {
-    ctx.changeAppTheme(value);
-    setShowLeftMenu(false);
+  // Menu:
+  const menuCloseHandler = (option) => {
+    if (option.page) {
+      history.push(option.page);
+    }
+    if (option.user === 'Sign In') {
+      showModal();
+    }
+    if (option.user === 'Sign Out') {
+      userSignOutHandler();
+    }
+    if (option.theme) {
+      changeThemeHandler(option.theme);
+    }
+    setTimeout(() => {
+      setShowMenu(false);
+    }, 500);
+  };
+
+  const menuOpenHandler = (side) => {
+    setShowMenu(true);
+    setMenuSide(side);
   };
 
   const themeModeText =
-    ctx.appTheme === types.theme.light ? <p>Light mode</p> : <p>Dark mode</p>;
+    appTheme === types.theme.light ? <p>Light mode</p> : <p>Dark mode</p>;
   let swTheme = false;
-  if (ctx.appTheme === types.theme.light) {
+  if (appTheme === types.theme.light) {
     swTheme = true;
   }
 
-  const source = authContext.user?.photoURL || loggedIcon;
+  const source = user?.photoURL || loggedIcon;
 
   return (
     <Container>
-      {authContext.error && (
-        <ErrorCard onClose={closeErrorHandler} {...authContext.error} />
-      )}
+      {error && <ErrorCard onClose={closeErrorHandler} {...error} />}
       {showModalForm && (
         <Modal onClose={hideModal}>
           {showLoginForm && (
@@ -159,70 +159,14 @@ const AppBar = () => {
       <div className="search-section">
         <YoutubeLogo
           withText={!matches}
-          onClick={matches ? showLeftMenuHandler : () => goToPageHandler('/videos')}
+          onClick={
+            matches ? () => menuOpenHandler('left') : () => history.push('/videos')
+          }
         />
         <SearchBox />
-        {showLeftMenu && (
-          <div
-            role="button"
-            data-testid="backdrop-left-menu"
-            className="backdrop-left-menu"
-            onClick={() => setShowLeftMenu(false)}
-          />
+        {showMenu && menuSide === 'left' && (
+          <DropMenu pathname={pathname} side={menuSide} onClose={menuCloseHandler} />
         )}
-        <div
-          className={`left-menu-items ${
-            showLeftMenu ? 'show-left-menu' : 'hide-left-menu'
-          }`}
-        >
-          {authContext.user && (
-            <RoundButton
-              style={{ alignSelf: 'flex-end', marginRight: '0px', marginBottom: '10px' }}
-              type="button"
-              url={authContext.user ? source : null}
-            >
-              {!authContext.user}
-            </RoundButton>
-          )}
-          {pathname !== '/videos' && (
-            <div role="button" type="button" onClick={() => goToPageHandler('/videos')}>
-              <HomeOutlined />
-              &nbsp;Home
-            </div>
-          )}
-          {authContext.user && pathname !== '/favorites' && (
-            <div
-              role="button"
-              type="button"
-              onClick={() => goToPageHandler('/favorites')}
-            >
-              <FavoriteBorder />
-              &nbsp;Favorites
-            </div>
-          )}
-          {ctx.appTheme === types.theme.light && (
-            <div role="button" onClick={() => changeThemeFromLeftMenuHandler(false)}>
-              <Brightness2 />
-              &nbsp;Change to dark mode
-            </div>
-          )}
-          {ctx.appTheme === types.theme.dark && (
-            <div role="button" onClick={() => changeThemeFromLeftMenuHandler(true)}>
-              <WbSunnyOutlined />
-              &nbsp;Change to light mode
-            </div>
-          )}
-          {!authContext.user && (
-            <div onClick={showModal} role="button">
-              Sign In
-            </div>
-          )}
-          {authContext.user && (
-            <div role="button" onClick={userSignOutHandler}>
-              Sign Out
-            </div>
-          )}
-        </div>
       </div>
 
       {!matches && (
@@ -236,48 +180,16 @@ const AppBar = () => {
           />
           {themeModeText}
           <RoundButton
-            onClick={authContext.user ? showRightMenuHandler : showModal}
+            onClick={user ? () => menuOpenHandler('right') : showModal}
             type="button"
-            data-testid={
-              authContext.user ? `login-btn-${authContext.user.uid}` : 'login-btn'
-            }
-            url={authContext.user ? source : null}
+            data-testid={user ? `login-btn-${user.uid}` : 'login-btn'}
+            url={user ? source : null}
           >
-            {!authContext.user && <Person data-testid="no-logged-user" />}
+            {!user && <Person data-testid="no-logged-user" />}
           </RoundButton>
-          {showRightMenu && (
-            <div
-              role="button"
-              className="backdrop-right-menu"
-              onClick={() => setShowRightMenu(false)}
-            />
+          {showMenu && menuSide === 'right' && (
+            <DropMenu pathname={pathname} side={menuSide} onClose={menuCloseHandler} />
           )}
-          <div
-            className={`right-menu-items ${
-              showRightMenu ? 'show-right-menu' : 'hide-right-menu'
-            }`}
-          >
-            {pathname !== '/videos' && (
-              <div role="button" type="button" onClick={() => goToPageHandler('/videos')}>
-                <HomeOutlined />
-                &nbsp;Home
-              </div>
-            )}
-            {pathname !== '/favorites' && (
-              <div
-                role="button"
-                type="button"
-                data-testid="menu-fav-right-btn"
-                onClick={() => goToPageHandler('/favorites')}
-              >
-                <FavoriteBorder />
-                &nbsp;Favorites
-              </div>
-            )}
-            <div role="button" type="button" onClick={userSignOutHandler}>
-              Sign Out
-            </div>
-          </div>
         </div>
       )}
     </Container>

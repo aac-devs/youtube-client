@@ -1,31 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
 import VideoItem from './VideoItem';
-
-export const StyledList = styled.ul`
-  min-width: 300px;
-  ${({ display }) =>
-    display === 'home'
-      ? css`
-          display: grid;
-          grid-template-columns: repeat(auto-fit, 300px);
-          grid-column-gap: 15px;
-          grid-row-gap: 30px;
-          justify-content: center;
-        `
-      : display === 'related'
-      ? css`
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-        `
-      : css`
-          /* TODO: */
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-        `}
-`;
+import { StyledList } from './VideosList.styles';
 
 const VideosList = ({ list, display, onSelected }) => {
   return (

@@ -4,7 +4,7 @@ const httpReducer = (state, action) => {
   switch (action.type) {
     case types.http.send:
       return {
-        data: null,
+        ...state,
         error: null,
         loading: true,
       };

@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import AuthContext from '../../context/auth-context';
+import React from 'react';
+import StarIcon from '@material-ui/icons/Star';
+import { useAuthContext } from '../../context/auth-context';
 import { formattedDate, formattedDuration } from '../../lib/aux-functions';
-import { Container } from './VideoItem.styles';
 import FavButton from './FavButton';
+import { StyledVideoItem } from './VideoItem.styles';
 
 const VideoItem = (props) => {
-  const { user, favorites, addToFavorites, removeFromFavorites } =
-    useContext(AuthContext);
+  const { user, favorites, addToFavorites, removeFromFavorites } = useAuthContext();
 
   const clickHandler = () => {
     props.onSelected(props.videoId);
@@ -19,16 +19,26 @@ const VideoItem = (props) => {
     publishedDate = formattedDate(props.videoPublishedAt);
   }
 
+  const favVideo = favorites.find((item) => item.videoId === props.videoId);
+
   const favProps = {
     favorites,
     videoId: props.videoId,
     values: props,
     addToFavorites,
     removeFromFavorites,
+    favVideo,
+  };
+
+  const starStyles = {
+    top: props.display === 'home' ? '5px' : '-2px',
+    left: props.display === 'home' ? '-3px' : '-2px',
+    color: 'orange',
+    position: 'absolute',
   };
 
   return (
-    <Container display={props.display}>
+    <StyledVideoItem display={props.display}>
       {user && props.display === 'favorites' && <FavButton top="42.5px" {...favProps} />}
       <div
         className="click-sensor"
@@ -51,13 +61,21 @@ const VideoItem = (props) => {
         </div>
       )}
       <div className="card-body">
-        <div className="videoTitle-area">{props.videoTitle}</div>
+        <div className="videoTitle-area">
+          {user && props.display !== 'favorites' && favVideo && (
+            <>
+              <StarIcon style={starStyles} />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </>
+          )}
+          {props.videoTitle}
+        </div>
         <div className="channelTitle-area">{props.channelTitle}</div>
         {props.display !== 'favorites' && (
           <div className="videoPublishedAt-area">Published at {publishedDate}</div>
         )}
       </div>
-    </Container>
+    </StyledVideoItem>
   );
 };
 

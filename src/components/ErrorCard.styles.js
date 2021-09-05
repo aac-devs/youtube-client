@@ -5,7 +5,6 @@ const Card = styled.div`
   min-width: 300px;
   max-width: 300px;
   background-color: #fff;
-  /* padding: 20px; */
   border-radius: 10px;
 
   .error-header {

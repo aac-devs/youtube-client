@@ -1,52 +1,73 @@
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import styled from 'styled-components';
+import { FavoriteBorder, RemoveCircleOutline } from '@material-ui/icons';
+
+export const StyledFavButton = styled.div.attrs({
+  role: 'button',
+})`
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  z-index: 10;
+  position: absolute;
+  top: ${({ top }) => top};
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: dodgerblue;
+  border-radius: 4px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    color: #fff;
+  }
+`;
 
 const FavButton = (props) => {
-  const { favorites, videoId, values, addToFavorites, removeFromFavorites } = props;
-  let favButton;
+  const { favorites, videoId, values, addToFavorites, removeFromFavorites, favVideo } =
+    props;
 
+  let favButton;
   if (favorites.length > 0) {
-    const favVideo = favorites.find((item) => item.videoId === videoId);
     if (!favVideo) {
       favButton = (
-        <div
+        <StyledFavButton
           className="fav-button"
-          style={{ top: `${props.top}` }}
-          role="button"
+          top={`${props.top}`}
           onClick={() => addToFavorites(values)}
           data-testid={`fav-add-button-${videoId}`}
         >
-          <FavoriteBorderIcon />
-        </div>
+          <FavoriteBorder />
+        </StyledFavButton>
       );
     } else {
       favButton = (
-        <div
+        <StyledFavButton
           className="fav-button"
-          style={{ top: `${props.top}` }}
-          role="button"
+          top={`${props.top}`}
           onClick={() => removeFromFavorites(videoId)}
           data-testid={`fav-remove-button-${videoId}`}
         >
-          <RemoveCircleOutlineIcon color="secondary" />
-        </div>
+          <RemoveCircleOutline color="secondary" />
+        </StyledFavButton>
       );
     }
   } else {
     favButton = (
-      <div
+      <StyledFavButton
         className="fav-button"
-        style={{ top: `${props.top}` }}
-        role="button"
+        top={`${props.top}`}
         onClick={() => addToFavorites(values)}
         data-testid={`fav-add-button-${videoId}`}
       >
-        <FavoriteBorderIcon />
-      </div>
+        <FavoriteBorder />
+      </StyledFavButton>
     );
   }
 
-  return <>{favButton}</>;
+  return favButton;
 };
 
 export default FavButton;

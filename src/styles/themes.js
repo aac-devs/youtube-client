@@ -17,6 +17,8 @@ const darkTheme = {
   border: '1px solid #555',
   background: '#212121',
   spinnerColor: '#f5f5f5',
+  favShadow: '0px 0px 5px #555',
+  favColor: 'orange',
   login: {
     container: {
       background: 'rgba(0, 0, 0, 0.7)',
@@ -57,6 +59,8 @@ const lightTheme = {
   border: '1px solid #ddd',
   background: '#f5f5f5',
   spinnerColor: '#212121',
+  favShadow: '0px 0px 5px #aaa',
+  favColor: 'orangered',
   login: {
     container: {
       background: 'rgba(0, 0, 0, 0.7)',

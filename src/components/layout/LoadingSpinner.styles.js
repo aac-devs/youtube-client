@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { BackDrop } from '../../global-styles';
 
 const spinner = keyframes`
   0% {
@@ -9,13 +10,7 @@ const spinner = keyframes`
   }
 `;
 
-export const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+export const Container = styled(BackDrop)`
   display: flex;
   justify-content: center;
   align-items: center;

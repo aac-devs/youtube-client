@@ -32,6 +32,7 @@ export const Container = styled.main`
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        position: relative;
 
         .video-title {
           color: ${({ theme }) => theme.text.titleColor};

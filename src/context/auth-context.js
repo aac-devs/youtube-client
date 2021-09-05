@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import {
   addFavoriteToFirebase,
   getAllFromFavorites,
@@ -128,4 +128,4 @@ export const AuthContextProvider = (props) => {
   return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };
 
-export default AuthContext;
+export const useAuthContext = () => useContext(AuthContext);

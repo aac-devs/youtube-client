@@ -1,14 +1,14 @@
 import SearchIcon from '@material-ui/icons/Search';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import AppContext from '../../context/app-context';
+import { useAppContext } from '../../context/app-context';
 import { Container } from './SearchBox.styles';
 
 const SearchBox = () => {
   const history = useHistory();
 
   const [searchValue, setSearchValue] = useState('');
-  const { searchFor } = useContext(AppContext);
+  const { searchFor } = useAppContext();
 
   const valueChangeHandler = (event) => {
     setSearchValue(event.target.value);

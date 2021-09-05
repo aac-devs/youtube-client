@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import appReducer from '../reducers/app-reducer';
 import { types } from '../types/types';
 
@@ -35,8 +35,8 @@ export const AppContextProvider = (props) => {
   };
 
   const changeThemeHandler = (value) => {
-    const theme = value ? types.theme.light : types.theme.dark;
-    dispatch({ type: types.appContext.setAppTheme, payload: theme });
+    console.log('app-context theme', value);
+    dispatch({ type: types.appContext.setAppTheme, payload: value });
   };
 
   const value = {
@@ -49,4 +49,4 @@ export const AppContextProvider = (props) => {
   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
 };
 
-export default AppContext;
+export const useAppContext = () => useContext(AppContext);

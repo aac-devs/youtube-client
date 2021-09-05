@@ -1,18 +1,18 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import VideosList from '../components/videos/VideosList';
-import AppContext from '../context/app-context';
+import { useAppContext } from '../context/app-context';
 import { findVideos } from '../lib/youtube-api';
-import { Container } from './HomeView.styles';
 import LoadingSpinner from '../components/layout/LoadingSpinner';
 import useHttp from '../hooks/useHttp';
 import ErrorCard from '../components/ErrorCard';
+import { PageContainer } from '../global-styles';
 
 const HomeView = () => {
   const { sendRequest, loading, data: videos, error, onResetError } = useHttp(findVideos);
 
   const history = useHistory();
-  const { searchValue } = useContext(AppContext);
+  const { searchValue } = useAppContext();
 
   useEffect(() => {
     sendRequest({ q: searchValue, maxResults: 20 });
@@ -31,14 +31,11 @@ const HomeView = () => {
     );
   }
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   return (
-    <Container>
+    <PageContainer>
+      {loading && <LoadingSpinner />}
       <VideosList list={videos} onSelected={videoSelectedHandler} display="home" />
-    </Container>
+    </PageContainer>
   );
 };
 

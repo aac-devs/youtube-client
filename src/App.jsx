@@ -1,14 +1,13 @@
-import { useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DetailsView from './pages/DetailsView';
 import HomeView from './pages/HomeView';
 import Layout from './components/layout/Layout';
-import AuthContext from './context/auth-context';
+import { useAuthContext } from './context/auth-context';
 import FavoritesView from './pages/FavoritesView';
 import FavoriteDetailsView from './pages/FavoriteDetailsView';
 
 const App = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthContext();
 
   return (
     <Layout>

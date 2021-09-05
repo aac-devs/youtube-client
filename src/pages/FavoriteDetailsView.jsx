@@ -1,38 +1,13 @@
-import { useEffect, useCallback, useContext } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import useHttp from '../hooks/useHttp';
 import { findVideo } from '../lib/youtube-api';
 import LoadingSpinner from '../components/layout/LoadingSpinner';
 import Details from '../components/Details';
 import VideosList from '../components/videos/VideosList';
-import AuthContext from '../context/auth-context';
+import { useAuthContext } from '../context/auth-context';
 import ErrorCard from '../components/ErrorCard';
-
-const Container = styled.main`
-  margin: 0 auto;
-  max-width: 1700px;
-  padding: 10px;
-  padding-top: 74px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  @media (max-width: 960px) {
-    flex-direction: column;
-  }
-
-  .relates-area {
-    width: 400px;
-    min-width: 400px;
-    margin-left: 10px;
-    @media (max-width: 960px) {
-      width: 100%;
-      min-width: 300px;
-      margin: 20px 0 0 0;
-    }
-  }
-`;
+import { DetailsViewContainer } from './DetailsView.styles';
 
 const FavoriteDetailsView = () => {
   const {
@@ -45,8 +20,7 @@ const FavoriteDetailsView = () => {
 
   const history = useHistory();
   const { videoId } = useParams();
-  const { user, favorites, addToFavorites, removeFromFavorites } =
-    useContext(AuthContext);
+  const { user, favorites, addToFavorites, removeFromFavorites } = useAuthContext();
 
   useEffect(() => {
     sendSingleRequest(videoId);
@@ -59,10 +33,6 @@ const FavoriteDetailsView = () => {
     [history]
   );
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   if (error) {
     return (
       <ErrorCard data-testid="error-message" onClose={() => onResetError()} {...error} />
@@ -74,7 +44,8 @@ const FavoriteDetailsView = () => {
   }
 
   return (
-    <Container>
+    <DetailsViewContainer>
+      {loading && <LoadingSpinner />}
       <Details
         {...video}
         userLogged={user}
@@ -89,7 +60,7 @@ const FavoriteDetailsView = () => {
           display="favorites"
         />
       </div>
-    </Container>
+    </DetailsViewContainer>
   );
 };
 

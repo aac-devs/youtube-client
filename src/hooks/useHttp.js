@@ -2,6 +2,10 @@ import { useReducer, useCallback } from 'react';
 import httpReducer from '../reducers/http-reducer';
 import { types } from '../types/types';
 
+// import mockRelated from '../mock/relatedToId/result.json';
+// import mockList from '../mock/list/result.json';
+// import mockSingle from '../mock/single/result.json';
+
 const initialState = {
   data: null,
   error: null,
@@ -15,6 +19,16 @@ const useHttp = (requestFunction) => {
     async (requestData) => {
       dispatch({ type: types.http.send });
       try {
+        // Provisional para probar visualmente sin realizar peticiones a la api:
+        // if (requestData.relatedToVideoId) {
+        //   dispatch({ type: types.http.success, payload: mockRelated.data });
+        // } else if (requestData.q) {
+        //   dispatch({ type: types.http.success, payload: mockList.data });
+        // } else {
+        //   dispatch({ type: types.http.success, payload: mockSingle.data });
+        // }
+
+        // Código real: las pruebas fallan debido al MSW
         const responseData = await requestFunction(requestData);
         if (!responseData.ok) {
           throw new Error(responseData.error);
