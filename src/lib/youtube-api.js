@@ -66,50 +66,49 @@ const searchChannelLogos = async (videos, params) => {
 };
 
 const findVideos = async (value) => {
-  const { q, relatedToVideoId, maxResults } = value;
-  let params = {
-    route: 'search',
-    part: 'snippet',
-    q,
-    relatedToVideoId,
-    maxResults,
-    type: 'video',
-    safeSearch: 'strict',
-  };
-  return searchVideos(params)
-    .then((resp) => {
-      const ids = resp.map((video) => video.videoId).join();
-      params = {
-        route: 'videos',
-        part: 'contentDetails',
-        id: ids,
-      };
-      return searchVideoDurations(resp, params);
-    })
-    .then((resp) => {
-      const ids = resp.map((video) => video.channelId).join();
-      params = {
-        route: 'channels',
-        part: 'snippet',
-        id: ids,
-      };
-      return searchChannelLogos(resp, params);
-    })
-    .then((data) => {
-      return {
-        ok: true,
-        data,
-      };
-    })
-    .catch((error) => {
-      return {
-        ok: false,
-        error: error.message || 'Something went wrong',
-      };
-    });
+  try {
+    const { q, relatedToVideoId, maxResults } = value;
+    let params = {
+      route: 'search',
+      part: 'snippet',
+      q,
+      relatedToVideoId,
+      maxResults,
+      type: 'video',
+      safeSearch: 'strict',
+    };
+
+    let resp = await searchVideos(params);
+    let ids = resp.map((video) => video.videoId).join();
+    params = {
+      route: 'videos',
+      part: 'contentDetails',
+      id: ids,
+    };
+
+    resp = await searchVideoDurations(resp, params);
+    ids = resp.map((video) => video.channelId).join();
+    params = {
+      route: 'channels',
+      part: 'snippet',
+      id: ids,
+    };
+
+    resp = await searchChannelLogos(resp, params);
+    return {
+      ok: true,
+      data: resp,
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      ok: false,
+      error: error.message || 'Something went wrong',
+    };
+  }
 };
 
-const findVideo = (id) => {
+const findVideo = async (id) => {
   let params = {
     route: 'videos',
     part: 'snippet',

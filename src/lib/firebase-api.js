@@ -1,4 +1,4 @@
-import { db, firebase, googleAuthProvider } from '../firebase/firebase-config';
+import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 // AUTHENTICATION:
 const authMethod = async (method, params) => {
@@ -44,29 +44,57 @@ const signOut = async () => {
 };
 
 // DATABASE:
-const getDocuments = (snapshot) => {
-  const documents = [];
-  snapshot.forEach((item) => {
-    documents.push({
-      docId: item.id,
-      ...item.data(),
-    });
-  });
-  return documents;
+const FIREBASE_DOMAIN = process.env.REACT_APP_FIREBASE_DOMAIN;
+
+const getAllFromFavorites = async (userId) => {
+  try {
+    const url = `${FIREBASE_DOMAIN}${userId}.json`;
+    const resp = await fetch(url);
+    const dataResp = await resp.json();
+    if (dataResp) {
+      const dataTransformed = Object.entries(dataResp).map((item) => {
+        return { docId: item[0], ...item[1] };
+      });
+      return { ok: true, data: dataTransformed };
+    }
+    return { ok: false };
+  } catch (error) {
+    return { ok: false, error: error.message };
+  }
 };
 
 const addFavoriteToFirebase = async (data) => {
-  return db
-    .firestore()
-    .collection('favorites')
-    .add(data)
-    .then((docRef) => {
-      return docRef.id;
+  const { userId, ...rest } = data;
+  const url = `${FIREBASE_DOMAIN}${userId}.json`;
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(rest),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+    const dataResp = await resp.json();
+    return { ok: true, docId: dataResp.name };
+  } catch (error) {
+    return { ok: false, error: error.message };
+  }
 };
 
-const removeFavoriteFromFirebase = async (docId) => {
-  db.firestore().collection('favorites').doc(docId).delete();
+const removeFavoriteFromFirebase = async (userId, docId) => {
+  const url = `${FIREBASE_DOMAIN}${userId}/${docId}.json`;
+  try {
+    const resp = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    await resp.json();
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error: error.message };
+  }
 };
 
 export {
@@ -76,5 +104,5 @@ export {
   sighUpWithEmailAndPassword,
   addFavoriteToFirebase,
   removeFavoriteFromFirebase,
-  getDocuments,
+  getAllFromFavorites,
 };

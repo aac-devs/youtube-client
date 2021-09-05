@@ -34,7 +34,7 @@ const VideoItem = (props) => {
         className="click-sensor"
         role="button"
         onClick={clickHandler}
-        data-testid={`video-item-${props.videoId}`}
+        data-testid={`video-item-${props.display}-${props.videoId}`}
       />
       <div className="videoImage-area">
         {user && props.display !== 'favorites' && <FavButton top="5px" {...favProps} />}

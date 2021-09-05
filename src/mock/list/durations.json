@@ -1,6 +1,7 @@
 {
   "kind": "youtube#videoListResponse",
   "etag": "d8lppBOzWTyw_52HgfDtRIZRxIc",
+  "mocked": "list-durations",
   "items": [
     {
       "kind": "youtube#video",

@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import {
   addFavoriteToFirebase,
+  getAllFromFavorites,
   removeFavoriteFromFirebase,
-  getDocuments,
 } from '../lib/firebase-api';
-import { db } from '../firebase/firebase-config';
 import authReducer from '../reducers/auth-reducer';
 import { types } from '../types/types';
 
@@ -15,43 +14,26 @@ const AuthContext = React.createContext({
   favorites: [],
   addToFavorites: () => {},
   removeFromFavorites: () => {},
+  error: null,
+  setError: () => {},
+  resetError: () => {},
 });
 
 const initialState = {
   user: null,
   favorites: [],
+  error: null,
 };
-
-let globalUser = null;
 
 export const AuthContextProvider = (props) => {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const { user, favorites } = authState;
-
-  globalUser = user;
-
-  const connectSocketFirebase = useCallback((fireUser) => {
-    db.firestore()
-      .collection('favorites')
-      .onSnapshot((snap) => {
-        const firebaseData = getDocuments(snap);
-        if (firebaseData.length > 0) {
-          if (fireUser) {
-            if (fireUser.uid === globalUser?.uid) {
-              const userData = firebaseData.filter(
-                (data) => data.userId === fireUser.uid
-              );
-              dispatch({ type: types.authContext.loadFavorites, payload: userData });
-            }
-          }
-        }
-      });
-  }, []);
+  const { user, favorites, error } = authState;
 
   useEffect(() => {
     const fetchLocalStorage = async () => {
       const storedUser = JSON.parse(localStorage.getItem('storedUser'));
       if (storedUser) {
+        dispatch({ type: types.authContext.resetError });
         dispatch({ type: types.authContext.login, payload: storedUser });
       }
     };
@@ -59,8 +41,22 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    connectSocketFirebase(user);
-  }, [user, connectSocketFirebase]);
+    const getFavoritesFromFirebase = async () => {
+      if (user) {
+        dispatch({ type: types.authContext.resetError });
+        const resp = await getAllFromFavorites(user.uid);
+        if (resp.ok) {
+          dispatch({ type: types.authContext.loadFavorites, payload: resp.data });
+        } else if (resp.error) {
+          dispatch({
+            type: types.authContext.setError,
+            payload: { title: 'Favorites read', message: resp.error },
+          });
+        }
+      }
+    };
+    getFavoritesFromFirebase();
+  }, [user]);
 
   const loginHandler = async (signInUser) => {
     const { photoURL } = signInUser;
@@ -88,12 +84,34 @@ export const AuthContextProvider = (props) => {
       videoDuration,
       channelTitle,
     };
-    await addFavoriteToFirebase({ ...favVideo, userId: user.uid });
+    dispatch({ type: types.authContext.resetError });
+    const resp = await addFavoriteToFirebase({ ...favVideo, userId: user.uid });
+    if (resp.ok) {
+      dispatch({
+        type: types.authContext.addToFavorites,
+        payload: { docId: resp.docId, ...favVideo },
+      });
+    }
   };
 
   const removeFromFavoritesHandler = async (videoId) => {
     const video = favorites.find((item) => item.videoId === videoId);
-    await removeFavoriteFromFirebase(video.docId);
+    dispatch({ type: types.authContext.resetError });
+    const resp = await removeFavoriteFromFirebase(user.uid, video.docId);
+    if (resp.ok) {
+      dispatch({
+        type: types.authContext.removeFromFavorites,
+        payload: video.docId,
+      });
+    }
+  };
+
+  const setErrorHandler = (title, message) => {
+    dispatch({ type: types.authContext.setError, payload: { title, message } });
+  };
+
+  const resetErrorHandler = () => {
+    dispatch({ type: types.authContext.resetError });
   };
 
   const value = {
@@ -103,6 +121,9 @@ export const AuthContextProvider = (props) => {
     favorites,
     addToFavorites: addToFavoritesHandler,
     removeFromFavorites: removeFromFavoritesHandler,
+    error,
+    setError: setErrorHandler,
+    resetError: resetErrorHandler,
   };
   return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };

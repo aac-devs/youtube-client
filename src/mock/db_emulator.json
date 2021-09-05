@@ -1,0 +1,36 @@
+{
+  "favorites": {
+    "UUQU6ADPHLVENFmLCd92D8qmmZss": {
+      "-Mih47MgatDoZb2jX9ui": {
+        "channelTitle": "EDteam",
+        "videoDuration": "PT18M11S",
+        "videoId": "lWQ69WX7-hA",
+        "videoImage": {
+          "default": "https://i.ytimg.com/vi/lWQ69WX7-hA/default.jpg",
+          "medium": "https://i.ytimg.com/vi/lWQ69WX7-hA/mqdefault.jpg"
+        },
+        "videoTitle": "¿Qué es React.js y cómo funciona?"
+      },
+      "-Mih47Mnza1BdaJHHuxq": {
+        "channelTitle": "Carlos Azaustre - Aprende JavaScript",
+        "videoDuration": "PT37M37S",
+        "videoId": "EMk6nom1aS4",
+        "videoImage": {
+          "default": "https://i.ytimg.com/vi/EMk6nom1aS4/default.jpg",
+          "medium": "https://i.ytimg.com/vi/EMk6nom1aS4/mqdefault.jpg"
+        },
+        "videoTitle": "APRENDE REACT BÁSICO en 30 MINUTOS ⏰  - Tutorial de React.js Desde Cero"
+      },
+      "-Mih47MukN17cHzSjHIE": {
+        "channelTitle": "Fazt",
+        "videoDuration": "PT3H16M5S",
+        "videoId": "zIY87vU33aA",
+        "videoImage": {
+          "default": "https://i.ytimg.com/vi/zIY87vU33aA/default.jpg",
+          "medium": "https://i.ytimg.com/vi/zIY87vU33aA/mqdefault.jpg"
+        },
+        "videoTitle": "Reactjs, Curso Práctico para Principiantes (React 16)"
+      }
+    }
+  }
+}

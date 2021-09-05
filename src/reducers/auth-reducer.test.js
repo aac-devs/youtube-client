@@ -5,6 +5,7 @@ describe('appReducer', () => {
   const initialState = {
     user: null,
     favorites: [],
+    error: null,
   };
 
   test('should return the initial state', () => {
@@ -28,6 +29,7 @@ describe('appReducer', () => {
         displayName: 'name',
         photoURL: 'http://photo.png',
       },
+      error: null,
     });
   });
 
@@ -38,6 +40,7 @@ describe('appReducer', () => {
     expect(state).toEqual({
       favorites: [],
       user: null,
+      error: null,
     });
   });
 
@@ -49,6 +52,30 @@ describe('appReducer', () => {
     expect(state).toEqual({
       ...state,
       favorites: [1, 2, 3],
+    });
+  });
+
+  test('should set an error', () => {
+    const state = authReducer(initialState, {
+      type: types.authContext.setError,
+      payload: 'This is an error message',
+    });
+    expect(state).toEqual({
+      ...state,
+      error: 'This is an error message',
+    });
+  });
+
+  test('should reset an error', () => {
+    const state = authReducer(
+      { initialState, error: 'Has an error' },
+      {
+        type: types.authContext.resetError,
+      }
+    );
+    expect(state).toEqual({
+      ...state,
+      error: null,
     });
   });
 });

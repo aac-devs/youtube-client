@@ -24,6 +24,7 @@ import {
   signInWithGoogle,
   signOut,
 } from '../../lib/firebase-api';
+import ErrorCard from '../ErrorCard';
 
 const AppBar = () => {
   const history = useHistory();
@@ -83,20 +84,23 @@ const AppBar = () => {
     } else if (ok && !user) {
       authContext.logout();
     } else {
-      console.log(error);
+      authContext.setError('Authentication error', error);
     }
     hideModal();
   };
 
   const userSignUpHandler = async (signUpUser) => {
+    authContext.resetError();
     authLoginHandler(await sighUpWithEmailAndPassword(signUpUser));
   };
 
   const userSignInHandler = async (signInUser) => {
+    authContext.resetError();
     authLoginHandler(await signInWithEmailAndPassword(signInUser));
   };
 
   const googleSignInHandler = async () => {
+    authContext.resetError();
     authLoginHandler(await signInWithGoogle());
   };
 
@@ -104,6 +108,10 @@ const AppBar = () => {
     authLoginHandler(await signOut());
     setShowRightMenu(false);
     setShowLeftMenu(false);
+  };
+
+  const closeErrorHandler = () => {
+    authContext.resetError();
   };
 
   // Theme:
@@ -127,6 +135,9 @@ const AppBar = () => {
 
   return (
     <Container>
+      {authContext.error && (
+        <ErrorCard onClose={closeErrorHandler} {...authContext.error} />
+      )}
       {showModalForm && (
         <Modal onClose={hideModal}>
           {showLoginForm && (
@@ -227,10 +238,12 @@ const AppBar = () => {
           <RoundButton
             onClick={authContext.user ? showRightMenuHandler : showModal}
             type="button"
-            data-testid="login-btn"
+            data-testid={
+              authContext.user ? `login-btn-${authContext.user.uid}` : 'login-btn'
+            }
             url={authContext.user ? source : null}
           >
-            {!authContext.user && <Person />}
+            {!authContext.user && <Person data-testid="no-logged-user" />}
           </RoundButton>
           {showRightMenu && (
             <div
@@ -254,6 +267,7 @@ const AppBar = () => {
               <div
                 role="button"
                 type="button"
+                data-testid="menu-fav-right-btn"
                 onClick={() => goToPageHandler('/favorites')}
               >
                 <FavoriteBorder />

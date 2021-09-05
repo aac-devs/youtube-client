@@ -14,7 +14,7 @@ const FavButton = (props) => {
           style={{ top: `${props.top}` }}
           role="button"
           onClick={() => addToFavorites(values)}
-          data-testid="fav-add-button"
+          data-testid={`fav-add-button-${videoId}`}
         >
           <FavoriteBorderIcon />
         </div>
@@ -26,7 +26,7 @@ const FavButton = (props) => {
           style={{ top: `${props.top}` }}
           role="button"
           onClick={() => removeFromFavorites(videoId)}
-          data-testid="fav-remove-button"
+          data-testid={`fav-remove-button-${videoId}`}
         >
           <RemoveCircleOutlineIcon color="secondary" />
         </div>
@@ -39,7 +39,7 @@ const FavButton = (props) => {
         style={{ top: `${props.top}` }}
         role="button"
         onClick={() => addToFavorites(values)}
-        data-testid="fav-add-button"
+        data-testid={`fav-add-button-${videoId}`}
       >
         <FavoriteBorderIcon />
       </div>

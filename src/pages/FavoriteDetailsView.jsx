@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/layout/LoadingSpinner';
 import Details from '../components/Details';
 import VideosList from '../components/videos/VideosList';
 import AuthContext from '../context/auth-context';
+import ErrorCard from '../components/ErrorCard';
 
 const Container = styled.main`
   margin: 0 auto;
@@ -39,6 +40,7 @@ const FavoriteDetailsView = () => {
     loading,
     data: video,
     error,
+    onResetError,
   } = useHttp(findVideo);
 
   const history = useHistory();
@@ -62,8 +64,9 @@ const FavoriteDetailsView = () => {
   }
 
   if (error) {
-    // TODO: Contruir la card para el mensaje de error
-    return <h1 data-testid="error-message">{error}</h1>;
+    return (
+      <ErrorCard data-testid="error-message" onClose={() => onResetError()} {...error} />
+    );
   }
 
   if (!video) {

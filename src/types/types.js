@@ -2,7 +2,8 @@ export const types = {
   http: {
     send: 'SEND',
     success: 'SUCCESS',
-    error: 'ERROR',
+    setError: 'SET ERROR',
+    resetError: 'RESET ERROR',
   },
   theme: {
     light: 'LIGHT',
@@ -16,5 +17,9 @@ export const types = {
     login: '[AUTH-CONTEXT] login',
     logout: '[AUTH-CONTEXT] logout',
     loadFavorites: '[AUTH-CONTEXT] load favorites',
+    addToFavorites: '[AUTH-CONTEXT] add to favorites',
+    removeFromFavorites: '[AUTH-CONTEXT] remove from favorites',
+    setError: '[AUTH-CONTEXT] set error',
+    resetError: '[AUTH-CONTEXT] reset error',
   },
 };
