@@ -5,7 +5,7 @@ import { formattedDate, formattedDuration } from '../../lib/aux-functions';
 import FavButton from './FavButton';
 import { StyledVideoItem } from './VideoItem.styles';
 
-const VideoItem = (props) => {
+const VideoItem = React.forwardRef((props, ref) => {
   const { user, favorites, addToFavorites, removeFromFavorites } = useAuthContext();
 
   const clickHandler = () => {
@@ -38,7 +38,7 @@ const VideoItem = (props) => {
   };
 
   return (
-    <StyledVideoItem display={props.display}>
+    <StyledVideoItem ref={ref} display={props.display}>
       {user && props.display === 'favorites' && <FavButton top="42.5px" {...favProps} />}
       <div
         className="click-sensor"
@@ -77,6 +77,6 @@ const VideoItem = (props) => {
       </div>
     </StyledVideoItem>
   );
-};
+});
 
 export default React.memo(VideoItem);

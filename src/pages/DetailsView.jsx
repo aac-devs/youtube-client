@@ -17,6 +17,7 @@ const DetailsView = () => {
     data: video,
     error: singleError,
     onResetError: onResetSingleError,
+    onClearList: onClearSingleVideo,
   } = useHttp(findVideo);
 
   const {
@@ -25,18 +26,21 @@ const DetailsView = () => {
     data: videos,
     error: relatedError,
     onResetError: onResetRelatedError,
+    onClearList: onClearRelatedVideos,
   } = useHttp(findVideos);
 
   const history = useHistory();
   const { videoId } = useParams();
 
   useEffect(() => {
+    onClearSingleVideo();
     sendSingleRequest(videoId);
-  }, [sendSingleRequest, videoId]);
+  }, [sendSingleRequest, onClearSingleVideo, videoId]);
 
   useEffect(() => {
+    onClearRelatedVideos();
     sendRelatedRequest({ relatedToVideoId: videoId, maxResults: 20 });
-  }, [sendRelatedRequest, videoId]);
+  }, [sendRelatedRequest, onClearRelatedVideos, videoId]);
 
   const videoSelectedHandler = useCallback(
     (id) => {
@@ -55,7 +59,7 @@ const DetailsView = () => {
     return <ErrorCard data-testid="error-message" onClose={errorHandler} {...error} />;
   }
 
-  if (!video) {
+  if (!video?.items[0]) {
     return null;
   }
 
@@ -63,14 +67,18 @@ const DetailsView = () => {
     <DetailsViewContainer>
       {loading && <LoadingSpinner />}
       <Details
-        {...video}
+        {...video.items[0]}
         userLogged={user}
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}
         favorites={favorites}
       />
       <div className="relates-area">
-        <VideosList list={videos} onSelected={videoSelectedHandler} display="related" />
+        <VideosList
+          list={videos?.items}
+          onSelected={videoSelectedHandler}
+          display="related"
+        />
       </div>
     </DetailsViewContainer>
   );

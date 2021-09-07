@@ -21,7 +21,9 @@ const SearchBox = () => {
       searchFor(enteredValue);
     }
     setSearchValue('');
-    history.push('/videos');
+    if (history.location.pathname !== '/videos') {
+      history.push('/videos');
+    }
   };
 
   return (

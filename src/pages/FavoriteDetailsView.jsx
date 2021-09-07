@@ -16,6 +16,7 @@ const FavoriteDetailsView = () => {
     data: video,
     error,
     onResetError,
+    onClearList: onClearSingleVideo,
   } = useHttp(findVideo);
 
   const history = useHistory();
@@ -23,8 +24,9 @@ const FavoriteDetailsView = () => {
   const { user, favorites, addToFavorites, removeFromFavorites } = useAuthContext();
 
   useEffect(() => {
+    onClearSingleVideo();
     sendSingleRequest(videoId);
-  }, [sendSingleRequest, videoId]);
+  }, [sendSingleRequest, onClearSingleVideo, videoId]);
 
   const videoSelectedHandler = useCallback(
     (id) => {
@@ -39,7 +41,7 @@ const FavoriteDetailsView = () => {
     );
   }
 
-  if (!video) {
+  if (!video?.items[0]) {
     return null;
   }
 
@@ -47,7 +49,7 @@ const FavoriteDetailsView = () => {
     <DetailsViewContainer>
       {loading && <LoadingSpinner />}
       <Details
-        {...video}
+        {...video?.items[0]}
         userLogged={user}
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}

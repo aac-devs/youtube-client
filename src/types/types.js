@@ -4,6 +4,7 @@ export const types = {
     success: 'SUCCESS',
     setError: 'SET ERROR',
     resetError: 'RESET ERROR',
+    clearList: 'CLEAR LIST',
   },
   theme: {
     light: 'LIGHT',

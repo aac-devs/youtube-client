@@ -2,13 +2,15 @@ import React from 'react';
 import VideoItem from './VideoItem';
 import { StyledList } from './VideosList.styles';
 
-const VideosList = ({ list, display, onSelected }) => {
+const VideosList = React.forwardRef(({ list, display, onSelected }, ref) => {
   return (
     <StyledList display={display} data-testid={`list-videos-${display}`}>
       {list?.map((item) => {
+        const key = `${item.videoId}`;
         return (
           <VideoItem
-            key={item.videoId}
+            ref={ref}
+            key={key}
             {...item}
             onSelected={onSelected}
             display={display}
@@ -17,6 +19,6 @@ const VideosList = ({ list, display, onSelected }) => {
       })}
     </StyledList>
   );
-};
+});
 
 export default React.memo(VideosList);
